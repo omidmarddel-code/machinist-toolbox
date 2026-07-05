@@ -542,3 +542,31 @@ button {
     font-size:1.1rem !important;
     line-height:1.8;
 }
+.app-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  text-align: center;
+}
+
+.app-footer p {
+  margin: 0;
+  font-size: 12px;
+  color: #9ca3af;
+  letter-spacing: 0.5px;
+}
+
+.app-footer strong {
+  display: block;
+  margin: 6px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.app-footer small {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #6b7280;
+}

@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>قالب سازی ایزی پایپ</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="app-shell">
     <aside class="sidebar" aria-label="ناوبری جعبه ابزار">
       <div class="brand">
-  <div class="brand-mark">
-    <img src="logo.png" alt="لوگوی ایزی پایپ">
+        <div class="brand-mark">
+          <img src="logo.png" alt="لوگوی ایزی پایپ">
         </div>
         <div>
         </div>
@@ -52,34 +54,39 @@
             <small>آموزش فرز HEIDENHAIN</small>
           </span>
           <button class="tool-card" data-tool="lathe" type="button">
-        <span class="tool-icon">&#10227;</span>
-       <span>
-        <strong>جزوه تراش CNC GSK</strong>
-          <small>آموزش اپراتوری دستگاه تراش</small>
-          </span>
-        </button>
-        <button class="tool-card" data-tool="taper">
-      <div class="tool-icon">📐</div>
-    <div>
-     <strong>زاویه مخروط</strong>
-      <small>محاسبه زاویه تیپر</small>
-        </div>
-      </button>
-      <button class="tool-card" data-tool="threadDepth">
-  <div class="tool-icon">🧵</div>
-  <div>
-    <strong>عمق دنده</strong>
-    <small>محاسبه عمق رزوه تراش</small>
-       </div>
-     </button>
-     <button class="tool-card" data-tool="threadTable" type="button">
-  <span class="tool-icon">📄</span>
-  <span>
-    <strong>اندازه استاندارد دنده‌ها</strong>
-    <small>جدول استاندارد BSPP</small>
-  </span>
-</button>
+            <span class="tool-icon">&#10227;</span>
+            <span>
+              <strong>جزوه تراش CNC GSK</strong>
+              <small>آموزش اپراتوری دستگاه تراش</small>
+            </span>
+          </button>
+          <button class="tool-card" data-tool="taper">
+            <div class="tool-icon">📐</div>
+            <div>
+              <strong>زاویه مخروط</strong>
+              <small>محاسبه زاویه تیپر</small>
+            </div>
+          </button>
+          <button class="tool-card" data-tool="threadDepth">
+            <div class="tool-icon">🧵</div>
+            <div>
+              <strong>عمق دنده</strong>
+              <small>محاسبه عمق رزوه تراش</small>
+            </div>
+          </button>
+          <button class="tool-card" data-tool="threadTable" type="button">
+            <span class="tool-icon">📄</span>
+            <span>
+              <strong>اندازه استاندارد دنده‌ها</strong>
+              <small>جدول استاندارد BSPP</small>
+            </span>
+          </button>
       </nav>
+      <div class="app-footer">
+        <p>Designed &amp; Developed by</p>
+        <strong>Omid Marddel</strong>
+        <small>© 2026 All Rights Reserved</small>
+      </div>
     </aside>
     <main class="workspace">
       <header class="topbar">
@@ -166,7 +173,8 @@
           <article class="lesson-card">
             <span class="lesson-number">03</span>
             <h4>رفرنس گرفتن از گوشه یا سطح قطعه</h4>
-            <p>برای گرفتن رفرنس در گوشه کار، ابتدا محور مورد نظر را نزدیک کار می‌کنیم، سپس به سمتی که نیاز به رفرنس است، محور X یا Y را با علامت مثبت یا منفی تنظیم می‌کنیم.</p>
+            <p>برای گرفتن رفرنس در گوشه کار، ابتدا محور مورد نظر را نزدیک کار می‌کنیم، سپس به سمتی که نیاز به رفرنس است،
+              محور X یا Y را با علامت مثبت یا منفی تنظیم می‌کنیم.</p>
             <div class="command-path">MODE → EDG,+-X/Y,X/Y0</div>
             <p>این دستور برای رفرنس کردن یک سطح قطعه کار مورد استفاده قرار می‌گیرد.</p>
           </article>
@@ -203,7 +211,8 @@
           <article class="lesson-card">
             <span class="lesson-number">07</span>
             <h4>تنظیمات حین برش</h4>
-            <p>پس از شروع حرکت دستگاه، تنظیمات فشار آب، کشش سیم، ولتاژ جرقه و سایر تنظیمات را طبق جدول مناسب هر قطعه تنظیم می‌کنیم.</p>
+            <p>پس از شروع حرکت دستگاه، تنظیمات فشار آب، کشش سیم، ولتاژ جرقه و سایر تنظیمات را طبق جدول مناسب هر قطعه
+              تنظیم می‌کنیم.</p>
             <div class="command-path">MACHINE → GENERATOR → FITTING → INJECTION → +-</div>
             <p>تنظیم سرعت پاشش آب</p>
             <div class="command-path">MACHINE → GENERATOR → FITTING → WIRE → WIRE SPEED → +-</div>
@@ -237,35 +246,45 @@
           <article class="lesson-card">
             <span class="lesson-number">01</span>
             <h4>روشن کردن دستگاه و رفرنس محورها</h4>
-            <p>ابتدا دستگاه را روشن می‌کنیم. قبل از شروع کار، همیشه بعد از روشن کردن دستگاه باید محورها به حالت صفر عدد ماشین برسند تا چراغ مربوط به صفر محورهای X، Y و Z روشن شود.</p>
+            <p>ابتدا دستگاه را روشن می‌کنیم. قبل از شروع کار، همیشه بعد از روشن کردن دستگاه باید محورها به حالت صفر عدد
+              ماشین برسند تا چراغ مربوط به صفر محورهای X، Y و Z روشن شود.</p>
             <div class="command-path">ZRN → RAPID → AXIS Z → +</div>
-            <p>ابتدا کلید ZRN را روشن کرده و ولوم را روی RAPID قرار می‌دهیم. سپس ولوم AXIS را روی محور Z گذاشته و کلید مثبت را نگه می‌داریم تا دستگاه به نقطه صفر ماشین حرکت کند.</p>
-            <p>بعد از روشن شدن چراغ محور Z، همین کار را برای بقیه محورها انجام می‌دهیم تا سه چراغ رفرنس ماشین روشن شود.</p>
-            <p><strong>نکته:</strong> این کار فقط یک بار انجام می‌شود؛ زمانی که دستگاه خاموش بوده و تازه راه‌اندازی شده است.</p>
+            <p>ابتدا کلید ZRN را روشن کرده و ولوم را روی RAPID قرار می‌دهیم. سپس ولوم AXIS را روی محور Z گذاشته و کلید
+              مثبت را نگه می‌داریم تا دستگاه به نقطه صفر ماشین حرکت کند.</p>
+            <p>بعد از روشن شدن چراغ محور Z، همین کار را برای بقیه محورها انجام می‌دهیم تا سه چراغ رفرنس ماشین روشن شود.
+            </p>
+            <p><strong>نکته:</strong> این کار فقط یک بار انجام می‌شود؛ زمانی که دستگاه خاموش بوده و تازه راه‌اندازی شده
+              است.</p>
           </article>
 
           <article class="lesson-card">
             <span class="lesson-number">02</span>
             <h4>بستن قطعه و شروع رفرنس‌گیری</h4>
-            <p>قطعه کار را داخل گیره بسته و طبق رفرنس اعلام‌شده توسط برنامه‌نویس پیش می‌رویم. برای مثال در قالب گرد 125 تن، رفرنس Y در قسمت فک ثابت و رفرنس X وسط قالب است.</p>
-            <p>اپراتور باید با استفاده از ابزار تاچ پراپ شروع به رفرنس‌گیری کند. ابتدا تاچ پراپ را با ولوم MDI فراخوانی کرده و ابزار را در محور Y نزدیک قطعه کار می‌کنیم.</p>
-            <p>ابتدا با مقدار 0.1 به قطعه نزدیک می‌شویم. وقتی بوق اول خورد، 0.1 برمی‌گردیم، هندویل را روی 0.01 تنظیم می‌کنیم و این بار به صورت صدمی نزدیک قطعه می‌شویم.</p>
+            <p>قطعه کار را داخل گیره بسته و طبق رفرنس اعلام‌شده توسط برنامه‌نویس پیش می‌رویم. برای مثال در قالب گرد 125
+              تن، رفرنس Y در قسمت فک ثابت و رفرنس X وسط قالب است.</p>
+            <p>اپراتور باید با استفاده از ابزار تاچ پراپ شروع به رفرنس‌گیری کند. ابتدا تاچ پراپ را با ولوم MDI فراخوانی
+              کرده و ابزار را در محور Y نزدیک قطعه کار می‌کنیم.</p>
+            <p>ابتدا با مقدار 0.1 به قطعه نزدیک می‌شویم. وقتی بوق اول خورد، 0.1 برمی‌گردیم، هندویل را روی 0.01 تنظیم
+              می‌کنیم و این بار به صورت صدمی نزدیک قطعه می‌شویم.</p>
           </article>
 
           <article class="lesson-card">
             <span class="lesson-number">03</span>
             <h4>صفر کردن G54 و کنترل ABS</h4>
             <p>وقتی بوق ممتد شد، باید نصف قطر گوی تاچ پراپ را با استفاده از فضای REL جلو بیاییم.</p>
-            <p>سپس باید ABS را در G54 یا همان 01 صفر کنیم. برای این منظور عدد ماشین دستگاه را که در قسمت POS ALL قرار دارد، بدون هیچ تغییری در قسمت OFFSET جلوی 01 وارد می‌کنیم.</p>
+            <p>سپس باید ABS را در G54 یا همان 01 صفر کنیم. برای این منظور عدد ماشین دستگاه را که در قسمت POS ALL قرار
+              دارد، بدون هیچ تغییری در قسمت OFFSET جلوی 01 وارد می‌کنیم.</p>
             <div class="command-path">POS ALL → OFFSET → 01 → RESET</div>
-            <p>بعد از آن در قسمت POS ALL وقتی کلید RESET را می‌زنیم، عدد ABS باید صفر شود. اگر عدد صفر شد یعنی مسیر درست بوده و عدد ماشین درست وارد شده است.</p>
+            <p>بعد از آن در قسمت POS ALL وقتی کلید RESET را می‌زنیم، عدد ABS باید صفر شود. اگر عدد صفر شد یعنی مسیر درست
+              بوده و عدد ماشین درست وارد شده است.</p>
             <p>بقیه محورها نیز به همین صورت رفرنس‌گیری می‌شوند و در آخر باید همه محورها چک شوند.</p>
           </article>
 
           <article class="lesson-card">
             <span class="lesson-number">04</span>
             <h4>رفرنس محور Z</h4>
-            <p>برای رفرنس رفتن محور Z باید ابزار مرجع مشخص‌شده دستگاه فانوک را فراخوانی کنیم. در این دستگاه ابزار مرجع، ابزار 16 است.</p>
+            <p>برای رفرنس رفتن محور Z باید ابزار مرجع مشخص‌شده دستگاه فانوک را فراخوانی کنیم. در این دستگاه ابزار مرجع،
+              ابزار 16 است.</p>
             <div class="command-path">Tool 16 → Z ZERO / Paper 0.03 → OFFSET 01</div>
             <p>سپس با استفاده از کاغذ 0.03 یا Z ZERO تاچ کرده و عدد آن را مانند محورهای دیگر در سمت 01 قرار می‌دهیم.</p>
           </article>
@@ -273,29 +292,37 @@
           <article class="lesson-card">
             <span class="lesson-number">05</span>
             <h4>افست‌گیری ابزارها</h4>
-            <p>برای افست‌گیری ابزارها به ابزار Z ZERO نیاز داریم. ابتدا ابزار مرجع، یعنی ابزار 16، را فراخوانی کرده و آن را روی Z ZERO در قسمت صفر تنظیم می‌کنیم.</p>
+            <p>برای افست‌گیری ابزارها به ابزار Z ZERO نیاز داریم. ابتدا ابزار مرجع، یعنی ابزار 16، را فراخوانی کرده و آن
+              را روی Z ZERO در قسمت صفر تنظیم می‌کنیم.</p>
             <p>سپس عدد REL Z را صفر می‌کنیم. در این حالت هم در Z ZERO عدد صفر است و هم در محور Z REL.</p>
-            <p>حالا ابزار مورد نظر را فراخوانی کرده و آن را روی Z ZERO در قسمت صفر تنظیم می‌کنیم. سپس با کلید OFFSET به قسمت افست ابزارها می‌رویم.</p>
+            <p>حالا ابزار مورد نظر را فراخوانی کرده و آن را روی Z ZERO در قسمت صفر تنظیم می‌کنیم. سپس با کلید OFFSET به
+              قسمت افست ابزارها می‌رویم.</p>
             <div class="command-path">OFFSET → Tool Number → Z REL → INPUT</div>
-            <p>برای مثال اگر ابزار 8 فراخوانی شده باشد، باید عدد Z REL را در قسمت شماره ابزار 8 وارد کرده و کلید INPUT را بزنیم. با این روش افست ابزار 8 نسبت به ابزار مرجع گرفته می‌شود.</p>
+            <p>برای مثال اگر ابزار 8 فراخوانی شده باشد، باید عدد Z REL را در قسمت شماره ابزار 8 وارد کرده و کلید INPUT
+              را بزنیم. با این روش افست ابزار 8 نسبت به ابزار مرجع گرفته می‌شود.</p>
           </article>
 
           <article class="lesson-card">
             <span class="lesson-number">06</span>
             <h4>اجرای برنامه از فلش</h4>
             <p>بعد از اینکه رفرنس طبق برنامه گرفته شد و افست ابزارها وارد شد، نوبت اجرای برنامه است.</p>
-            <p>فلش را وارد مبدل دستگاه کرده و با استفاده از قلم مبدل، برنامه مورد نظر را آورده و گزینه SAVE را می‌زنیم.</p>
+            <p>فلش را وارد مبدل دستگاه کرده و با استفاده از قلم مبدل، برنامه مورد نظر را آورده و گزینه SAVE را می‌زنیم.
+            </p>
             <div class="command-path">TAPE → CYS</div>
-            <p>برای اجرای برنامه از کنترل دستگاه، ولوم را روی حالت TAPE قرار داده و با استفاده از کلید CYS برنامه را اجرا می‌کنیم.</p>
+            <p>برای اجرای برنامه از کنترل دستگاه، ولوم را روی حالت TAPE قرار داده و با استفاده از کلید CYS برنامه را
+              اجرا می‌کنیم.</p>
           </article>
 
           <article class="lesson-card lesson-note">
             <span class="lesson-number">07</span>
             <h4>نکته‌های اجرای برنامه و ابزار</h4>
             <ul>
-              <li>قبل از اجرای برنامه، همه FEED RATE ها بسته باشند و بعد آرام باز شوند تا ابزار در شروع کار به‌آرامی روی قطعه بیاید. سپس مقدار را روی 100 درصد قرار دهید.</li>
-              <li>به دلیل بالا بودن دور ابزار و فیدریت، همیشه باید از سلامت مایع خنک‌کننده مطمئن باشید تا ابزار موقع کار نسوزد.</li>
-              <li>ابزارها همیشه باید تیز باشند و فاز برشی سالمی داشته باشند تا بعد از ماشین‌کاری دچار تغییر سایز نشویم.</li>
+              <li>قبل از اجرای برنامه، همه FEED RATE ها بسته باشند و بعد آرام باز شوند تا ابزار در شروع کار به‌آرامی روی
+                قطعه بیاید. سپس مقدار را روی 100 درصد قرار دهید.</li>
+              <li>به دلیل بالا بودن دور ابزار و فیدریت، همیشه باید از سلامت مایع خنک‌کننده مطمئن باشید تا ابزار موقع کار
+                نسوزد.</li>
+              <li>ابزارها همیشه باید تیز باشند و فاز برشی سالمی داشته باشند تا بعد از ماشین‌کاری دچار تغییر سایز نشویم.
+              </li>
             </ul>
           </article>
         </div>
@@ -313,23 +340,28 @@
           <article class="lesson-card">
             <span class="lesson-number">01</span>
             <h4>روشن کردن دستگاه و خروج از Emergency</h4>
-            <p>دستگاه را روشن می‌کنیم و کلید CE را می‌زنیم. سپس کلید سفید I را می‌زنیم تا درایو محورها از حالت EMERGENCY خارج شود.</p>
+            <p>دستگاه را روشن می‌کنیم و کلید CE را می‌زنیم. سپس کلید سفید I را می‌زنیم تا درایو محورها از حالت EMERGENCY
+              خارج شود.</p>
             <p>بعد از آن، مانند دستگاه CNC فانوک، دستگاه باید به محل صفر ماشین برود.</p>
           </article>
 
           <article class="lesson-card">
             <span class="lesson-number">02</span>
             <h4>رفرنس کردن محورها</h4>
-            <p>برای رفرنس کردن، ولوم FEED RATE را روی 100 درصد قرار می‌دهیم و در فضای REFRENCE دستگاه، کلید سبز اصلی CYS را سه بار می‌زنیم.</p>
+            <p>برای رفرنس کردن، ولوم FEED RATE را روی 100 درصد قرار می‌دهیم و در فضای REFRENCE دستگاه، کلید سبز اصلی CYS
+              را سه بار می‌زنیم.</p>
             <div class="command-path">FEED RATE 100% → REFRENCE → CYS × 3</div>
-            <p>در این حالت دستگاه ابتدا محور Z، سپس X و در آخر Y را به محل صفر ماشین می‌برد. بعد از اتمام، دستگاه به صورت اتوماتیک وارد فضای POS می‌شود.</p>
-            <p><strong>نکته:</strong> در دستگاه هایدن هاین برخلاف فانوک که فضای REL و ABS دارد، فقط یک فضای POS داریم.</p>
+            <p>در این حالت دستگاه ابتدا محور Z، سپس X و در آخر Y را به محل صفر ماشین می‌برد. بعد از اتمام، دستگاه به
+              صورت اتوماتیک وارد فضای POS می‌شود.</p>
+            <p><strong>نکته:</strong> در دستگاه هایدن هاین برخلاف فانوک که فضای REL و ABS دارد، فقط یک فضای POS داریم.
+            </p>
           </article>
 
           <article class="lesson-card">
             <span class="lesson-number">03</span>
             <h4>تعویض ابزار با MDI</h4>
-            <p>برای تعویض ابزار، مانند دستگاه فانوک وارد حالت MDI می‌شویم، اما دستور را مطابق زبان دستگاه هایدن هاین می‌نویسیم. مثال زیر برای تعویض به ابزار 16 است.</p>
+            <p>برای تعویض ابزار، مانند دستگاه فانوک وارد حالت MDI می‌شویم، اما دستور را مطابق زبان دستگاه هایدن هاین
+              می‌نویسیم. مثال زیر برای تعویض به ابزار 16 است.</p>
             <div class="command-path">BEGIN PGM $MDI MM<br>TOOL CALL 16 Z S200:<br>STOP M6<br>END PGM $MDI MM</div>
             <p>با این دستور، دستگاه تعویض ابزار به ابزار 16 را شروع می‌کند.</p>
             <p><strong>نکته:</strong> برای ادیت برنامه، کلید راست ادیت را فعال و کلید چپ ادیت را غیر فعال می‌کنیم.</p>
@@ -338,9 +370,11 @@
           <article class="lesson-card">
             <span class="lesson-number">04</span>
             <h4>رفرنس گرفتن قطعه</h4>
-            <p>ابتدا با دستور گفته‌شده از MDI، ابزار تاچ پراپ را فراخوانی می‌کنیم. سپس با استفاده از کلیدهای RAPID و محورهای X، Y و Z، ابزار را به قطعه نزدیک می‌کنیم.</p>
+            <p>ابتدا با دستور گفته‌شده از MDI، ابزار تاچ پراپ را فراخوانی می‌کنیم. سپس با استفاده از کلیدهای RAPID و
+              محورهای X، Y و Z، ابزار را به قطعه نزدیک می‌کنیم.</p>
             <div class="command-path">MDI → Touch Probe → RAPID X/Y/Z</div>
-            <p>بعد مطابق مطالب گفته‌شده در جزوه فانوک، تاچ می‌کنیم. برای صفر کردن محورهای X، Y و Z باید از کلید DATUM SET استفاده کنیم.</p>
+            <p>بعد مطابق مطالب گفته‌شده در جزوه فانوک، تاچ می‌کنیم. برای صفر کردن محورهای X، Y و Z باید از کلید DATUM
+              SET استفاده کنیم.</p>
             <div class="command-path">DATUM SET → Axis X/Y/Z → 0 → ENT</div>
           </article>
 
@@ -350,9 +384,11 @@
             <p>ابتدا مانند دستگاه فانوک، ابزار مرجع را می‌آوریم. در فرز هایدن هاین نیز ابزار مرجع، ابزار 16 است.</p>
             <p>با Z ZERO عدد Z را با گزینه DATUM SET صفر می‌کنیم. سپس ابزار بعدی را آورده و با Z ZERO تاچ می‌گیریم.</p>
             <div class="command-path">Tool 16 → Z ZERO → DATUM SET</div>
-            <p>بعد با استفاده از گزینه TOOL TABLE فضای افست باز می‌شود. با فعال کردن گزینه EDIT روی شماره ابزار مورد نظر می‌رویم.</p>
+            <p>بعد با استفاده از گزینه TOOL TABLE فضای افست باز می‌شود. با فعال کردن گزینه EDIT روی شماره ابزار مورد نظر
+              می‌رویم.</p>
             <div class="command-path">TOOL TABLE → EDIT → Tool Number → L → _!_ → END</div>
-            <p>در قسمت L، که همان طول ابزار است، با زدن یک بار کلید _!_ عدد L تغییر می‌کند. سپس با گزینه END از فضای افست خارج می‌شویم. بقیه ابزارها نیز به همین روش افست‌گیری می‌شوند.</p>
+            <p>در قسمت L، که همان طول ابزار است، با زدن یک بار کلید _!_ عدد L تغییر می‌کند. سپس با گزینه END از فضای
+              افست خارج می‌شویم. بقیه ابزارها نیز به همین روش افست‌گیری می‌شوند.</p>
           </article>
 
           <article class="lesson-card">
@@ -361,239 +397,240 @@
             <p>با استفاده از کلید مربوطه و گزینه WINDOW، ابتدا در قسمت چپ پنجره وارد RS232 می‌شویم.</p>
             <div class="command-path">WINDOW → RS232 → COPY → TNC</div>
             <p>برنامه مورد نظر را با گزینه COPY وارد هارد دستگاه، که TNC نام دارد، می‌کنیم.</p>
-            <p>بعد از آن وارد فضای اجرای برنامه شده، روی برنامه مورد نظر ENT می‌زنیم و برنامه را با گزینه CYS اجرا می‌کنیم.</p>
+            <p>بعد از آن وارد فضای اجرای برنامه شده، روی برنامه مورد نظر ENT می‌زنیم و برنامه را با گزینه CYS اجرا
+              می‌کنیم.</p>
             <div class="command-path">Program → ENT → CYS</div>
           </article>
         </div>
       </section>
       <section class="calculator-panel tool-panel" data-panel="lathe" aria-labelledby="latheTitle">
-  <div class="panel-header">
-    <div>
-      <p class="eyebrow">جزوه آموزشی</p>
-      <h3 id="latheTitle">آموزش اپراتوری دستگاه تراش CNC GSK</h3>
-    </div>
-  </div>
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">جزوه آموزشی</p>
+            <h3 id="latheTitle">آموزش اپراتوری دستگاه تراش CNC GSK</h3>
+          </div>
+        </div>
 
-  <div class="booklet-grid">
+        <div class="booklet-grid">
 
-    <article class="lesson-card">
-      <span class="lesson-number">01</span>
-      <h4>روشن کردن دستگاه و رفرنس محورها</h4>
+          <article class="lesson-card">
+            <span class="lesson-number">01</span>
+            <h4>روشن کردن دستگاه و رفرنس محورها</h4>
 
-      <p>
-        ابتدا دستگاه را روشن می‌کنیم. قبل از شروع کار همیشه بعد از روشن کردن دستگاه باید محورهای X و Z به صفر ماشین برسند تا چراغ مربوط به صفر محورها روشن شود.
-      </p>
+            <p>
+              ابتدا دستگاه را روشن می‌کنیم. قبل از شروع کار همیشه بعد از روشن کردن دستگاه باید محورهای X و Z به صفر
+              ماشین برسند تا چراغ مربوط به صفر محورها روشن شود.
+            </p>
 
-      <div class="command-path">
-        MACHINE ZERO → X → Z
-      </div>
+            <div class="command-path">
+              MACHINE ZERO → X → Z
+            </div>
 
-      <p>
-        دستگاه به صورت اتوماتیک به صفر ماشین رسیده و آماده کار خواهد بود.
-      </p>
-    </article>
+            <p>
+              دستگاه به صورت اتوماتیک به صفر ماشین رسیده و آماده کار خواهد بود.
+            </p>
+          </article>
 
-    <article class="lesson-card">
-      <span class="lesson-number">02</span>
+          <article class="lesson-card">
+            <span class="lesson-number">02</span>
 
-      <h4>آشنایی با REL ، ABS و فضای MDI</h4>
+            <h4>آشنایی با REL ، ABS و فضای MDI</h4>
 
-      <p>
-        در قسمت POSITION دو پنجره مهم REL و ABS وجود دارد.
-      </p>
+            <p>
+              در قسمت POSITION دو پنجره مهم REL و ABS وجود دارد.
+            </p>
 
-      <p>
-        REL برای صفر کردن دستی محورها و ABS برای تنظیم افست ابزارها و اجرای برنامه استفاده می‌شود.
-      </p>
+            <p>
+              REL برای صفر کردن دستی محورها و ABS برای تنظیم افست ابزارها و اجرای برنامه استفاده می‌شود.
+            </p>
 
-      <p>
-        در فضای MDI می‌توان دستورات تک خطی اجرا کرد.
-      </p>
+            <p>
+              در فضای MDI می‌توان دستورات تک خطی اجرا کرد.
+            </p>
 
-      <div class="command-path">
-        G97 S500 M03 → START
-      </div>
+            <div class="command-path">
+              G97 S500 M03 → START
+            </div>
 
-      <p>
-        روشن کردن اسپیندل ساعتگرد با دور ثابت 500 دور.
-      </p>
+            <p>
+              روشن کردن اسپیندل ساعتگرد با دور ثابت 500 دور.
+            </p>
 
-    </article>
+          </article>
 
-    <article class="lesson-card">
+          <article class="lesson-card">
 
-      <span class="lesson-number">03</span>
+            <span class="lesson-number">03</span>
 
-      <h4>OFFSET گرفتن ابزار مرجع T808</h4>
+            <h4>OFFSET گرفتن ابزار مرجع T808</h4>
 
-      <p>
-        ابزار مرجع دستگاه، ابزار T808 است.
-      </p>
+            <p>
+              ابزار مرجع دستگاه، ابزار T808 است.
+            </p>
 
-      <p>
-        ابزار را توسط MDI فراخوانی کرده، به قطعه نزدیک کنید و پیشانی تراشی انجام دهید.
-      </p>
+            <p>
+              ابزار را توسط MDI فراخوانی کرده، به قطعه نزدیک کنید و پیشانی تراشی انجام دهید.
+            </p>
 
-      <p>
-        سپس محور Z را مطابق رفرنس برنامه صفر کنید. اگر رفرنس وسط نوک ابزار باشد، ابتدا مقدار شعاع نوک ابزار را در REL جبران کرده و سپس ABS را صفر نمایید.
-      </p>
+            <p>
+              سپس محور Z را مطابق رفرنس برنامه صفر کنید. اگر رفرنس وسط نوک ابزار باشد، ابتدا مقدار شعاع نوک ابزار را در
+              REL جبران کرده و سپس ABS را صفر نمایید.
+            </p>
 
-      <p>
-        مقدار صفر را در OFFSET قسمت Z ابزار 00 وارد کرده و سپس مقدار معکوس عدد ABS را ثبت کنید تا محور Z دقیقاً صفر شود.
-      </p>
+            <p>
+              مقدار صفر را در OFFSET قسمت Z ابزار 00 وارد کرده و سپس مقدار معکوس عدد ABS را ثبت کنید تا محور Z دقیقاً
+              صفر شود.
+            </p>
 
-      <p>
-        محور X نیز به همین روش تنظیم می‌شود.
-      </p>
+            <p>
+              محور X نیز به همین روش تنظیم می‌شود.
+            </p>
 
-    </article>
+          </article>
 
-    <article class="lesson-card">
+          <article class="lesson-card">
 
-      <span class="lesson-number">04</span>
+            <span class="lesson-number">04</span>
 
-      <h4>OFFSET گرفتن سایر ابزارها</h4>
+            <h4>OFFSET گرفتن سایر ابزارها</h4>
 
-      <p>
-        ابزارهای دیگر را به صورت دستی فراخوانی کنید.
-      </p>
+            <p>
+              ابزارهای دیگر را به صورت دستی فراخوانی کنید.
+            </p>
 
-      <p>
-        با تاچ کردن ابزار به قطعه، مقادیر X و Z موجود در ABS را بدون تغییر در قسمت OFFSET همان ابزار وارد نمایید.
-      </p>
+            <p>
+              با تاچ کردن ابزار به قطعه، مقادیر X و Z موجود در ABS را بدون تغییر در قسمت OFFSET همان ابزار وارد نمایید.
+            </p>
 
-      <p>
-        تمام ابزارها نسبت به ابزار مرجع T808 افست گرفته می‌شوند.
-      </p>
+            <p>
+              تمام ابزارها نسبت به ابزار مرجع T808 افست گرفته می‌شوند.
+            </p>
 
-    </article>
+          </article>
 
-    <article class="lesson-card">
+          <article class="lesson-card">
 
-      <span class="lesson-number">05</span>
+            <span class="lesson-number">05</span>
 
-      <h4>اجرای برنامه از فلش</h4>
+            <h4>اجرای برنامه از فلش</h4>
 
-      <p>
-        فلش را به دستگاه متصل کنید.
-      </p>
+            <p>
+              فلش را به دستگاه متصل کنید.
+            </p>
 
-      <div class="command-path">
-        PROGRAM → USB
-      </div>
+            <div class="command-path">
+              PROGRAM → USB
+            </div>
 
-      <p>
-        برنامه مورد نظر را انتخاب کنید.
-      </p>
+            <p>
+              برنامه مورد نظر را انتخاب کنید.
+            </p>
 
-      <div class="command-path">
-        AUTO → CYCLE START
-      </div>
+            <div class="command-path">
+              AUTO → CYCLE START
+            </div>
 
-      <p>
-        دستگاه اجرای برنامه را آغاز می‌کند.
-      </p>
+            <p>
+              دستگاه اجرای برنامه را آغاز می‌کند.
+            </p>
 
-    </article>
+          </article>
 
-    <article class="lesson-card lesson-note">
+          <article class="lesson-card lesson-note">
 
-      <span class="lesson-number">06</span>
+            <span class="lesson-number">06</span>
 
-      <h4>نکات مهم اپراتوری</h4>
+            <h4>نکات مهم اپراتوری</h4>
 
-      <ul>
-        <li>قبل از شروع برنامه از تیز بودن ابزارها اطمینان حاصل کنید.</li>
-        <li>آب صابون را به درستی روی ابزار تنظیم کنید.</li>
-        <li>سرعت اسپیندل و پیشروی را متناسب با قطر قطعه تنظیم نمایید.</li>
-        <li>اجرای چند قطعه اول را کاملاً کنترل کنید.</li>
-        <li>به صورت مرتب دستگاه را بررسی کنید تا سفاله دور اسپیندل نپیچد.</li>
-        <li>در صورت پیچیدن سفاله، دستگاه را متوقف کرده و سپس ادامه برنامه را اجرا نمایید.</li>
-      </ul>
-    </section>
-    <section class="tool-panel" data-panel="taper">
-  <div class="panel-header">
-    <div>
-      <p class="eyebrow">ماشین حساب مهندسی</p>
-      <h3>محاسبه زاویه مخروط</h3>
-    </div>
-  </div>
+            <ul>
+              <li>قبل از شروع برنامه از تیز بودن ابزارها اطمینان حاصل کنید.</li>
+              <li>آب صابون را به درستی روی ابزار تنظیم کنید.</li>
+              <li>سرعت اسپیندل و پیشروی را متناسب با قطر قطعه تنظیم نمایید.</li>
+              <li>اجرای چند قطعه اول را کاملاً کنترل کنید.</li>
+              <li>به صورت مرتب دستگاه را بررسی کنید تا سفاله دور اسپیندل نپیچد.</li>
+              <li>در صورت پیچیدن سفاله، دستگاه را متوقف کرده و سپس ادامه برنامه را اجرا نمایید.</li>
+            </ul>
+      </section>
+      <section class="tool-panel" data-panel="taper">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">ماشین حساب مهندسی</p>
+            <h3>محاسبه زاویه مخروط</h3>
+          </div>
+        </div>
 
-  <div class="selector-row">
-    <label>قطر بزرگ (D)</label>
-    <input type="number" id="bigDiameter" placeholder="مثلاً 30">
-  </div>
+        <div class="selector-row">
+          <label>قطر بزرگ (D)</label>
+          <input type="number" id="bigDiameter" placeholder="مثلاً 30">
+        </div>
 
-  <div class="selector-row">
-    <label>قطر کوچک (d)</label>
-    <input type="number" id="smallDiameter" placeholder="مثلاً 20">
-  </div>
+        <div class="selector-row">
+          <label>قطر کوچک (d)</label>
+          <input type="number" id="smallDiameter" placeholder="مثلاً 20">
+        </div>
 
-  <div class="selector-row">
-    <label>ارتفاع (H)</label>
-    <input type="number" id="heightValue" placeholder="مثلاً 50">
-  </div>
+        <div class="selector-row">
+          <label>ارتفاع (H)</label>
+          <input type="number" id="heightValue" placeholder="مثلاً 50">
+        </div>
 
-  <button id="calcTaper">محاسبه زاویه</button>
+        <button id="calcTaper">محاسبه زاویه</button>
 
-  <div class="result-hero">
-    <span>زاویه هر طرف</span>
-    <strong id="taperResult">--</strong>
-  </div>
+        <div class="result-hero">
+          <span>زاویه هر طرف</span>
+          <strong id="taperResult">--</strong>
+        </div>
 
-</section>
-<section class="tool-panel" data-panel="threadDepth">
+      </section>
+      <section class="tool-panel" data-panel="threadDepth">
 
-  <div class="panel-header">
-    <div>
-      <p class="eyebrow">ماشین حساب تراش</p>
-      <h3>محاسبه عمق دنده</h3>
-    </div>
-  </div>
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">ماشین حساب تراش</p>
+            <h3>محاسبه عمق دنده</h3>
+          </div>
+        </div>
 
-  <div class="selector-row">
-    <label for="threadPitch">گام رزوه (میلی‌متر)</label>
+        <div class="selector-row">
+          <label for="threadPitch">گام رزوه (میلی‌متر)</label>
 
-    <select id="threadPitch">
-      <option value="1.5">1.5</option>
-      <option value="2">2</option>
-      <option value="2.5">2.5</option>
-      <option value="3">3</option>
-      <option value="3.5">3.5</option>
-      <option value="4">4</option>
-      <option value="4.5">4.5</option>
-      <option value="5">5</option>
-      <option value="5.5">5.5</option>
-      <option value="6">6</option>
-    </select>
-  </div>
+          <select id="threadPitch">
+            <option value="1.5">1.5</option>
+            <option value="2">2</option>
+            <option value="2.5">2.5</option>
+            <option value="3">3</option>
+            <option value="3.5">3.5</option>
+            <option value="4">4</option>
+            <option value="4.5">4.5</option>
+            <option value="5">5</option>
+            <option value="5.5">5.5</option>
+            <option value="6">6</option>
+          </select>
+        </div>
 
-  <div class="result-hero">
-    <span>نتیجه محاسبه</span>
-    <strong id="threadDepthResult">--</strong>
-  </div>
+        <div class="result-hero">
+          <span>نتیجه محاسبه</span>
+          <strong id="threadDepthResult">--</strong>
+        </div>
 
-</section>
-<section class="calculator-panel tool-panel"
-         id="threadTablePanel"
-         data-panel="threadTable"
-         hidden>
+      </section>
+      <section class="calculator-panel tool-panel" id="threadTablePanel" data-panel="threadTable" hidden>
 
-  <div class="panel-header">
-    <h2>اندازه استاندارد دنده‌ها</h2>
-    <p>جدول استاندارد BSPP</p>
-  </div>
+        <div class="panel-header">
+          <h2>اندازه استاندارد دنده‌ها</h2>
+          <p>جدول استاندارد BSPP</p>
+        </div>
 
-  <div style="text-align:center;">
-  <img src="images/thread_table.jpg"
-     alt="جدول استاندارد دنده‌ها"
-     style="width:100%;max-width:1000px;border-radius:16px;">
-  </div>
+        <div style="text-align:center;">
+          <img src="images/thread_table.jpg" alt="جدول استاندارد دنده‌ها"
+            style="width:100%;max-width:1000px;border-radius:16px;">
+        </div>
 
-</section>
-   </main>
+      </section>
+    </main>
   </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>
