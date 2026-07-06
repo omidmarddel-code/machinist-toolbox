@@ -74,6 +74,10 @@ calculations: {
   eyebrow: "محاسبات مهندسی",
   title: "ابزارهای محاسباتی"
 },
+standards: {
+  eyebrow: "استانداردهای مهندسی",
+  title: "جداول استاندارد"
+},
 };
 
 const elements = {

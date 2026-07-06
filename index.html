@@ -31,19 +31,19 @@
           <small>ابزارهای محاسباتی ماشین‌کاری</small>
         </span>
       </button>
+      <button class="tool-card" data-tool="standards" type="button">
+        <span class="tool-icon">📖</span>
+        <span>
+          <strong>استانداردها</strong>
+          <small>جداول و اطلاعات استاندارد</small>
+        </span>
+      </button>
       <nav class="dashboard-grid" id="toolMenu" aria-label="ابزارهای داشبورد">
         <button class="tool-card" data-tool="edm" type="button">
           <span class="tool-icon">&#8767;</span>
           <span>
             <strong>تنظیمات وایرکات</strong>
             <small>داده‌های دستگاه </small>
-          </span>
-        </button>
-        <button class="tool-card" data-tool="threadTable" type="button">
-          <span class="tool-icon">📄</span>
-          <span>
-            <strong>اندازه استاندارد دنده‌ها</strong>
-            <small>جدول استاندارد BSPP</small>
           </span>
         </button>
       </nav>
@@ -106,15 +106,28 @@
         </div>
 
       </section>
-      <section class="calculator-panel tool-panel" data-panel="calculations" id="calculationsPanel">
+      <section class="calculator-panel tool-panel" data-panel="standards" id="standardsPanel">
 
+        <div class="panel-header">
+          <h2>استانداردها</h2>
+          <p>یکی از جداول زیر را انتخاب کنید.</p>
+        </div>
+        <div class="dashboard-grid">
+          <button class="tool-card" data-tool="threadTable" type="button">
+            <span class="tool-icon">📄</span>
+            <span>
+              <strong>جدول استاندارد BSPP</strong>
+              <small>اندازه استاندارد دنده‌ها</small>
+            </span>
+          </button>
+        </div>
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="calculations" id="calculationsPanel">
         <div class="panel-header">
           <h2>محاسبات مهندسی</h2>
           <p>یکی از ابزارهای زیر را انتخاب کنید.</p>
         </div>
-
         <div class="dashboard-grid">
-
           <button class="tool-card" data-tool="tap" type="button">
             <span class="tool-icon">⌂</span>
             <span>
@@ -122,7 +135,6 @@
               <small>محاسبه مته رزوه متریک</small>
             </span>
           </button>
-
           <button class="tool-card" data-tool="taper" type="button">
             <span class="tool-icon">📐</span>
             <span>
@@ -130,7 +142,6 @@
               <small>محاسبه زاویه تیپر</small>
             </span>
           </button>
-
           <button class="tool-card" data-tool="threadDepth" type="button">
             <span class="tool-icon">🧵</span>
             <span>
@@ -138,9 +149,7 @@
               <small>محاسبه عمق رزوه تراش</small>
             </span>
           </button>
-
         </div>
-
       </section>
       <section class="calculator-panel tool-panel active" data-panel="tap" aria-labelledby="tapTitle">
         <div class="panel-header">
@@ -153,23 +162,19 @@
             <input id="tapSearch" type="search" placeholder="جستجو مثل M2، M10، M20..." autocomplete="off" />
           </label>
         </div>
-
         <div class="selector-row">
           <label for="tapSelect">سایز قلاویز</label>
           <select id="tapSelect" aria-describedby="tapDescription"></select>
           <p id="tapDescription">یک قلاویز متریک از M2 تا M20 انتخاب کن.</p>
         </div>
-
         <div class="result-hero">
           <div>
             <span>سایز مته پیشنهادی</span>
             <strong id="drillSize">--</strong>
           </div>
         </div>
-
         <div class="metrics-grid" id="metricsGrid" aria-live="polite"></div>
       </section>
-
       <section class="calculator-panel tool-panel" data-panel="edm" aria-labelledby="edmTitle">
         <div class="panel-header">
           <div>
@@ -177,7 +182,6 @@
             <h3 id="edmTitle">تنظیمات وایرکات</h3>
           </div>
         </div>
-
         <div class="selector-row">
           <label for="edmSelect">نوع عملیات</label>
           <select id="edmSelect" aria-describedby="edmDescription"></select>
@@ -186,7 +190,6 @@
 
         <div class="edm-settings-card" id="edmSettings" aria-live="polite"></div>
       </section>
-
       <section class="calculator-panel tool-panel" data-panel="booklet" aria-labelledby="bookletTitle">
         <div class="panel-header">
           <div>
@@ -194,7 +197,6 @@
             <h3 id="bookletTitle">آموزش اپراتوری دستگاه وایرکات</h3>
           </div>
         </div>
-
         <div class="booklet-grid">
           <article class="lesson-card">
             <span class="lesson-number">01</span>
@@ -203,7 +205,6 @@
             <div class="command-path">MACHINE → MANUAL → X.Y.Z.U.V</div>
             <p>سپس قطعه کار را بسته و رفرنس را طبق رفرنس تعیین‌شده توسط برنامه‌نویس می‌گیریم.</p>
           </article>
-
           <article class="lesson-card">
             <span class="lesson-number">02</span>
             <h4>رفرنس کردن دایره</h4>
