@@ -70,6 +70,10 @@ booklets: {
   eyebrow: "جزوه‌های آموزشی",
   title: "انتخاب جزوه آموزشی"
 },
+calculations: {
+  eyebrow: "محاسبات مهندسی",
+  title: "ابزارهای محاسباتی"
+},
 };
 
 const elements = {
