@@ -218,6 +218,15 @@ function switchTool(tool) {
   if (!PAGE_TITLES[tool]) {
     return;
   }
+  const welcomeCard = document.getElementById("welcomeCard");
+
+if (welcomeCard && !welcomeCard.classList.contains("hide")) {
+  welcomeCard.classList.add("hide");
+
+  setTimeout(() => {
+    welcomeCard.style.display = "none";
+  }, 500);
+}
 
   elements.toolCards.forEach((card) => {
     card.classList.toggle("active", card.dataset.tool === tool);
@@ -308,3 +317,17 @@ function calculateTaper() {
 bindEvents();
 renderTapOptions();
 renderEdmOptions();
+// در شروع برنامه هیچ پنلی باز نباشد
+elements.panels.forEach(panel => {
+  panel.hidden = true;
+  panel.classList.remove("active");
+});
+
+// هیچ دکمه‌ای هم فعال نباشد
+elements.toolCards.forEach(card => {
+  card.classList.remove("active");
+});
+
+// عنوان صفحه
+elements.pageEyebrow.textContent = "";
+elements.pageTitle.textContent = "قالب سازی";
