@@ -66,6 +66,10 @@ threadTable: {
   eyebrow: "استانداردها",
   title: "اندازه استاندارد دنده‌ها"
 },
+booklets: {
+  eyebrow: "جزوه‌های آموزشی",
+  title: "انتخاب جزوه آموزشی"
+},
 };
 
 const elements = {
@@ -223,13 +227,19 @@ function switchTool(tool) {
 }
 
 function bindEvents() {
-  elements.toolCards.forEach((card) => {
-    card.addEventListener("click", () => {
-      if (!card.classList.contains("locked")) {
-        switchTool(card.dataset.tool);
-      }
-    });
+ elements.toolCards.forEach((card) => {
+  card.addEventListener("click", () => {
+
+    if (card.classList.contains("locked")) return;
+
+    const tool = card.dataset.tool;
+
+    if (tool) {
+      switchTool(tool);
+    }
+
   });
+});
 
   elements.tapSearch.addEventListener("input", (event) => {
     renderTapOptions(event.target.value);

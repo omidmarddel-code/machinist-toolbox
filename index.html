@@ -18,6 +18,12 @@
         <div>
         </div>
       </div>
+      <button class="tool-card" data-tool="booklets" type="button">
+        <span class="tool-icon">📁</span>
+        <span>
+          <strong>جزوه‌های آموزشی</strong>
+        </span>
+      </button>
       <nav class="dashboard-grid" id="toolMenu" aria-label="ابزارهای داشبورد">
         <button class="tool-card active" data-tool="tap" type="button">
           <span class="tool-icon">&#8960;</span>
@@ -26,12 +32,8 @@
             <small>اطلاعات مته‌کاری رزوه متریک</small>
           </span>
         </button>
-        <button class="tool-card" data-tool="booklet" type="button">
-          <span class="tool-icon">&#9776;</span>
-          <span>
-            <strong>جزوه وایرکات</strong>
-            <small>آموزش اپراتوری وایر کات</small>
-          </span>
+        <span>
+        </span>
         </button>
         <button class="tool-card" data-tool="edm" type="button">
           <span class="tool-icon">&#8767;</span>
@@ -40,47 +42,27 @@
             <small>داده‌های دستگاه </small>
           </span>
         </button>
-        <button class="tool-card" data-tool="fanuc" type="button">
-          <span class="tool-icon">&#9881;</span>
+        <button class="tool-card" data-tool="taper">
+          <div class="tool-icon">📐</div>
+          <div>
+            <strong>زاویه مخروط</strong>
+            <small>محاسبه زاویه تیپر</small>
+          </div>
+        </button>
+        <button class="tool-card" data-tool="threadDepth">
+          <div class="tool-icon">🧵</div>
+          <div>
+            <strong>عمق دنده</strong>
+            <small>محاسبه عمق رزوه تراش</small>
+          </div>
+        </button>
+        <button class="tool-card" data-tool="threadTable" type="button">
+          <span class="tool-icon">📄</span>
           <span>
-            <strong>جزوه فانوک</strong>
-            <small>آموزش فرز فانوک سری O-M</small>
+            <strong>اندازه استاندارد دنده‌ها</strong>
+            <small>جدول استاندارد BSPP</small>
           </span>
         </button>
-        <button class="tool-card" data-tool="heidenhain" type="button">
-          <span class="tool-icon">&#9874;</span>
-          <span>
-            <strong>جزوه هایدن هاین</strong>
-            <small>آموزش فرز HEIDENHAIN</small>
-          </span>
-          <button class="tool-card" data-tool="lathe" type="button">
-            <span class="tool-icon">&#10227;</span>
-            <span>
-              <strong>جزوه تراش CNC GSK</strong>
-              <small>آموزش اپراتوری دستگاه تراش</small>
-            </span>
-          </button>
-          <button class="tool-card" data-tool="taper">
-            <div class="tool-icon">📐</div>
-            <div>
-              <strong>زاویه مخروط</strong>
-              <small>محاسبه زاویه تیپر</small>
-            </div>
-          </button>
-          <button class="tool-card" data-tool="threadDepth">
-            <div class="tool-icon">🧵</div>
-            <div>
-              <strong>عمق دنده</strong>
-              <small>محاسبه عمق رزوه تراش</small>
-            </div>
-          </button>
-          <button class="tool-card" data-tool="threadTable" type="button">
-            <span class="tool-icon">📄</span>
-            <span>
-              <strong>اندازه استاندارد دنده‌ها</strong>
-              <small>جدول استاندارد BSPP</small>
-            </span>
-          </button>
       </nav>
       <div class="app-footer">
         <p>Designed &amp; Developed by</p>
@@ -99,7 +81,50 @@
           آماده
         </div>
       </header>
+      <section class="calculator-panel tool-panel" data-panel="booklets" id="bookletsPanel">
 
+        <div class="panel-header">
+          <h2>جزوه‌های آموزشی</h2>
+          <p>یکی از جزوه‌های زیر را انتخاب کنید.</p>
+        </div>
+
+        <div class="dashboard-grid">
+
+          <button class="tool-card" data-tool="booklet" type="button">
+            <span class="tool-icon">📘</span>
+            <span>
+              <strong>جزوه وایرکات</strong>
+              <small>آموزش اپراتوری وایرکات</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="fanuc" type="button">
+            <span class="tool-icon">⚙️</span>
+            <span>
+              <strong>جزوه فانوک</strong>
+              <small>آموزش فرز Fanuc</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="heidenhain" type="button">
+            <span class="tool-icon">🛠️</span>
+            <span>
+              <strong>جزوه هایدن هاین</strong>
+              <small>آموزش فرز HEIDENHAIN</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="lathe" type="button">
+            <span class="tool-icon">🔩</span>
+            <span>
+              <strong>جزوه تراش CNC GSK</strong>
+              <small>آموزش اپراتوری تراش</small>
+            </span>
+          </button>
+
+        </div>
+
+      </section>
       <section class="calculator-panel tool-panel active" data-panel="tap" aria-labelledby="tapTitle">
         <div class="panel-header">
           <div>
