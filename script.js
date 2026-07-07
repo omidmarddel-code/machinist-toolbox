@@ -1,3 +1,4 @@
+
 "use strict";
 
 // داده‌های رزوه متریک دنده درشت. مقدارهای محاسبه‌شده برای استفاده کارگاهی گرد می‌شوند.
@@ -78,6 +79,42 @@ standards: {
   eyebrow: "استانداردهای مهندسی",
   title: "جداول استاندارد"
 },
+materials: {
+  eyebrow: "مرجع مهندسی",
+  title: "بانک متریال"
+},
+toolSteel: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای ابزاری"
+},
+H13: {
+  eyebrow: "بانک متریال",
+  title: "فولاد H13"
+},
+D2: {
+  eyebrow: "بانک متریال",
+  title: "فولاد D2"
+},
+O1: {
+  eyebrow: "بانک متریال",
+  title: "فولاد O1"
+},
+2083: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2083"
+},
+2311: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2311"
+},
+2312: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2312"
+},
+2738: {
+    eyebrow: "بانک متریال",
+    title: "فولاد 1.2738"
+},
 };
 
 const elements = {
@@ -99,6 +136,8 @@ const elements = {
   threadPitch: document.querySelector("#threadPitch"),
 threadDepthResult: document.querySelector("#threadDepthResult"),
 };
+let currentTool = null;
+let ignoreHistory = false;
 
 const trimNumber = (value, digits = 2) => Number(value.toFixed(digits)).toString();
 const formatMm = (value, digits = 2) => `${trimNumber(value, digits)} میلی‌متر`;
@@ -214,7 +253,7 @@ function updateEdmSettings(name) {
     .join("");
 }
 
-function switchTool(tool) {
+function switchTool(tool, addToHistory = true) {
   if (!PAGE_TITLES[tool]) {
     return;
   }
@@ -241,6 +280,12 @@ if (welcomeCard && !welcomeCard.classList.contains("hide")) {
 
   elements.pageEyebrow.textContent = PAGE_TITLES[tool].eyebrow;
   elements.pageTitle.textContent = PAGE_TITLES[tool].title;
+
+currentTool = tool;
+
+if (addToHistory) {
+    history.pushState({ tool: tool }, "", "#" + tool);
+}
 }
 
 function bindEvents() {
@@ -331,3 +376,30 @@ elements.toolCards.forEach(card => {
 // عنوان صفحه
 elements.pageEyebrow.textContent = "";
 elements.pageTitle.textContent = "قالب سازی";
+history.replaceState({}, "", location.pathname);
+
+window.addEventListener("popstate", (event) => {
+
+    if (event.state && event.state.tool) {
+        switchTool(event.state.tool, false);
+        return;
+    }
+
+    elements.panels.forEach(panel => {
+        panel.hidden = true;
+        panel.classList.remove("active");
+    });
+
+    elements.toolCards.forEach(card => {
+        card.classList.remove("active");
+    });
+
+    elements.pageEyebrow.textContent = "";
+    elements.pageTitle.textContent = "قالب سازی";
+
+    const welcomeCard = document.getElementById("welcomeCard");
+    if (welcomeCard) {
+        welcomeCard.style.display = "flex";
+        welcomeCard.classList.remove("hide");
+    }
+});
