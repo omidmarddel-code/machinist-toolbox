@@ -412,3 +412,28 @@ window.addEventListener("popstate", (event) => {
         welcomeCard.classList.remove("hide");
     }
 });
+const PASSWORD = "1370"; // رمز دلخواهت
+
+document.getElementById("loginBtn").addEventListener("click", login);
+
+document.getElementById("password").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        login();
+    }
+});
+
+function login() {
+
+    const pass = document.getElementById("password").value;
+
+    if (pass === PASSWORD) {
+
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("app").style.display = "block";
+
+    } else {
+
+        document.getElementById("loginError").textContent = "رمز عبور اشتباه است.";
+
+    }
+}
