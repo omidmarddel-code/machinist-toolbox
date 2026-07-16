@@ -412,7 +412,7 @@ window.addEventListener("popstate", (event) => {
         welcomeCard.classList.remove("hide");
     }
 });
-const PASSWORD = "1370"; // رمز دلخواهت
+const PASSWORD = "1370"; 
 
 document.getElementById("loginBtn").addEventListener("click", login);
 
