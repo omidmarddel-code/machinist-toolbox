@@ -116,6 +116,98 @@ O1: {
     eyebrow: "بانک متریال",
     title: "فولاد 1.2738"
 },
+castIron: {
+  eyebrow: "بانک متریال",
+  title: "چدن‌های ریخته‌گری"
+},
+GG25: {
+  eyebrow: "بانک متریال",
+  title: "GG25 - چدن خاکستری"
+},
+GG200: {
+  eyebrow: "بانک متریال",
+  title: "GG200 - چدن خاکستری قوی"
+},
+GGG40: {
+  eyebrow: "بانک متریال",
+  title: "GGG40 - چدن داکتیل"
+},
+GGG50: {
+  eyebrow: "بانک متریال",
+  title: "GGG50 - چدن داکتیل قوی"
+},
+plastic: {
+  eyebrow: "بانک متریال",
+  title: "پلاستیک‌های صنعتی"
+},
+POM: {
+  eyebrow: "بانک متریال",
+  title: "POM - Delrin (استال)"
+},
+PEEK: {
+  eyebrow: "بانک متریال",
+  title: "PEEK - پلاستیک پیشرفته"
+},
+PTFE: {
+  eyebrow: "بانک متریال",
+  title: "PTFE - Teflon (تفلون)"
+},
+PA6: {
+  eyebrow: "بانک متریال",
+  title: "PA6 - Nylon 6 (نایلون)"
+},
+ABS: {
+  eyebrow: "بانک متریال",
+  title: "ABS - Acrylonitrile Butadiene Styrene"
+},
+copper: {
+  eyebrow: "بانک متریال",
+  title: "مس و برنج و برنز"
+},
+Copper: {
+  eyebrow: "بانک متریال",
+  title: "مس خالص - Copper (Cu 99.9)"
+},
+Brass: {
+  eyebrow: "بانک متریال",
+  title: "برنج - Brass (Cu + Zn)"
+},
+Bronze: {
+  eyebrow: "بانک متریال",
+  title: "برنز - Bronze (Cu + Sn)"
+},
+stainlessSteel: {
+  eyebrow: "بانک متریال",
+  title: "استنلس استیل - فولاد ضد زنگ"
+},
+SS304: {
+  eyebrow: "بانک متریال",
+  title: "Stainless Steel 304 (18/8)"
+},
+SS316: {
+  eyebrow: "بانک متریال",
+  title: "Stainless Steel 316 / 316L"
+},
+SS420: {
+  eyebrow: "بانک متریال",
+  title: "Stainless Steel 420 - Cutlery Grade"
+},
+aluminum: {
+  eyebrow: "بانک متریال",
+  title: "آلومینیوم و آلیاژهای آن"
+},
+AL6061: {
+  eyebrow: "بانک متریال",
+  title: "Aluminum 6061 - سایز‌کاری عمومی"
+},
+AL7075: {
+  eyebrow: "بانک متریال",
+  title: "Aluminum 7075 - قوی و سبک"
+},
+AL5083: {
+  eyebrow: "بانک متریال",
+  title: "Aluminum 5083 - دریایی و دریانوردی"
+},
 as568: {
   eyebrow: "استانداردهای مهندسی",
   title: "جدول استاندارد AS568"
