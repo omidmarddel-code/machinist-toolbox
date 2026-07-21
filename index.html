@@ -5,27 +5,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Easy Pipe Machinist Toolbox</title>
-  <link rel="preload" href="./images/easypipe-dark.png" as="image">
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <div id="app" style="display:none;"></div>
-  <div id="loginScreen" class="welcome-card">
-
-    <h1 class="login-title">Easy Pipe Machinist Toolbox</h1>
-
-    <p class="login-subtitle">برای ورود، رمز عبور را وارد کنید.</p>
-
-    <input class="login-input" type="password" id="password" placeholder="رمز عبور">
-
-    <button class="login-button" id="loginBtn">
-      ورود
-    </button>
-
-    <p id="loginError"></p>
-
-  </div>
+  <script>
+    if (sessionStorage.getItem("loggedIn") !== "true") {
+      window.location.href = "login.html";
+    }
+  </script>
   <div class="app-shell">
     <aside class="sidebar" aria-label="ناوبری جعبه ابزار">
       <div class="brand">

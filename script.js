@@ -504,28 +504,30 @@ window.addEventListener("popstate", (event) => {
         welcomeCard.classList.remove("hide");
     }
 });
-const PASSWORD = "1370"; 
+// ===== خروج خودکار در صورت عدم فعالیت =====
 
-document.getElementById("loginBtn").addEventListener("click", login);
+let inactivityTimer;
 
-document.getElementById("password").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        login();
-    }
+function resetInactivityTimer() {
+
+    clearTimeout(inactivityTimer);
+
+    inactivityTimer = setTimeout(() => {
+
+        alert("به عدم فعالیت، از برنامه خارج شدید.");
+
+        sessionStorage.removeItem("loggedIn");
+
+        window.location.href = "login.html";
+
+    }, 20000);
+
+}
+
+// رویدادهای فعالیت کاربر
+["mousemove", "mousedown", "click", "scroll", "keydown", "touchstart"].forEach(event => {
+    document.addEventListener(event, resetInactivityTimer);
 });
 
-function login() {
-
-    const pass = document.getElementById("password").value;
-
-    if (pass === PASSWORD) {
-
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("app").style.display = "block";
-
-    } else {
-
-        document.getElementById("loginError").textContent = "رمز عبور اشتباه است.";
-
-    }
-}
+// شروع تایمر
+resetInactivityTimer();
