@@ -623,16 +623,16 @@ button {
     inset: 0;
 
     display: flex;
-    flex-direction: column;   
+    flex-direction: column;
 
     justify-content: center;
     align-items: center;
 
-    gap: 17px;               
+    gap: 17px;
 
     background:
         linear-gradient(rgba(5,10,18,.75), rgba(5,10,18,.85)),
-        url("/images/easypipe-dark.png");
+        url("images/easypipe-dark.png");
 
     background-size: cover;
     background-position: center;
@@ -640,7 +640,6 @@ button {
 
     z-index: 9999;
 }
-
 #loginScreen input{
     width:320px;
     max-width:90%;
