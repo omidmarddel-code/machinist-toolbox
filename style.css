@@ -632,7 +632,7 @@ button {
 
     background:
         linear-gradient(rgba(5,10,18,.75), rgba(5,10,18,.85)),
-        url("/images/easypipe-dark.jpg");
+        url("./images/easypipe-dark.jpg");
 
     background-size: cover;
     background-position: center;
