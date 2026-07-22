@@ -587,3 +587,19 @@ setTimeout(() => {
     saveBtn.classList.remove("saved");
 
 }, 500);
+const notesToggle = document.getElementById("notesToggle");
+const notesCard = document.querySelector(".notes-card");
+
+notesToggle.addEventListener("click",()=>{
+
+    if(notesCard.style.display==="block"){
+
+        notesCard.style.display="none";
+
+    }else{
+
+        notesCard.style.display="block";
+
+    }
+
+});

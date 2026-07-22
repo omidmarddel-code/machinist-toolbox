@@ -23,7 +23,7 @@ body {
   font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
 background:
         linear-gradient(rgba(8,12,20,.80), rgba(8,12,20,.90)),
-        url(images/welcome.png);
+        url("images/welcome.png");
 }
 
 button,
@@ -1018,5 +1018,45 @@ button {
 .notes-btn:hover::before{
 
     left:130%;
+
+}
+.notes-card{
+
+    display:none;
+
+}
+.notes-fab{
+
+    position:fixed;
+
+    bottom:25px;
+    left:25px;
+
+    width:60px;
+    height:60px;
+
+    border:none;
+    border-radius:50%;
+
+    cursor:pointer;
+
+    font-size:28px;
+
+    color:#fff;
+
+    background:linear-gradient(135deg,#22c55e,#38bdf8);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.35);
+
+    transition:.3s;
+
+    z-index:9999;
+
+}
+
+.notes-fab:hover{
+
+    transform:scale(1.1) rotate(10deg);
 
 }
