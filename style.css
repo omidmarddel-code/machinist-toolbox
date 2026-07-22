@@ -23,7 +23,7 @@ body {
   font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
 background:
         linear-gradient(rgba(8,12,20,.80), rgba(8,12,20,.90)),
-        url("images/welcome.png");
+        url(images/welcome.png);
 }
 
 button,
