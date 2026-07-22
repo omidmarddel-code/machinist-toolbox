@@ -21,11 +21,9 @@ body {
   margin: 0;
   direction: rtl;
   font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
-  background:
-    radial-gradient(circle at 18% 12%, rgba(34, 197, 94, 0.20), transparent 30%),
-    radial-gradient(circle at 88% 22%, rgba(56, 189, 248, 0.16), transparent 28%),
-    linear-gradient(145deg, #05070a 0%, #0d1118 52%, #090b10 100%);
-  color: var(--text);
+background:
+        linear-gradient(rgba(8,12,20,.80), rgba(8,12,20,.90)),
+        url("/images/welcome.png");
 }
 
 button,
@@ -188,28 +186,6 @@ button {
   margin: 6px 0 0;
   font-size: clamp(1.7rem, 4vw, 2.9rem);
   line-height: 1.05;
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 38px;
-  padding: 0 14px;
-  border: 1px solid rgba(34, 197, 94, 0.26);
-  border-radius: 999px;
-  background: rgba(34, 197, 94, 0.10);
-  color: #bbf7d0;
-  font-size: 0.88rem;
-  font-weight: 700;
-}
-
-.status-pill span {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.14);
 }
 
 .calculator-panel {
@@ -850,5 +826,202 @@ button {
         filter:blur(0);
         transform:translateY(0);
     }
+
+}
+#pageTitle{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 50px;
+    font-weight: 500;
+}
+.notes-card{
+
+    width:92%;
+    margin:35px auto;
+
+    background:rgba(18,22,30,.82);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    padding:25px;
+
+    box-shadow:
+    0 15px 45px rgba(0,0,0,.35);
+
+}
+
+.notes-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+.notes-header h2{
+
+    color:white;
+
+    font-size:24px;
+
+    margin:0;
+
+}
+
+#saveStatus{
+
+    color:#22c55e;
+
+    font-size:14px;
+
+}
+
+#workshopNotes{
+
+    width:100%;
+
+    height:320px;
+
+    resize:none;
+
+    border:none;
+
+    outline:none;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    background:#10161f;
+
+    color:white;
+
+    font-size:16px;
+
+    line-height:1.8;
+
+    font-family:Poppins,sans-serif;
+
+}
+
+#workshopNotes::placeholder{
+
+    color:#7d8796;
+
+}
+
+.notes-footer{
+
+    margin-top:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.notes-btn{
+    position: relative;
+    overflow: hidden;
+
+    border: none;
+    cursor: pointer;
+
+    padding: 12px 24px;
+
+    border-radius: 12px;
+
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+
+    transition: all .3s ease;
+}
+
+.notes-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+.notes-btn.danger{
+
+    background:#ef4444;
+
+    margin-right:10px;
+
+}
+
+#charCount{
+
+    color:#94a3b8;
+
+}
+#saveNotes{
+
+    background: linear-gradient(135deg,#22c55e,#38bdf8);
+
+}
+
+#saveNotes:hover{
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(34,197,94,.35),
+        0 0 20px rgba(56,189,248,.25);
+
+}
+#clearNotes{
+
+    background: linear-gradient(135deg,#ef4444,#dc2626);
+
+    margin-right:12px;
+
+}
+
+#clearNotes:hover{
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 10px 25px rgba(239,68,68,.35);
+
+}
+.notes-btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-120%;
+
+    width:60%;
+    height:100%;
+
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.45),
+        transparent
+    );
+
+    transition:.6s;
+
+}
+
+.notes-btn:hover::before{
+
+    left:130%;
 
 }

@@ -71,17 +71,35 @@
           <p class="eyebrow" id="pageEyebrow">رزوه‌های متریک دنده</p>
           <h2 id="pageTitle">محاسبه‌گر قلاویز</h2>
         </div>
-        <div class="status-pill">
-          <span></span>
-          آماده
-        </div>
       </header>
-      <section class="welcome-card" id="welcomeCard">
-        <img src="images/welcome.png" alt="Easy Pipe Welcome">
+      </section>
+      <section class="notes-card">
 
-        <h1></h1>
+        <div class="notes-header">
+          <h2>📝 NOTE</h2>
+          <span id="saveStatus">Ready</span>
+        </div>
 
-        <p>Professional CNC Machining Assistant</p>
+        <textarea id="workshopNotes" placeholder="یادداشت‌های روزانه، نکات قالب سازی، تعمیرات، برنامه‌ها..."></textarea>
+
+        <div class="notes-footer">
+
+          <small id="charCount">0 / 5000</small>
+
+          <div>
+
+            <button id="clearNotes" class="notes-btn danger">
+              پاک کردن
+            </button>
+
+            <button id="saveNotes" class="notes-btn">
+              ذخیره
+            </button>
+
+          </div>
+
+        </div>
+
       </section>
 
       <section class="calculator-panel tool-panel" data-panel="booklets" id="bookletsPanel">

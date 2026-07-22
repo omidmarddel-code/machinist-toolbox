@@ -476,7 +476,7 @@ elements.toolCards.forEach(card => {
 
 // عنوان صفحه
 elements.pageEyebrow.textContent = "";
-elements.pageTitle.textContent = "قالب سازی";
+elements.pageTitle.textContent = "Mold Making Machinist Toolbox";
 history.replaceState({}, "", location.pathname);
 
 window.addEventListener("popstate", (event) => {
@@ -496,7 +496,7 @@ window.addEventListener("popstate", (event) => {
     });
 
     elements.pageEyebrow.textContent = "";
-    elements.pageTitle.textContent = "قالب سازی";
+    elements.pageTitle.textContent = "Mold Making Machinist Toolbox";
 
     const welcomeCard = document.getElementById("welcomeCard");
     if (welcomeCard) {
@@ -520,7 +520,7 @@ function resetInactivityTimer() {
 
         window.location.href = "login.html";
 
-    }, 120000);
+    }, 180000);
 
 }
 
@@ -531,3 +531,59 @@ function resetInactivityTimer() {
 
 // شروع تایمر
 resetInactivityTimer();
+const notes = document.getElementById("workshopNotes");
+const saveBtn = document.getElementById("saveNotes");
+const clearBtn = document.getElementById("clearNotes");
+const status = document.getElementById("saveStatus");
+const counter = document.getElementById("charCount");
+
+notes.value = localStorage.getItem("easyPipeNotes") || "";
+
+updateCounter();
+
+notes.addEventListener("input",()=>{
+
+    updateCounter();
+
+    localStorage.setItem("easyPipeNotes",notes.value);
+
+    status.textContent="Saved";
+
+});
+
+saveBtn.addEventListener("click",()=>{
+
+    localStorage.setItem("easyPipeNotes",notes.value);
+
+    status.textContent="Saved";
+
+});
+
+clearBtn.addEventListener("click",()=>{
+
+    if(confirm("همه یادداشت‌ها پاک شوند؟")){
+
+        notes.value="";
+
+        localStorage.removeItem("easyPipeNotes");
+
+        updateCounter();
+
+        status.textContent="Cleared";
+
+    }
+
+});
+
+function updateCounter(){
+
+    counter.textContent=notes.value.length+" / 5000";
+
+}
+saveBtn.classList.add("saved");
+
+setTimeout(() => {
+
+    saveBtn.classList.remove("saved");
+
+}, 500);
