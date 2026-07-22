@@ -520,7 +520,7 @@ function resetInactivityTimer() {
 
         window.location.href = "login.html";
 
-    }, 20000);
+    }, 120000);
 
 }
 
