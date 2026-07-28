@@ -428,6 +428,7 @@ function bindEvents() {
       switchTool(tool);
     }
 
+    
   });
 });
 
