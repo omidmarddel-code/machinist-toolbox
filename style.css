@@ -1328,3 +1328,14 @@ button {
   .news-header { align-items: flex-start; }
   #newsList { max-height: 260px; }
 }
+.news-card{
+    display:flex;
+    flex-direction:column;
+    height: calc(100vh - 230px);
+}
+
+#newsList{
+    flex:1;
+    overflow-y:auto;
+    max-height:none;
+}

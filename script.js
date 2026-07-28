@@ -407,7 +407,7 @@ function bindEvents() {
     elements.toolCards.forEach((card) => card.classList.remove("active"));
 
     elements.pageEyebrow.textContent = "";
-    elements.pageTitle.textContent = "جعبه‌ابزار ماشین‌کاری و قالب‌سازی";
+    elements.pageTitle.textContent = "MACHINIST TOOL BOX";
 
     const welcomeCard = document.getElementById("welcomeCard");
     if (welcomeCard) {
