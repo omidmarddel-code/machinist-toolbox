@@ -1265,6 +1265,44 @@ button {
   font-weight: 600;
 }
 
+/* صفحهٔ اصلی نباید به پشتیبانی :has در مرورگر وابسته باشد. */
+.topbar.home-topbar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: 0;
+  padding: 26px;
+  gap: 18px;
+}
+
+.home-topbar > .page-intro {
+  order: 1;
+  width: 100%;
+  text-align: right;
+}
+
+.home-topbar > .news-card {
+  order: 2;
+  width: 100%;
+  max-width: none;
+  padding: 18px;
+  border-radius: 18px;
+}
+
+.home-topbar > .notes-card {
+  order: 3;
+  width: 100%;
+  max-width: none;
+}
+
+.home-topbar #pageTitle {
+  font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
 @media (max-width: 900px) {
   .app-shell { grid-template-columns: 1fr; }
 

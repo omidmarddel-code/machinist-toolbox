@@ -407,7 +407,7 @@ function bindEvents() {
     elements.toolCards.forEach((card) => card.classList.remove("active"));
 
     elements.pageEyebrow.textContent = "";
-    elements.pageTitle.textContent = "Mold Making Machinist Toolbox";
+    elements.pageTitle.textContent = "جعبه‌ابزار ماشین‌کاری و قالب‌سازی";
 
     const welcomeCard = document.getElementById("welcomeCard");
     if (welcomeCard) {
@@ -504,7 +504,7 @@ elements.toolCards.forEach(card => {
 
 // عنوان صفحه
 elements.pageEyebrow.textContent = "";
-elements.pageTitle.textContent = "Mold Making Machinist Toolbox";
+elements.pageTitle.textContent = "جعبه‌ابزار ماشین‌کاری و قالب‌سازی";
 history.replaceState({}, "", location.pathname);
 
 window.addEventListener("popstate", (event) => {
@@ -524,7 +524,7 @@ window.addEventListener("popstate", (event) => {
     });
 
     elements.pageEyebrow.textContent = "";
-    elements.pageTitle.textContent = "Mold Making Machinist Toolbox";
+    elements.pageTitle.textContent = "جعبه‌ابزار ماشین‌کاری و قالب‌سازی";
 
     const welcomeCard = document.getElementById("welcomeCard");
     if (welcomeCard) {
@@ -641,7 +641,9 @@ async function loadNews() {
 
     container.textContent = "در حال دریافت اخبار…";
     try {
-        const response = await fetch("www/data/mechanical-news.json", { cache: "no-store" });
+        const newsUrl = new URL("www/data/mechanical-news.json", document.baseURI);
+        newsUrl.searchParams.set("v", Date.now().toString());
+        const response = await fetch(newsUrl, { cache: "no-store" });
         if (!response.ok) throw new Error(`News request failed: ${response.status}`);
         const news = await response.json();
         container.replaceChildren();
