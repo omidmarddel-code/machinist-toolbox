@@ -236,6 +236,9 @@ const elements = {
   taperResult: document.querySelector("#taperResult"),
   threadPitch: document.querySelector("#threadPitch"),
 threadDepthResult: document.querySelector("#threadDepthResult"),
+  newsCard: document.querySelector(".news-card"),
+  refreshNews: document.querySelector("#refreshNews"),
+  homeButton: document.querySelector("#homeButton"),
 };
 let currentTool = null;
 let ignoreHistory = false;
@@ -360,6 +363,10 @@ function switchTool(tool, addToHistory = true) {
   }
   const welcomeCard = document.getElementById("welcomeCard");
 
+  if (elements.newsCard) {
+    elements.newsCard.hidden = true;
+  }
+
 if (welcomeCard && !welcomeCard.classList.contains("hide")) {
   welcomeCard.classList.add("hide");
 
@@ -390,6 +397,26 @@ if (addToHistory) {
 }
 
 function bindEvents() {
+  elements.homeButton.addEventListener("click", () => {
+    history.pushState({}, "", location.pathname);
+
+    elements.panels.forEach((panel) => {
+      panel.hidden = true;
+      panel.classList.remove("active");
+    });
+    elements.toolCards.forEach((card) => card.classList.remove("active"));
+
+    elements.pageEyebrow.textContent = "";
+    elements.pageTitle.textContent = "Mold Making Machinist Toolbox";
+
+    const welcomeCard = document.getElementById("welcomeCard");
+    if (welcomeCard) {
+      welcomeCard.style.display = "flex";
+      welcomeCard.classList.remove("hide");
+    }
+    if (elements.newsCard) elements.newsCard.hidden = false;
+  });
+
  elements.toolCards.forEach((card) => {
   card.addEventListener("click", () => {
 
@@ -419,6 +446,7 @@ function bindEvents() {
   updateThreadDepth();
 });
   elements.calcTaper.addEventListener("click", calculateTaper);
+  elements.refreshNews.addEventListener("click", loadNews);
   function updateThreadDepth() {
 
   const pitch = Number(elements.threadPitch.value);
@@ -502,6 +530,10 @@ window.addEventListener("popstate", (event) => {
     if (welcomeCard) {
         welcomeCard.style.display = "flex";
         welcomeCard.classList.remove("hide");
+    }
+
+    if (elements.newsCard) {
+        elements.newsCard.hidden = false;
     }
 });
 // ===== خروج خودکار در صورت عدم فعالیت =====
@@ -603,3 +635,37 @@ notesToggle.addEventListener("click",()=>{
     }
 
 });
+async function loadNews() {
+    const container = document.getElementById("newsList");
+    if (!container) return;
+
+    container.textContent = "در حال دریافت اخبار…";
+    try {
+        const response = await fetch("www/data/mechanical-news.json", { cache: "no-store" });
+        if (!response.ok) throw new Error(`News request failed: ${response.status}`);
+        const news = await response.json();
+        container.replaceChildren();
+
+        news.forEach(item => {
+            const article = document.createElement("a");
+            article.className = "news-item";
+            article.href = item.url;
+            article.target = "_blank";
+            article.rel = "noopener noreferrer";
+
+            const title = document.createElement("h3");
+            title.textContent = item.title;
+            const summary = document.createElement("p");
+            summary.textContent = item.summary;
+            const meta = document.createElement("small");
+            meta.textContent = `${item.source} • ${item.date}`;
+            article.append(title, summary, meta);
+            container.append(article);
+        });
+    } catch (error) {
+        console.error(error);
+        container.className = "news-error";
+        container.textContent = "دریافت اخبار در حال حاضر ممکن نیست. لطفاً دوباره تلاش کنید.";
+    }
+}
+loadNews();
