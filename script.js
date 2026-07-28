@@ -504,7 +504,7 @@ elements.toolCards.forEach(card => {
 
 // عنوان صفحه
 elements.pageEyebrow.textContent = "";
-elements.pageTitle.textContent = "جعبه‌ابزار ماشین‌کاری و قالب‌سازی";
+elements.pageTitle.textContent = "MACHINIST TOOL BOX";
 history.replaceState({}, "", location.pathname);
 
 window.addEventListener("popstate", (event) => {
@@ -524,7 +524,7 @@ window.addEventListener("popstate", (event) => {
     });
 
     elements.pageEyebrow.textContent = "";
-    elements.pageTitle.textContent = "جعبه‌ابزار ماشین‌کاری و قالب‌سازی";
+    elements.pageTitle.textContent = "MACHINIST TOOL BOX";
 
     const welcomeCard = document.getElementById("welcomeCard");
     if (welcomeCard) {
