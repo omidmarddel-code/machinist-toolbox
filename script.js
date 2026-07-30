@@ -636,10 +636,19 @@ notesToggle.addEventListener("click",()=>{
     }
 
 });
+function isWithinLast24Hours(item) {
+    const raw = item.publishedAt || item.date;
+    if (!raw) return true;
+    const published = new Date(raw);
+    if (Number.isNaN(published.getTime())) return true;
+    return Date.now() - published.getTime() <= 24 * 60 * 60 * 1000;
+}
+
 async function loadNews() {
     const container = document.getElementById("newsList");
     if (!container) return;
 
+    container.className = "";
     container.textContent = "در حال دریافت اخبار…";
     try {
         const newsUrl = new URL("www/data/mechanical-news.json", document.baseURI);
@@ -647,14 +656,39 @@ async function loadNews() {
         const response = await fetch(newsUrl, { cache: "no-store" });
         if (!response.ok) throw new Error(`News request failed: ${response.status}`);
         const news = await response.json();
+        const recentNews = news.filter(isWithinLast24Hours);
         container.replaceChildren();
 
-        news.forEach(item => {
+        if (!recentNews.length) {
+            container.className = "news-error";
+            container.textContent = "خبر جدیدی در ۲۴ ساعت گذشته یافت نشد.";
+            return;
+        }
+
+        recentNews.forEach(item => {
             const article = document.createElement("a");
-            article.className = "news-item";
+            article.className = item.image ? "news-item has-image" : "news-item";
             article.href = item.url;
             article.target = "_blank";
             article.rel = "noopener noreferrer";
+
+            if (item.image) {
+                const thumb = document.createElement("img");
+                thumb.className = "news-thumb";
+                thumb.src = item.image;
+                thumb.alt = item.title || "";
+                thumb.loading = "lazy";
+                thumb.decoding = "async";
+                thumb.referrerPolicy = "no-referrer";
+                thumb.addEventListener("error", () => {
+                    thumb.remove();
+                    article.classList.remove("has-image");
+                });
+                article.append(thumb);
+            }
+
+            const body = document.createElement("div");
+            body.className = "news-body";
 
             const title = document.createElement("h3");
             title.textContent = item.title;
@@ -662,7 +696,8 @@ async function loadNews() {
             summary.textContent = item.summary;
             const meta = document.createElement("small");
             meta.textContent = `${item.source} • ${item.date}`;
-            article.append(title, summary, meta);
+            body.append(title, summary, meta);
+            article.append(body);
             container.append(article);
         });
     } catch (error) {
@@ -672,6 +707,7 @@ async function loadNews() {
     }
 }
 loadNews();
+
 
 // ===== تغییر تم دارک/روشن =====
 const themeToggle = document.getElementById('themeToggle');
