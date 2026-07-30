@@ -1,6 +1,47 @@
 [
   {
-<<<<<<< HEAD
+    "title": "مارک زاکربرگ: تا ۵ سال دیگر میلیاردها نفر ایجنت هوش مصنوعی شخصی خواهند داشت",
+    "summary": "مدیرعامل متا می‌گوید این ایجنت‌ها به‌عنوان یک دستیار می‌توانند در امور مالی، سلامت، روابط بین‌فردی و مدیریت کارهای خانه به کاربران کمک کنند. The post مارک زاکربرگ: تا ۵ سال دیگر میلیاردها نفر ایجنت هوش مصنوعی شخصی خواهند داشت appeared first on دیجیاتو .",
+    "url": "https://digiato.com/artificial-intelligence/mark-zuckerberg-predicts-billions-ai-agents-five-years",
+    "source": "دیجیاتو",
+    "date": "2026-07-30"
+  },
+  {
+    "title": "استرالیا علیه تلگرام به اتهام انتشار محتوای حامی تروریسم اقدام قانونی می‌کند",
+    "summary": "تلگرام ضمن رد ادعای رگولاتور استرالیا اعلام کرد که در دادگاه از خود دفاع می‌کند. The post استرالیا علیه تلگرام به اتهام انتشار محتوای حامی تروریسم اقدام قانونی می‌کند appeared first on دیجیاتو .",
+    "url": "https://digiato.com/app/australia-legal-action-against-telegram",
+    "source": "دیجیاتو",
+    "date": "2026-07-30"
+  },
+  {
+    "title": "این دوربین جیبی، پرواز می‌کند!",
+    "summary": "برند هاورایر از دوربین جیبی جدیدی به نام ورسا رونمایی کرد که با اتصال بال‌های مخصوص، به یک پهپاد فیلم‌برداری هوشمند تبدیل می‌شود.",
+    "url": "https://www.zoomit.ir/gadget/464196-hoverair-versa-flying-camera-unveiled/",
+    "source": "زومیت",
+    "date": "2026-07-30"
+  },
+  {
+    "title": "واکنش رئیس OpenAI به شکایت اپل: نیازی به اسرار تجاری دیگران نداریم",
+    "summary": "رئیس OpenAI در واکنش به شکایت اپل اعلام کرد که این مجموعه نیازی به اسرار تجاری شرکت‌های دیگر ندارد و مسیر نوآورانه‌ی خود را دنبال می‌کند.",
+    "url": "https://www.zoomit.ir/business/464174-openai-president-responds-apple-lawsuit/",
+    "source": "زومیت",
+    "date": "2026-07-30"
+  },
+  {
+    "title": "مرحله‌ای دیگر از شرایط فروش ایران‌خودرو آغاز شد [مرداد ۱۴۰۵]",
+    "summary": "این بخشنامه فروش به طور همزمان برای متقاضیان عادی، طرح جوانی جمعیت و نوسازی خودروهای فرسوده قابل دسترسی است. The post مرحله‌ای دیگر از شرایط فروش ایران‌خودرو آغاز شد [مرداد ۱۴۰۵] appeared first on دیجیاتو .",
+    "url": "https://digiato.com/price-terms-of-sale-car/another-stage-of-iran-khodros-sales-conditions-began-august-1405",
+    "source": "دیجیاتو",
+    "date": "2026-07-30"
+  },
+  {
+    "title": "رونمایی از آمار الگوی مصرف دیجیتال کودکان: سن مالکیت موبایل بین کودکان ایرانی به زیر ۱۰ سال رسید",
+    "summary": "نتایج پیمایش نشان می‌دهد نزدیک به ۹۰ درصد کودکان و نوجوانان ۶ تا ۱۵ سال از تلفن همراه هوشمند، تبلت یا لپ‌تاپ استفاده می‌کنند.",
+    "url": "https://www.zoomit.ir/iran-news/464158-iranian-children-smart-device-usage-report/",
+    "source": "زومیت",
+    "date": "2026-07-30"
+  },
+  {
     "title": "رشد ۲۵۰ برابری سود تراشه‌سازی سامسونگ؛ کمبود حافظه تا ۲۰۲۸ شدیدتر می‌شود",
     "summary": "سامسونگ با ثبت سود ۶۱.۷ میلیارد دلاری بخش تراشه، از وخیم‌تر شدن کمبود عرضه تراشه و تداوم آن تا سال ۲۰۲۸ خبر داد. The post رشد ۲۵۰ برابری سود تراشه‌سازی سامسونگ؛ کمبود حافظه تا ۲۰۲۸ شدیدتر می‌شود appeared first on دیجیاتو .",
     "url": "https://digiato.com/computers-hardware/samsung-chip-shortage-2028-q2-earnings",
@@ -124,215 +165,6 @@
     "summary": "پس از دهه‌ها گمانه‌زنی و حدس‌وگمان، دانشمندان بالاخره توانستند همدم ستاره‌ای ابط‌الجوزا، ابرغول سرخ مشهور در صورت فلکی شکارچی را شناسایی کنند.",
     "url": "https://www.zoomit.ir/space/464170-best-yet-glimpse-betelgeuses-companion-star/",
     "source": "زومیت",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "هشدار مارک زاکربرگ: ممنوعیت هوش مصنوعی چین، به ضرر آمریکا تمام می‌شود",
-    "summary": "مارک زاکربرگ با ممنوعیت مدل‌های هوش مصنوعی چینی در ایالات متحده مخالفت کرد و درباره‌ی انحصار قوانین توسط آزمایشگاه‌های بزرگ آمریکایی هشدار داد.",
-    "url": "https://www.zoomit.ir/ai-articles/464115-zuckerberg-opposes-chinese-ai-ban/",
-    "source": "زومیت",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "دانشمند گوگل دیپ‌مایند: مدل‌های زبانی هرگز جایگزین نبوغ انسانی نخواهند شد",
-    "summary": "به تعبیر محقق گوگل، مدل‌های زبانی نمی‌توانند به نبوغ انسانی دست یابند، چون نمی‌توانند بپرند! The post دانشمند گوگل دیپ‌مایند: مدل‌های زبانی هرگز جایگزین نبوغ انسانی نخواهند شد appeared first on دیجیاتو .",
-    "url": "https://digiato.com/artificial-intelligence/deepmind-paper-llms-cannot-replace-human-genius",
-    "source": "دیجیاتو",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "مانیتورهای جدید تی‌سی‌ال با پنل ۲۴۰ هرتز 4K و طراحی خیره‌کننده از راه رسیدند",
-    "summary": "تی‌سی‌ال دو مانیتور گیمینگ جدید با پنل‌های نسل چهارم اولد دولایه و اسپیکرهای حرفه‌ای در بازار چین رونمایی کرد.",
-    "url": "https://www.zoomit.ir/monitor/464114-tcl-tandem-woled-gaming-monitors/",
-    "source": "زومیت",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "بازگشت نظریه ردشده زیست‌شناسی؛ لامارکیسم چگونه تکامل داروینی را کامل می‌کند؟",
-    "summary": "نظریه‌ای که مدت‌ها رد شده بود، اکنون به کمک نظریه‌ تکامل آمده است تا پدیده‌هایی را توضیح دهد که انتخاب طبیعی به تنهایی قادر به توضیحشان نیست.",
-    "url": "https://www.zoomit.ir/biology/464073-lamarcktheory-returns-explain-unexplainable/",
-    "source": "زومیت",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "قصر متحرک چینی؛ مشخصات و قیمت شاسی‌بلند زیکر 9X اعلام شد",
-    "summary": "مشخصات فنی خودرو زیکر 9X با ورود به بازار اروپا مشخص شد. این شاسی‌بلند لوکس باید با بزرگان این کلاس رقابت کند.",
-    "url": "https://www.zoomit.ir/car/464162-zeekr-9x-price-info/",
-    "source": "زومیت",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "اوپن‌ای‌آی «خانواده‌ای از محصولات» را برای تعامل با هوش مصنوعی می‌سازد",
-    "summary": "رئیس اوپن‌ای‌آی اعلام کرد که این شرکت در حال توسعه‌ی خانواده‌ای از دستگاه‌های سخت‌افزاری اختصاصی برای تعامل با مدل‌های هوش مصنوعی است.",
-    "url": "https://www.zoomit.ir/ai-articles/464169-openai-building-ai-hardware-family/",
-    "source": "زومیت",
-=======
-    "title": "Pelico سرمایه گذاری استراتژیک AE Ventures را برای گسترش پلت فرم تولید هوافضا تضمین می کند - Pulse 2.0",
-    "summary": "Pelico سرمایه گذاری استراتژیک را از AE Ventures برای گسترش پلت فرم تولید هوافضا Pulse 2.0 تضمین می کند",
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPZC1PTDhsdWNpWWxFQ01PckQxS3VMNnI1VG1hTUlrdHBpZXpjQk1qVklHRGJaNW1tQ2luUmxxSXYwN1RnTWF5SmZWMjJkT1I0Nm9BQWdDU3ZOUFlMaFhqcGVlWU5LVnR4NWpEX2xTQUhMWEZWZ3pQYmJlSFpIdnBXRzc3Vml3Zm9YZWFra1JJWUV4VDJRTUNpbWhqS19DdWJaODhmUzJrcWNPN3pIU3NyRlBCNjNkd9IBuwFBVV95cUxQT1Jud3RNSXk4RTFtbmZDOE1xZGZJWEdZbzVKS2hUS19oYm9LZjQ5NFF4RFlLUE5CdUlhV2NDblJDNUJzbzFxWGJRdE1Ncy1Ga1pRWUxVRjk2U2E2dEtrWW13WDY0cnVfSlE2RFBNTWJ6ZHlObFJDY2docXdtakxhTTFVVW9HODcxYVpQbmNVQVlseEJSWTY2WTV1XzFkeFlSRHVoRDZ2OW5jY0MwNDZBSV9hbE93UHhMVTlZ?oc=5",
-    "source": "Pulse 2.0",
-    "date": "2026-07-30"
-  },
-  {
-    "title": "17 طراحی و ساخت Iflr-15 - برای فروش، دست دوم - وضعیت عالی - Guns.com",
-    "summary": "17 طراحی و ساخت Iflr-15 - برای فروش، استفاده شده - وضعیت عالی Guns.com",
-    "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPaUVibl9UcGF1Y0xzcFo3Qm45N0c3Sy1ZVXZhOWVvdnAySU9fdmVNOFVWY0tvYVZFdzY1QXAzcThEclFUd29WOVJuMUowcF9SeVhpT2NnYmNRTnhaMEEzdS16SjNza2ZWLWNDQ3Rha3E1UEhvQ3h6U1NHY0tKUGZnRUViUQ?oc=5",
-    "source": "Guns.com",
-    "date": "2026-07-30"
-  },
-  {
-    "title": "شرکت جهانی تأسیسات تولیدی جدید را در Mint Hill جشن می گیرد - اخبار کوئین سیتی",
-    "summary": "شرکت جهانی تأسیسات تولیدی جدید را در Mint Hill Queen City News جشن می گیرد",
-    "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxORkNoT0V0T2lDT1U2OVRaMWNKMjlwbUJlSHVrMFZKSGZtVExOWG5RMDQ0TG1pdHdiTUZKcGxVX0N1UGg1R2U3a193OTdQYXE0ZU9CMDFZd1VJLVc2YVZWSkRsNS16VHJ6M0RZUEgxLVVmMUwtcXRaaGJMTmF5aTdSQ2NGeWstRHRabVVNN1M0WVNJdVF4bUJTU19UN2NpdEk?oc=5",
-    "source": "Queen City News",
-    "date": "2026-07-30"
-  },
-  {
-    "title": "نوآوری به عنوان کلیدی برای لبه تولید چین - China Daily Global Edition",
-    "summary": "نوآوری به عنوان کلیدی برای لبه تولید چین China Daily Global Edition دیده می شود",
-    "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNenlNSGxsbE1EV3duOHhsMHYzLUNkRVZsM3haMGF6TVBZcjJ5c21EcGYzTkhVaDZxWHZMcm1VNXlPQlZfZFhGbVNPazliMlhabGg3TXZuYU9sUXNVMUdDamh5VFZQS2g2WGhMLUE5UERpYU01SWdvX2dyRTRDZW9DYQ?oc=5",
-    "source": "China Daily Global Edition",
-    "date": "2026-07-30"
-  },
-  {
-    "title": "BCSO می‌گوید مردی متهم به تولید، داشتن DMT و متا - kens5.com",
-    "summary": "BCSO می گوید kens5.com مردی متهم به تولید، داشتن DMT و مت است.",
-    "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQVkV3aWNoQno3RWxWUm1XNDU5QklBWEJVX01ad3VtX1dkR2dTaGpnT2FfOV94d1RsUEUta0FKRGJPNFowTE5INkRYVWJjdVFJYXRwS0lhNkVnQ3UwSTgyRDdIU2ZDdDNqZWhIRU1DLXlJWGQtTW1MM2dCN2NzTnVFV1JEU2ctSVZHY0ZWSjdNNFNyVmRwYVZ1N1B5R2RmTndKYXRWM19YRnpmOW1zOEVleFQyN2xaREhHaEMzcE12VHk4R2ZiZXlsNEVQZUs0Z1g2V3cyV0FhSERwSjRMVklvcjJDQ2FyR1F2ZzJ1UDE0TQ?oc=5",
-    "source": "kens5.com",
-    "date": "2026-07-30"
-  },
-  {
-    "title": "کاترپیلار در آینده استعدادهای تولید در ایلینوی سرمایه گذاری می کند - Peoria Journal Star",
-    "summary": "کاترپیلار در آینده استعدادهای تولیدی در مجله ستاره ایلینوی پیوریا سرمایه گذاری می کند",
-    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOMTVYRGE4US1JZmJOMkRmYkFacGl5NHU1M29JWEdNQV9haWxhdUFlc1pEWEF3SWRCbUthSHVFWDhMZi11bnZIZVBsbGRobV9OMDh2UDlOX1VpUXZkRnVzem1MYmk0and6TG44X1drZXMwWEpaWXRTR1lBZ0VLTWVOZ2dScE5QRE4yOHVPVFhtRUdrbVZCSWJKeW52X3Q4MEJ4aVphLUtaM0hUcEtGOFdxay1pT1lQZGdHUXZ6bUYzenRYUHRo?oc=5",
-    "source": "Peoria Journal Star",
-    "date": "2026-07-30"
-  },
-  {
-    "title": "دایملر تولید کامیون را از پورتلند به کارولینا منتقل می کند - پخش عمومی اورگان - OPB",
-    "summary": "دایملر تولید کامیون را از پورتلند به کارولیناس اورگان منتقل می کند - OPB",
-    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPdUxUbFF4Nkdjd3JodHJDbm4xU0p3ZVdCZkxGRDF1MWJIVk9lRHVVXy1jN0VaYnNIR0lfY1I3V2xFaTRzclJyNVBrQi1DSXFKUE5BSkhaR3N4dnFSaWdXb09JNjlUUHZjdzViNHVfaGFpU082SkpIVzRiaEJWRG5JTXZvQm52bC0wUERSM0N1Y2xSN1JaT29J?oc=5",
-    "source": "Oregon Public Broadcasting - OPB",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "شرکت تولیدی Modine نتایج سه ماهه منتهی به 30 ژوئن را گزارش می دهد - خلاصه سود - TradingView",
-    "summary": "شرکت تولیدی Modine نتایج سه ماهه منتهی به 30 ژوئن را گزارش می دهد - خلاصه سود TradingView",
-    "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQYXBsQ1lfTG5pMTVqdGZYUjlnNXYxNURPUHBvb1NydkF4UnExNXZfMzlLeVJVUUUwOUo3TjZYb0tpcGctUE1RWTJwSkdaOXJwWEc3WTlIclJBUVpRLVpmeFFhYTVMV2pDTjM0NHU1cks0LU5aSFRUdF9Bamp1UHFOTW1VVjVrbGhTUkZlTkdHRGhxNDU4SFZ5T3RXc2E0RGUwWlFpMmdleExHbWQ4MlNWc0pyQndoeTJHNmpySjk5RmJfSjdUWEJiQXB0eDlsMktXU3hqUEF5c21HOUdkWldfOWZkNnFtbU80Rl9Idw?oc=5",
-    "source": "TradingView",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "طراحی کلاه ایمنی نسل بعدی شبیه سازی، ساخت افزودنی و هوش مصنوعی را ادغام می کند - اخبار طراحی",
-    "summary": "طراحی کلاه ایمنی نسل بعدی شبیه سازی، ساخت افزودنی و اخبار طراحی هوش مصنوعی را ادغام می کند",
-    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQOFNWZi1vTms1OXp0dkNMcFY5amIyWF9nVjlGeXRta0tUUTlCS0t2ZEpKZ2gtMVBBSnB0WjF6dVVPeVFNclRLY0dNZGlKVnJqWHZ0NDlXcm16bHI5SGx2SGttcW0xRGE2YnhyTlp1X3lYd0ZRTHBhZkpGVG5iYklXZEtJODd5Y0ZjeDBrMGpQZDBjSElFZHBJaWRBeG12QUVJVzhMOHc3MjZTaW45WWdNdVpQMms0ckU?oc=5",
-    "source": "Design News",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "B&R Industrial Automation تعداد کارمندان 2026 | داده های تعداد و تعداد کارمندان - آزمایشگاه های Revelio",
-    "summary": "B&R Industrial Automation تعداد کارمندان 2026 | آزمایشگاه‌های Revelio داده‌های شمارش و تعداد کارمندان",
-    "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9UcHpIWGh4UklzV0FKdlFWZVVWb1FYM0hlYjVnb19QaDFST0FFTC1SbXF2d2paTEg1Vkd1VElkcFFEa0V5ZGRtRUhWR2RubFZnQ0lEU011UGU2U3d6bVdTMGhLNjZ1MTI4QWo1WURBa3l1Nk82Znp4d2c3Si1RQQ?oc=5",
-    "source": "Revelio Labs",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "گزارش راه اندازی تولید در سه ماهه دوم 2026: اکنون زمان شروع جهش تولید در ایالات متحده است - PitchBook",
-    "summary": "گزارش راه اندازی تولید در سه ماهه دوم 2026: اکنون زمان آن است که PitchBook تولید ایالات متحده را شروع کنیم",
-    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQamVuYXJYeGNDSEwyQ2I3VVRXbnhPZlZxRkYtcWNzUmtkeFN6V21Gdy1WTkd4b2xYOE40Uy1ZZkc3SUJWOFI5Q0t1OUtCeEt5MnVOR3dGMndNenlDSm8yMzdHYWs4c2c3ejAwcmJfYVIwamxtdENDajNYUGZhT19BQl9UcWJJby1qNk1rT1ZSNWlZMkR3djVPWTBFbnRTdWlGZXFHQjBTcFFzQk5EYW1yT2pQR19NY1M0?oc=5",
-    "source": "PitchBook",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "دبیرستان کلینتون از آزمایشگاه مهندسی و رباتیک با مشارکت 3M و قلب آمریکا پرده برداری کرد - WVLT",
-    "summary": "دبیرستان کلینتون از آزمایشگاه مهندسی و رباتیک از طریق 3M و شراکت قلب آمریکا WVLT رونمایی کرد.",
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOUEt3QTJFQ0xJcXBfRFdGcHZkdF9kdlhOenFnRXFWeEhNOWw5X09WY05XQ0hYaElQZGphRGNsOUl4bkJqTXNhMVZzREh2bnJHeFFST3FLT0ZNVWR4dWxfSmpONnBtRUhCbFNWU2hEYUFISlhWTVZnQVJGcG5LMlJjQUpkRkE1T1QwQXBXSzNHVjVUXzdoY0xoNzNxWWU5YU1BaWlPTWhYZUhSV3gzdWRmajdLTzlLNlg5ODBrX1NR?oc=5",
-    "source": "WVLT",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "کاترپیلار در آینده استعدادهای تولید در ایلینوی سرمایه گذاری می کند - Peoria Journal Star",
-    "summary": "کاترپیلار در آینده استعدادهای تولیدی در مجله ستاره ایلینوی پیوریا سرمایه گذاری می کند",
-    "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPNWFER2x3ZlpUWGlpNlcwWGdYOU5QSS1BYnpoNkx1NHc3N0tYSFhsRERYMFBMdjR1RUtDMk1LcE5RVlhBU09EaWFROEV3bmcyNEtZRjRJaFVRRDZVVmdiUGp2OVpSVlU5Y2JTenhYcUFINWcxNldvNk1KLUVwaWJGQW83dlpuSlBCc2FSQVBJUjJkQ3E3WndqX2U1cVJ1aW9EalRsSjVOdllmUXoxUWJfN0pnUnh0TjNaQ1BTZjBjRWlITnRzTHd4ekx5ZDlqTG5lT2hrVjZaRk9ZMEk?oc=5",
-    "source": "Peoria Journal Star",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "نتایج درآمدهای مربوط به تولید Modine (NYSE:MOD) - MarketBeat",
-    "summary": "Modine Manufacturing (NYSE:MOD) مشکلات درآمد نتایج MarketBeat",
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNVlg4dk1fU2dtNy1HVnBTRXRlVG05T1I5Qm43ak9lQkgzVzFsazRvRzFSMFpIMk1RREdIY2JlbUlFT3ltdVhqdURoLUFrVk5LV2JkS3VVdjFKV2RrRFhhOVVqNFRvRExaUmpVdmJLVllBWXdwTFVYME00dFJRbDQwNDR3VGNkbTIyckxNTUpqWHdPbTk5RlhTUUI1Vzg0Yk5xdHV1NXhlNDJPUQ?oc=5",
-    "source": "MarketBeat",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "TCAT Dickson برنامه جدید Tile Manufacturing Operator را در پردیس Clarksville خود - Main Street Media of Tennessee راه اندازی کرد.",
-    "summary": "TCAT Dickson برنامه جدید اپراتور تولید کاشی را در پردیس Clarksville خود در خیابان اصلی تنسی راه اندازی کرد.",
-    "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNRDYycjBNNElGX1lZc292NWx3cGl6RFI3MXVVUTZ4V0VSMVZXenFqQ0t2MlFObXJuS1luTU1YNkdRWFNhZHhGS19NRU1jcEljSFEzUnQ2OEROUDlMakpYVzVSb2ZBSG9fYm5XUE9NR1E1QXgzNGVTMXBlV1BDeUdmSGxjMjNSczFjdENwUm5hOHFBZVFzQzhwM3ZtVjNHZ3RHOW5iZzRLNTQzWW1ibl9CdTJYQjVMUjV1dVd0V1JYcmdJYm5IY254RjhqcDNKMzFLVVNHWEFjc2lQOGtNdG9BN2VROA?oc=5",
-    "source": "Main Street Media of Tennessee",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "احساس تولید کره جنوبی بهبود می یابد - TradingView",
-    "summary": "احساسات تولیدی کره جنوبی TradingView را بهبود می بخشد",
-    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQZmlzdkNXWGhEaUhUcWJjaW95UDkwRlQxeUladjlrRDJXZlEyUWI4dUFySDhOd2h6WFJrSnh3WlpEcWhiMzlpTng1VDdibzdSZUJyWlZoRVlfY19Xc2JKSk1OdE9FVW53dXZKZTRCdWd6b05NUFRXQ01QRDNpNnVZNVNqQ0ZUNmRIN1VpTWtEblYxWG1HYVNlM01zOA?oc=5",
-    "source": "TradingView",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "درآمد Modine Manufacturing 0.15 دلار کاهش یافت، درآمد کمتر از برآوردها بود - Investing.com",
-    "summary": "درآمد Modine Manufacturing با 0.15 دلار شکست، درآمد کمتر از برآورد Investing.com بود.",
-    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxORVc1NkxJRlFyXy16Z0pkSFBWdE9jeG1iR1BvT2xfM0lsbnBUdFdJTjRZbnFqUmtfRTBkMDVrRTByelhoVGNVbmJfV0tlRTVSaFpXWFdVYmJxT0QyRDdyLUg3NkxLN1lwQU5aVlQ4SG15SzZZdGJrWExCSVQ5dndybERnVVlnci05TUJjMENPdEM5Q0pFd3EzSXNxT2w4MTduNVBJdDQ5UXYxcXNOYi1Va2M0S0dld2ZuQ2llZEtB?oc=5",
-    "source": "Investing.com",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "Modine Manufacturing گزارش فصل اول مالی 2027: درآمد 874.1 میلیون دلار، درآمد خالص 74.3 میلیون دلار، EPS تعدیل شده 1.53 دلار - TradingView",
-    "summary": "Modine Manufacturing گزارش سه ماهه اول مالی 2027: درآمد 874.1 میلیون دلار، درآمد خالص 74.3 میلیون دلار، EPS تعدیل شده 1.53 دلار TradingView",
-    "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPcFc1cTNYemxvSEhJYk9fRmtoR0wtQS03SWhkeWc4YW5BMDhHRE9ZdjJ2bjdnRHFSNWJ6WGJLckU0eU9adjJYWURPb0l5NUgyeF9fSjB3akpJajB3N0xnMVFocGJWa0VBdXF0YV9PWWo0cWlhc010ZV94XzVWR01EbExBYjR0M3k0T1A2VzM3MzNaVFQ1bTlfZ1hyblZNVHhweVkwdm9XcFZXZXk3aDhGUWZwSXJQOVk5dldPN3RDTDVRY2R3NEJ6VXFiS21oU2x5R0QzTnIwOVE1dlNTS3VEb3Q2S3NObXJ5cnR3Mmh3?oc=5",
-    "source": "TradingView",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "قانون دوچرخه‌های آمریکا با هدف بهبود ایمنی دوچرخه‌سوار، گسترش دسترسی به دوچرخه و تقویت تولید ایالات متحده - ABC10",
-    "summary": "قانون دوچرخه‌های آمریکا با هدف بهبود ایمنی دوچرخه‌سواران، گسترش دسترسی به دوچرخه و افزایش تولید ABC10 در ایالات متحده است.",
-    "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxNSWZpU2tpY2xISjRYWndlLXV2X2o0Y1pkTkozanctVmM1eEtBdW5oX1lLRGdPTU1OQlJCZ0JFQm4xWjdwRVRMeGVzMFM5QTdCZ3ZYWEZOLWdIVHEtOU44M1FJQnd3MGVrWTVLMzlrOUhPYzVwV3MwOTR5NU5UaFdMejNZMW1KNFdjZ2tuRzZ2VVd2Z204WWhOaDhFdVlDRHY4ZUlucnN1M1BrVFNhcGJVVUwzMmxRbF9TYnpEWmpXaTJoWXZaRFA5TWt2Mm9uLTVVcWlGNXQxaFJmRnJSMG1FSjVhbk5oWU5iTkJydkxoLWNtQkhyc2h2WHQ5OUhEcnhBZTJrX1VCd1RQT2FaZER3?oc=5",
-    "source": "ABC10",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "MODINE MANUFACTURING ($MOD) درآمدهای سه ماهه اول 2027 را منتشر کرد، سهام افزایش یافت - Quiver Quantitative",
-    "summary": "MODINE MANUFACTURING ($MOD) درآمدهای سه ماهه اول 2027 را منتشر کرد، میزان کمی افزایش سهام",
-    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOcDFBUVJMcWFRYlctanNIelo5Y0FWMlZCOW43V0hPMEhLQUMyVVNCYkZQcS1keU1aLWJ4OFY1eTNFR2VHQ1VoWW95TUJaOW5zVU5VQkUydjhTaTZLTkY0WHJjMDdXRmFubWNyMlFIM0o1S3RHUkgzSVRqZzg5aVp2RURxRVEtZzZaUlZwWGJCVFl4OWF3aE1BUDZoS2pmY0tRYUUtekxSZEc0Rzg?oc=5",
-    "source": "Quiver Quantitative",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "کاهش علاقه کوتاه به Murata Manufacturing Inc. (OTCMKTS:MRAAY) 44.6٪ - MarketBeat",
-    "summary": "کاهش علاقه کوتاه مدت به Murata Manufacturing Inc. (OTCMKTS:MRAAY) 44.6٪ MarketBeat",
-    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNT0pwQmFGbWdtNi1ZY05jRGZxZjE2QlJpbkhZMDRnNUtpMW4xSUMySE5qRGZlSl9hQnhkbGVTdmxnclE4bWlKSTBTNDhtREdKS2JCZkRTdzc5bzd0QlJneW9WVHBUOXVMUzNoWXVINks5Nlkwek9maDV0WW5yZkVsUUNvU3pwZkR3c2hMU3BObnNRYll2UlJoc2RDWTBRa2hmX1RLa1JUbE5TazJwZ0ljZ1l4aHJTdVFtQUFDRV9BMWZaSVA4?oc=5",
-    "source": "MarketBeat",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "Inpro افتتاح مرکز تولید در Mint Hill - Charlotte Media Group را جشن می گیرد",
-    "summary": "Inpro افتتاح مرکز تولید در Mint Hill Charlotte Media Group را جشن می گیرد",
-    "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxOMWRwTXVlWElSOU0tdVJES2c0b1o0YVdxS1FzVmx3MV9ITkVjVEJ5ZzdJaV9GOUplSl9jVEJKV0JEbXRyZkJMaFZBN0FCTzZELUQ5OUxBSFI1dnI1S0h3ekVsZ3FBUTRmdTV1ajVLaU5Wc0NDRXRWOGl6cjdBWlQxOHpObWlYbk0ybzFBX1Ftc21LY05NTmI3STJONGFmak5fM2cxR1hFQ0lSeXU4elFUVjJiYmdYWmRlUEhTUUFRUnU4WjdhM1QyclEwdjV0S0xJOFJwNzlHTXBSN0tFeXJPemhESXV6d19nMzZqSg?oc=5",
-    "source": "Charlotte Media Group",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "ICYMI: جی تیمونز در مورد مالیات بر تولید صحبت می کند، تأثیر هوش مصنوعی بر صنعت در «صبح با ماریا» - انجمن ملی تولیدکنندگان - NAM",
-    "summary": "ICYMI: Jay Timmons درباره مالیات بر تولید صحبت می کند، تأثیر هوش مصنوعی بر صنعت در \"صبح با ماریا\" انجمن ملی تولیدکنندگان - NAM",
-    "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOeVRHN1FNbTNkNm1SV0FvS0lxV1VoVE82cHphUldQY2t6YktXT1JIYkRfdkxBOE1wczhMUjBuZjcxUUtubGM4cVZHbXNiQXAyYWsxMFFhUjZtenhmSF9xMXluWEFBUmkwRGw5em0yQlN2YV96Y3FaUlByQ2xlVTh4VnlDZzMtdm15UUJDRmxLOEdRZ0ZEcU9YczFqTlI4OVJMT1pRQTdUY0dCUGxFOUE?oc=5",
-    "source": "National Association of Manufacturers - NAM",
-    "date": "2026-07-29"
-  },
-  {
-    "title": "Anduril، پروژه Prometheus به افزایش 38 میلیارد دلاری سرمایه گذاری در اتوماسیون صنعتی کمک می کند - بنزینگا",
-    "summary": "Anduril، پروژه Prometheus به افزایش 38 میلیارد دلاری سرمایه گذاری در اتوماسیون صنعتی بنزینگا کمک می کند",
-    "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPdXNjZDEyaWo1NFE3d2dVN2hVVldPeGRfWmU1d3EzWFdxeWFUdEx4bndpaEhJaUU3WVg1ajNwVVNvT0hSLUhNQTB2M3NBbWhWR0twSXFVQy05TThEMTF3ZzdHLTBlTlNLR3ZMYWw3NnI2VlJuTWhoYjR4Umw3SFJqSU1SVFhESm1jeUZRckdKazZmZHFlS19lTDRfNlFQbXNjeWYtdFRIRGt1Q0FmZDJhWDVHSk1NRWlMUzg3WWdrQm5ESXBoTmcwUUk4UXgyS0txNDlIVldVaXU0MUJaUVpjQw?oc=5",
-    "source": "Benzinga",
->>>>>>> a08df761657331fb20abd4c0a05076692630dceb
     "date": "2026-07-29"
   }
 ]
