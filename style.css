@@ -12,6 +12,165 @@
   --shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
 }
 
+/* ===== Light Theme ===== */
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f1f5f9;
+  --surface: rgba(255, 255, 255, 0.88);
+  --surface-strong: rgba(255, 255, 255, 0.95);
+  --line: rgba(0, 0, 0, 0.12);
+  --text: #0f172a;
+  --muted: #64748b;
+  --accent: #16a34a;
+  --accent-2: #0284c7;
+  --warning: #d97706;
+  --shadow: 0 22px 70px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] body {
+  background:
+    linear-gradient(rgba(241, 245, 249, 0.85), rgba(241, 245, 249, 0.92)),
+    url("images/welcome.png");
+}
+
+[data-theme="light"] .tool-card {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .tool-icon {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .metric-card {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .setting-row {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .lesson-card {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .search-box {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .selector-row select {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+}
+
+[data-theme="light"] .selector-row label {
+  color: #475569;
+}
+
+[data-theme="light"] .lesson-card h4 {
+  color: #0c4a6e;
+}
+
+[data-theme="light"] .lesson-card p {
+  color: #334155;
+}
+
+[data-theme="light"] .result-hero span {
+  color: #15803d;
+}
+
+[data-theme="light"] .setting-row strong {
+  color: #4d7c0f;
+}
+
+[data-theme="light"] .command-path {
+  background: rgba(241, 245, 249, 0.92);
+  color: #15803d;
+}
+
+[data-theme="light"] .lesson-note ul {
+  color: #1e293b;
+}
+
+[data-theme="light"] .notes-header h2 {
+  color: var(--text);
+}
+
+[data-theme="light"] #workshopNotes {
+  background: #f8fafc;
+  color: var(--text);
+}
+
+[data-theme="light"] #workshopNotes::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .app-footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .search-box input::placeholder {
+  color: #94a3b8;
+}
+
+/* ===== Theme Toggle Button ===== */
+.theme-toggle {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface-strong);
+  color: var(--text);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  transition: transform 200ms ease, background 200ms ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1) rotate(15deg);
+}
+
+/* ===== Light Theme: News Section ===== */
+[data-theme="light"] .news-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+[data-theme="light"] .news-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .news-item h3 {
+  color: #0f172a;
+}
+
+[data-theme="light"] .news-item p {
+  color: #475569;
+}
+
+[data-theme="light"] .news-item small {
+  color: #64748b;
+}
+
+[data-theme="light"] .loading-news,
+[data-theme="light"] .news-error {
+  color: #64748b;
+}
+
+
+
+
 * {
   box-sizing: border-box;
 }

@@ -6,9 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Easy Pipe Machinist Toolbox</title>
   <link rel="stylesheet" href="style.css" />
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme') || 'dark';
+      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
 </head>
 
 <body>
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="تغییر تم">🌙</button>
   <script>
     if (sessionStorage.getItem("loggedIn") !== "true") {
       window.location.href = "login.html";
@@ -81,7 +88,7 @@
 
         <div class="news-header">
 
-          <h2>📰 آخرین اخبار مهندسی مکانیک</h2>
+          <h2>📰 آخرین اخبار دنیای تکنولوژی</h2>
 
           <button id="refreshNews">
             بروزرسانی

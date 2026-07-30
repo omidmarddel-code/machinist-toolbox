@@ -672,3 +672,24 @@ async function loadNews() {
     }
 }
 loadNews();
+
+// ===== تغییر تم دارک/روشن =====
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  // Set initial icon based on current theme
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+  themeToggle.textContent = currentTheme === 'light' ? '☀️' : '🌙';
+
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+      themeToggle.textContent = '🌙';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+      themeToggle.textContent = '☀️';
+    }
+  });
+}
