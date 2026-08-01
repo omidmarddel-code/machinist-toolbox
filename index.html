@@ -238,6 +238,27 @@
               <small>محاسبه عمق رزوه تراش</small>
             </span>
           </button>
+          <button class="tool-card" data-tool="hardnessConversion" type="button">
+            <span class="tool-icon">🔩</span>
+            <span>
+              <strong>تبدیل سختی HB ↔ HRC</strong>
+              <small>جدول تبدیل سختی استاندارد</small>
+            </span>
+          </button>
+          <button class="tool-card" data-tool="forgingClearance" type="button">
+            <span class="tool-icon">🔧</span>
+            <span>
+              <strong>لقی فورج</strong>
+              <small>محاسبه Clearance سنبه و قالب</small>
+            </span>
+          </button>
+          <button class="tool-card" data-tool="weightCalculator" type="button">
+            <span class="tool-icon">⚖️</span>
+            <span>
+              <strong>محاسبه وزن قطعه</strong>
+              <small>حجم و وزن با چگالی متریال</small>
+            </span>
+          </button>
         </div>
       </section>
       <section class="calculator-panel tool-panel active" data-panel="tap" aria-labelledby="tapTitle">
@@ -2808,6 +2829,11 @@
           </div>
 
           <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.75 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
             <span>سختی پس از عملیات</span>
             <strong>58–64 HRC</strong>
           </div>
@@ -2893,6 +2919,11 @@
           <div class="metric-card">
             <span>معادل</span>
             <strong>فولاد سردکار پودری، نزدیک به D2/1.2379</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.80 g/cm³</strong>
           </div>
 
           <div class="metric-card">
@@ -2984,6 +3015,11 @@
           </div>
 
           <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
             <span>سختی تحویل</span>
             <strong>180–230 HB</strong>
           </div>
@@ -3072,6 +3108,11 @@
           </div>
 
           <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
             <span>سختی تحویل</span>
             <strong>180–230 HB</strong>
           </div>
@@ -3157,6 +3198,11 @@
           <div class="metric-card">
             <span>معادل</span>
             <strong>DIN 1.1248 / EN 10084</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
           </div>
 
           <div class="metric-card">
@@ -3250,6 +3296,11 @@
           <div class="metric-card">
             <span>معادل</span>
             <strong>EN 10089 / 65Si7 (تقریبی)</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
           </div>
 
           <div class="metric-card">
@@ -4243,6 +4294,172 @@
         <div class="result-hero">
           <span>نتیجه محاسبه</span>
           <strong id="threadDepthResult">--</strong>
+        </div>
+
+      </section>
+      <section class="tool-panel" data-panel="hardnessConversion">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">محاسبات مهندسی</p>
+            <h3>تبدیل سختی HB ↔ HRC</h3>
+          </div>
+        </div>
+
+        <div class="selector-row">
+          <label for="hardnessType">نوع سختی ورودی</label>
+          <select id="hardnessType">
+            <option value="HB">HB (Brinell)</option>
+            <option value="HRC">HRC (Rockwell C)</option>
+          </select>
+        </div>
+
+        <div class="selector-row">
+          <label for="hardnessValue">مقدار سختی</label>
+          <input type="number" id="hardnessValue" placeholder="مثلاً 500" min="0" />
+        </div>
+
+        <div class="selector-row" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <button id="convertHardness" type="button">محاسبه</button>
+          <button id="resetHardness" type="button">پاک کردن</button>
+          <p id="hardnessMessage" style="color:#f87171;margin:0;font-size:0.92rem;"></p>
+        </div>
+
+        <div class="result-hero">
+          <span>نتیجه تبدیل</span>
+          <strong id="hardnessResult">--</strong>
+          <p id="hardnessNote" style="margin-top:12px;font-size:0.95rem;color:#cbd5e1;line-height:1.5;">مقدار معادل بر
+            اساس جدول استاندارد ASTM E140 / ISO 18265 محاسبه می‌شود.</p>
+        </div>
+
+        <div class="lesson-card">
+          <p><strong>HB:</strong> سختی برینل</p>
+          <p><strong>HRC:</strong> سختی راکول مقیاس C</p>
+          <p style="color:#f87171;font-weight:700;">تبدیل سختی تقریبی است و برای پذیرش قطعه یا کنترل کیفی نهایی،
+            اندازه‌گیری مستقیم سختی با روش مربوطه ملاک است.</p>
+        </div>
+
+      </section>
+      <section class="tool-panel" data-panel="forgingClearance" id="forgingClearancePanel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">محاسبات مهندسی</p>
+            <h3>محاسبه لقی سنبه و قالب فورج</h3>
+          </div>
+        </div>
+
+
+        <div class="selector-row">
+          <label for="forgingWorkpieceMaterial">جنس قطعه کار</label>
+          <select id="forgingWorkpieceMaterial">
+            <option value="carbonSteel">فولاد کربنی / آلیاژی</option>
+            <option value="stainlessSteel">فولاد زنگ‌نزن</option>
+            <option value="aluminum">آلومینیوم و آلیاژهای آن</option>
+            <option value="copper">مس، برنج و برنز</option>
+            <option value="titanium">تیتانیوم و آلیاژهای آن</option>
+          </select>
+        </div>
+
+        <div class="selector-row">
+          <label for="forgingDieHoleDiameter">قطر دهانه قالب (mm)</label>
+          <input type="number" id="forgingDieHoleDiameter" placeholder="مثلاً 20" step="0.1" min="0" />
+        </div>
+
+        <div class="selector-row">
+          <label for="forgingTemperature">دمای فورج (°C)</label>
+          <input type="number" id="forgingTemperature" placeholder="مثلاً 1100" step="1" min="0" />
+        </div>
+
+        <div class="selector-row">
+          <label for="forgingPunchMaterial">جنس سنبه</label>
+          <select id="forgingPunchMaterial">
+            <option value="h13">H13 یا فولاد ابزار</option>
+            <option value="d2">D2</option>
+            <option value="carbide">کرباید</option>
+            <option value="p20">P20</option>
+          </select>
+        </div>
+
+        <div class="selector-row">
+          <label for="forgingDieMaterial">جنس قالب</label>
+          <select id="forgingDieMaterial">
+            <option value="h13">H13 یا فولاد ابزار</option>
+            <option value="d2">D2</option>
+            <option value="carbide">کرباید</option>
+            <option value="p20">P20</option>
+          </select>
+        </div>
+
+        <div class="selector-row" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <button id="calculateForgingClearance" type="button">محاسبه لقی</button>
+          <button id="resetForgingClearance" type="button">پاک کردن</button>
+          <p id="forgingMessage" style="color:#f87171;margin:0;font-size:0.92rem;"></p>
+        </div>
+
+        <div class="result-hero">
+          <span>نتیجه لقی</span>
+          <strong id="forgingResult">--</strong>
+          <p id="forgingDetails" style="margin-top:12px;font-size:0.95rem;color:#cbd5e1;line-height:1.5;"></p>
+        </div>
+
+        <div class="lesson-card">
+          <p>مقدار لقی پیشنهادی بر اساس محدوده‌های مهندسی و جدول‌های عمومی برای فورج انتخاب می‌شود.</p>
+          <p style="color:#f87171;font-weight:700;">مقدار لقی پیشنهادی به نوع فرآیند فورج، جنس قطعه، ابعاد، دمای کار،
+            انبساط حرارتی و شرایط ساخت قالب وابسته است. مقدار نهایی باید با توجه به شرایط واقعی فرآیند و تجربه ساخت قالب
+            تأیید شود.</p>
+        </div>
+
+      </section>
+      <section class="tool-panel" data-panel="weightCalculator" id="weightCalculatorPanel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">محاسبات مهندسی</p>
+            <h3>محاسبه وزن قطعه</h3>
+          </div>
+        </div>
+
+        <div class="selector-row">
+          <label for="shapeSelect">شکل قطعه</label>
+          <select id="shapeSelect">
+            <option value="rectangular">مکعب / مستطیل</option>
+            <option value="cylinder">استوانه</option>
+            <option value="tube">لوله</option>
+            <option value="plate">ورق</option>
+            <option value="custom">حجم دلخواه</option>
+          </select>
+        </div>
+
+        <div id="shapeInputs"></div>
+
+        <div class="selector-row">
+          <label for="weightMaterial">انتخاب متریال</label>
+          <select id="weightMaterial"></select>
+        </div>
+
+        <div class="selector-row">
+          <label for="weightDensity">چگالی متریال (g/cm³)</label>
+          <input type="number" id="weightDensity" placeholder="چگالی را وارد کنید" step="0.01" min="0" />
+          <p id="weightDensityNote">چگالی متریال به‌صورت خودکار از بانک متریال خوانده می‌شود.</p>
+        </div>
+
+        <div class="selector-row" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <button id="calculateWeight" type="button">محاسبه وزن</button>
+          <button id="resetWeight" type="button">پاک کردن</button>
+          <p id="weightMessage" style="color:#f87171;margin:0;font-size:0.92rem;"></p>
+        </div>
+
+        <div class="result-hero">
+          <span>نتیجه وزن</span>
+          <strong id="weightResult">--</strong>
+          <p id="weightDetails" style="margin-top:12px;font-size:0.95rem;color:#cbd5e1;line-height:1.5;"></p>
+        </div>
+
+        <div class="lesson-card">
+          <p><strong>چگالی:</strong> جرم واحد حجم ماده است و واحد آن در این ابزار g/cm³ است.</p>
+          <p style="color:#f87171;font-weight:700;">اگر چگالی متریال در بانک متریال موجود نباشد، آن را به‌صورت دستی وارد
+            کنید.</p>
         </div>
 
       </section>

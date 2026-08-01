@@ -30,6 +30,35 @@ const EDM_DATA = [
   { name: "قطعات آلومینیوم", spark: 80, feed: 30, water: 12, wire: 2.6 }
 ];
 
+const HARDNESS_TABLE = [
+  { HRC: 20, HB: 227 },
+  { HRC: 22, HB: 246 },
+  { HRC: 24, HB: 266 },
+  { HRC: 26, HB: 286 },
+  { HRC: 28, HB: 306 },
+  { HRC: 30, HB: 325 },
+  { HRC: 32, HB: 344 },
+  { HRC: 34, HB: 363 },
+  { HRC: 36, HB: 381 },
+  { HRC: 38, HB: 400 },
+  { HRC: 40, HB: 419 },
+  { HRC: 42, HB: 437 },
+  { HRC: 44, HB: 456 },
+  { HRC: 46, HB: 474 },
+  { HRC: 48, HB: 492 },
+  { HRC: 50, HB: 511 },
+  { HRC: 52, HB: 529 },
+  { HRC: 54, HB: 546 },
+  { HRC: 56, HB: 563 },
+  { HRC: 58, HB: 580 },
+  { HRC: 60, HB: 598 },
+  { HRC: 62, HB: 615 },
+  { HRC: 64, HB: 632 },
+  { HRC: 66, HB: 649 },
+  { HRC: 68, HB: 666 },
+  { HRC: 70, HB: 683 }
+];
+
 const PAGE_TITLES = {
 
   tap: {
@@ -63,6 +92,18 @@ const PAGE_TITLES = {
 threadDepth: {
   eyebrow: "ماشین حساب تراش",
   title: "محاسبه عمق دنده"
+},
+hardnessConversion: {
+  eyebrow: "محاسبات مهندسی",
+  title: "تبدیل سختی HB ↔ HRC"
+},
+forgingClearance: {
+  eyebrow: "محاسبات مهندسی",
+  title: "محاسبه لقی سنبه و قالب فورج"
+},
+weightCalculator: {
+  eyebrow: "محاسبات مهندسی",
+  title: "محاسبه وزن قطعه"
 },
 threadTable: {
   eyebrow: "استانداردها",
@@ -256,8 +297,35 @@ const elements = {
   heightValue: document.querySelector("#heightValue"),
   calcTaper: document.querySelector("#calcTaper"),
   taperResult: document.querySelector("#taperResult"),
+  hardnessType: document.querySelector("#hardnessType"),
+  hardnessValue: document.querySelector("#hardnessValue"),
+  convertHardness: document.querySelector("#convertHardness"),
+  resetHardness: document.querySelector("#resetHardness"),
+  hardnessResult: document.querySelector("#hardnessResult"),
+  hardnessMessage: document.querySelector("#hardnessMessage"),
   threadPitch: document.querySelector("#threadPitch"),
-threadDepthResult: document.querySelector("#threadDepthResult"),
+  threadDepthResult: document.querySelector("#threadDepthResult"),
+  shapeSelect: document.querySelector("#shapeSelect"),
+  shapeInputs: document.querySelector("#shapeInputs"),
+  weightMaterial: document.querySelector("#weightMaterial"),
+  weightDensity: document.querySelector("#weightDensity"),
+  calculateWeight: document.querySelector("#calculateWeight"),
+  resetWeight: document.querySelector("#resetWeight"),
+  weightMessage: document.querySelector("#weightMessage"),
+  weightResult: document.querySelector("#weightResult"),
+  weightDetails: document.querySelector("#weightDetails"),
+  weightDensityNote: document.querySelector("#weightDensityNote"),
+  forgingPanel: document.querySelector("#forgingClearancePanel"),
+  forgingWorkpieceMaterial: document.querySelector("#forgingWorkpieceMaterial"),
+  forgingDieHoleDiameter: document.querySelector("#forgingDieHoleDiameter"),
+  forgingTemperature: document.querySelector("#forgingTemperature"),
+  forgingPunchMaterial: document.querySelector("#forgingPunchMaterial"),
+  forgingDieMaterial: document.querySelector("#forgingDieMaterial"),
+  calculateForgingClearance: document.querySelector("#calculateForgingClearance"),
+  resetForgingClearance: document.querySelector("#resetForgingClearance"),
+  forgingMessage: document.querySelector("#forgingMessage"),
+  forgingResult: document.querySelector("#forgingResult"),
+  forgingDetails: document.querySelector("#forgingDetails"),
   newsCard: document.querySelector(".news-card"),
   refreshNews: document.querySelector("#refreshNews"),
   homeButton: document.querySelector("#homeButton"),
@@ -466,9 +534,41 @@ function bindEvents() {
     updateEdmSettings(event.target.value);
   });
   elements.threadPitch.addEventListener("change", () => {
-  updateThreadDepth();
-});
+    updateThreadDepth();
+  });
   elements.calcTaper.addEventListener("click", calculateTaper);
+  elements.convertHardness.addEventListener("click", updateHardnessResult);
+  elements.resetHardness.addEventListener("click", resetHardnessForm);
+  elements.hardnessValue.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      updateHardnessResult();
+    }
+  });
+  elements.shapeSelect.addEventListener("change", () => {
+    renderWeightShapeInputs();
+  });
+  elements.weightMaterial.addEventListener("change", () => {
+    updateWeightDensityFromMaterial();
+  });
+  elements.calculateWeight.addEventListener("click", calculateWeight);
+  elements.resetWeight.addEventListener("click", resetWeightForm);
+  if (elements.calculateForgingClearance) {
+    elements.calculateForgingClearance.addEventListener("click", calculateForgingClearance);
+  }
+  if (elements.resetForgingClearance) {
+    elements.resetForgingClearance.addEventListener("click", resetForgingClearanceForm);
+  }
+  if (elements.forgingPanel) {
+    elements.forgingPanel.querySelectorAll("input, select").forEach((field) => {
+      field.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          calculateForgingClearance();
+        }
+      });
+    });
+  }
   elements.refreshNews.addEventListener("click", loadNews);
   function updateThreadDepth() {
 
@@ -511,9 +611,482 @@ function calculateTaper() {
 
 }
 
+function interpolate(x, x0, y0, x1, y1) {
+  return y0 + ((x - x0) * (y1 - y0)) / (x1 - x0);
+}
+
+function convertHardnessLookup(type, value) {
+  const sorted = HARDNESS_TABLE.slice().sort((a, b) => a.HB - b.HB);
+
+  if (type === "HB") {
+    const exact = sorted.find((item) => item.HB === value);
+    if (exact) {
+      return { value: exact.HRC, exact: true };
+    }
+
+    const lower = sorted.filter((item) => item.HB < value).pop();
+    const upper = sorted.find((item) => item.HB > value);
+    if (!lower || !upper) return null;
+    return {
+      value: interpolate(value, lower.HB, lower.HRC, upper.HB, upper.HRC),
+      exact: false
+    };
+  }
+
+  if (type === "HRC") {
+    const exact = HARDNESS_TABLE.find((item) => item.HRC === value);
+    if (exact) {
+      return { value: exact.HB, exact: true };
+    }
+
+    const lower = HARDNESS_TABLE.filter((item) => item.HRC < value).pop();
+    const upper = HARDNESS_TABLE.find((item) => item.HRC > value);
+    if (!lower || !upper) return null;
+    return {
+      value: interpolate(value, lower.HRC, lower.HB, upper.HRC, upper.HB),
+      exact: false
+    };
+  }
+
+  return null;
+}
+
+function updateHardnessResult() {
+  const type = elements.hardnessType.value;
+  const value = Number(elements.hardnessValue.value);
+  elements.hardnessResult.textContent = "--";
+  elements.hardnessMessage.textContent = "";
+  elements.hardnessMessage.style.color = "#38bdf8";
+
+  if (isNaN(value) || value <= 0) {
+    elements.hardnessMessage.textContent = "لطفاً مقدار سختی معتبر وارد کنید.";
+    elements.hardnessMessage.style.color = "#f87171";
+    return;
+  }
+
+  const conversion = convertHardnessLookup(type, value);
+  if (!conversion) {
+    elements.hardnessMessage.textContent = "مقدار خارج از محدوده جدول تبدیل است.";
+    elements.hardnessMessage.style.color = "#f87171";
+    return;
+  }
+
+  if (type === "HB") {
+    elements.hardnessResult.textContent = `${trimNumber(conversion.value, 2)} HRC`;
+    elements.hardnessMessage.textContent = conversion.exact ? "تبدیل دقیق" : "تبدیل تقریبی";
+  } else {
+    elements.hardnessResult.textContent = `${trimNumber(conversion.value, 2)} HB`;
+    elements.hardnessMessage.textContent = conversion.exact ? "تبدیل دقیق" : "تبدیل تقریبی";
+  }
+}
+
+function resetHardnessForm() {
+  elements.hardnessType.value = "HB";
+  elements.hardnessValue.value = "";
+  elements.hardnessResult.textContent = "--";
+  elements.hardnessMessage.textContent = "";
+}
+
+function parseDensityValue(text) {
+  if (!text) return null;
+  const normalized = text.replace(/[،٬]/g, ".").replace(/\u2212/g, "-");
+  const rangeMatch = normalized.match(/(\d+(?:\.\d+)?)[–-](\d+(?:\.\d+)?)/);
+  if (rangeMatch) {
+    return (Number(rangeMatch[1]) + Number(rangeMatch[2])) / 2;
+  }
+  const valueMatch = normalized.match(/(\d+(?:\.\d+)?)/);
+  if (!valueMatch) return null;
+  return Number(valueMatch[1]);
+}
+
+function getMaterialKeysFromBankSections() {
+  const materialKeys = new Set();
+
+  document.querySelectorAll("section.calculator-panel.tool-panel").forEach((panel) => {
+    panel.querySelectorAll("button.tool-card[data-tool]").forEach((button) => {
+      const key = button.dataset.tool;
+      if (key) materialKeys.add(key);
+    });
+  });
+
+  return Array.from(materialKeys);
+}
+
+function buildMaterialDensityMapFromPanels() {
+  const materials = {};
+  getMaterialKeysFromBankSections().forEach((materialKey) => {
+    const panel = document.querySelector(`section.calculator-panel.tool-panel[data-panel="${materialKey}"]`);
+    if (!panel) return;
+
+    const title = panel.querySelector("h3");
+    const label = title ? title.textContent.trim() : materialKey;
+
+    const densityCard = Array.from(panel.querySelectorAll(".metric-card")).find((card) => {
+      const labelText = card.querySelector("span")?.textContent.trim();
+      return labelText === "چگالی";
+    });
+
+    const density = densityCard ? parseDensityValue(densityCard.querySelector("strong")?.textContent) : null;
+    materials[materialKey] = { label, density };
+  });
+
+  return materials;
+}
+
+const MATERIAL_DENSITY_MAP = buildMaterialDensityMapFromPanels();
+
+function formatWeight(grams) {
+  if (grams < 1000) {
+    return `${trimNumber(grams, 2)} گرم`;
+  }
+  return `${trimNumber(grams / 1000, 3)} کیلوگرم`;
+}
+
+function getShapeVolumeCm3() {
+  const shape = elements.shapeSelect.value;
+
+  switch (shape) {
+    case "rectangular": {
+      const length = Number(document.querySelector("#rectLength").value);
+      const width = Number(document.querySelector("#rectWidth").value);
+      const height = Number(document.querySelector("#rectHeight").value);
+      if ([length, width, height].some((v) => isNaN(v) || v <= 0)) return null;
+      return (length * width * height) / 1000;
+    }
+    case "cylinder": {
+      const diameter = Number(document.querySelector("#cylDiameter").value);
+      const length = Number(document.querySelector("#cylLength").value);
+      if ([diameter, length].some((v) => isNaN(v) || v <= 0)) return null;
+      return Math.PI * Math.pow(diameter / 2, 2) * length / 1000;
+    }
+    case "tube": {
+      const outer = Number(document.querySelector("#tubeOuterDiameter").value);
+      const inner = Number(document.querySelector("#tubeInnerDiameter").value);
+      const length = Number(document.querySelector("#tubeLength").value);
+      if ([outer, inner, length].some((v) => isNaN(v) || v <= 0) || inner >= outer) return null;
+      return (Math.PI / 4) * (Math.pow(outer, 2) - Math.pow(inner, 2)) * length / 1000;
+    }
+    case "plate": {
+      const length = Number(document.querySelector("#plateLength").value);
+      const width = Number(document.querySelector("#plateWidth").value);
+      const thickness = Number(document.querySelector("#plateThickness").value);
+      if ([length, width, thickness].some((v) => isNaN(v) || v <= 0)) return null;
+      return (length * width * thickness) / 1000;
+    }
+    case "custom": {
+      const volume = Number(document.querySelector("#customVolume").value);
+      if (isNaN(volume) || volume <= 0) return null;
+      return volume;
+    }
+    default:
+      return null;
+  }
+}
+
+function renderWeightShapeInputs() {
+  const shape = elements.shapeSelect.value;
+  const inputSections = {
+    rectangular: `
+      <div class="selector-row">
+        <label for="rectLength">طول (mm)</label>
+        <input type="number" id="rectLength" placeholder="مثلاً 100" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="rectWidth">عرض (mm)</label>
+        <input type="number" id="rectWidth" placeholder="مثلاً 50" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="rectHeight">ارتفاع (mm)</label>
+        <input type="number" id="rectHeight" placeholder="مثلاً 20" step="1" min="0" />
+      </div>
+    `,
+    cylinder: `
+      <div class="selector-row">
+        <label for="cylDiameter">قطر استوانه (mm)</label>
+        <input type="number" id="cylDiameter" placeholder="مثلاً 50" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="cylLength">طول (mm)</label>
+        <input type="number" id="cylLength" placeholder="مثلاً 100" step="1" min="0" />
+      </div>
+    `,
+    tube: `
+      <div class="selector-row">
+        <label for="tubeOuterDiameter">قطر خارجی (mm)</label>
+        <input type="number" id="tubeOuterDiameter" placeholder="مثلاً 60" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="tubeInnerDiameter">قطر داخلی (mm)</label>
+        <input type="number" id="tubeInnerDiameter" placeholder="مثلاً 40" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="tubeLength">طول (mm)</label>
+        <input type="number" id="tubeLength" placeholder="مثلاً 120" step="1" min="0" />
+      </div>
+    `,
+    plate: `
+      <div class="selector-row">
+        <label for="plateLength">طول (mm)</label>
+        <input type="number" id="plateLength" placeholder="مثلاً 200" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="plateWidth">عرض (mm)</label>
+        <input type="number" id="plateWidth" placeholder="مثلاً 100" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="plateThickness">ضخامت (mm)</label>
+        <input type="number" id="plateThickness" placeholder="مثلاً 10" step="1" min="0" />
+      </div>
+    `,
+    custom: `
+      <div class="selector-row">
+        <label for="customVolume">حجم قطعه (cm³)</label>
+        <input type="number" id="customVolume" placeholder="مثلاً 500" step="0.1" min="0" />
+      </div>
+    `
+  };
+
+  elements.shapeInputs.innerHTML = inputSections[shape] || "";
+}
+
+function renderWeightMaterials() {
+  elements.weightMaterial.innerHTML = "";
+  const materialEntries = Object.entries(MATERIAL_DENSITY_MAP).sort(([aKey, aValue], [bKey, bValue]) => {
+    const aName = aValue.label.toLowerCase();
+    const bName = bValue.label.toLowerCase();
+    return aName.localeCompare(bName, "fa", { sensitivity: "base" });
+  });
+
+  materialEntries.forEach(([key, item]) => {
+    const option = document.createElement("option");
+    option.value = key;
+    option.textContent = item.label;
+    elements.weightMaterial.appendChild(option);
+  });
+
+  if (materialEntries.length > 0) {
+    elements.weightMaterial.selectedIndex = 0;
+  }
+  updateWeightDensityFromMaterial();
+}
+
+function updateWeightDensityFromMaterial() {
+  const materialKey = elements.weightMaterial.value;
+  const material = MATERIAL_DENSITY_MAP[materialKey];
+  const materialLabel = material?.label || materialKey || "متریال";
+  const density = material?.density ?? null;
+
+  if (density != null && !Number.isNaN(density)) {
+    elements.weightDensity.value = density;
+    elements.weightDensityNote.textContent = `چگالی متریال «${materialLabel}» از بانک اطلاعاتی خوانده شد.`;
+  } else {
+    elements.weightDensity.value = "";
+    elements.weightDensityNote.textContent = `چگالی متریال «${materialLabel}» در بانک اطلاعاتی ثبت نشده است. لطفاً دستی وارد کنید.`;
+  }
+}
+
+function updateForgingMessage(text, isError = false) {
+  elements.forgingMessage.textContent = text;
+  elements.forgingMessage.style.color = isError ? "#f87171" : "#38bdf8";
+}
+
+function getForgingSizeCategory(sizeMm) {
+  if (sizeMm <= 20) return "small";
+  if (sizeMm <= 50) return "medium";
+  return "large";
+}
+
+function getForgingMaterialGroup(materialKey) {
+  switch (materialKey) {
+    case "carbonSteel":
+    case "stainlessSteel":
+      return materialKey;
+    case "aluminum":
+      return "aluminum";
+    case "copper":
+      return "copper";
+    case "titanium":
+      return "titanium";
+    default:
+      return "carbonSteel";
+  }
+}
+
+function getForgingClearanceRange(processType, materialGroup, sizeCategory) {
+  const table = {
+    hot: {
+      carbonSteel: { small: [0.08, 0.18], medium: [0.10, 0.22], large: [0.12, 0.26] },
+      stainlessSteel: { small: [0.10, 0.20], medium: [0.12, 0.24], large: [0.14, 0.28] },
+      aluminum: { small: [0.06, 0.14], medium: [0.08, 0.18], large: [0.10, 0.20] },
+      copper: { small: [0.05, 0.12], medium: [0.06, 0.14], large: [0.08, 0.16] },
+      titanium: { small: [0.10, 0.22], medium: [0.12, 0.26], large: [0.14, 0.30] }
+    },
+    warm: {
+      carbonSteel: { small: [0.06, 0.14], medium: [0.08, 0.18], large: [0.10, 0.22] },
+      stainlessSteel: { small: [0.08, 0.16], medium: [0.10, 0.20], large: [0.12, 0.24] },
+      aluminum: { small: [0.05, 0.12], medium: [0.06, 0.14], large: [0.08, 0.16] },
+      copper: { small: [0.04, 0.10], medium: [0.05, 0.12], large: [0.06, 0.14] },
+      titanium: { small: [0.08, 0.18], medium: [0.10, 0.20], large: [0.12, 0.24] }
+    },
+    cold: {
+      carbonSteel: { small: [0.04, 0.10], medium: [0.05, 0.12], large: [0.06, 0.14] },
+      stainlessSteel: { small: [0.05, 0.12], medium: [0.06, 0.14], large: [0.08, 0.16] },
+      aluminum: { small: [0.03, 0.08], medium: [0.04, 0.10], large: [0.05, 0.12] },
+      copper: { small: [0.03, 0.08], medium: [0.04, 0.10], large: [0.05, 0.12] },
+      titanium: { small: [0.06, 0.14], medium: [0.08, 0.16], large: [0.10, 0.18] }
+    }
+  };
+
+  return table[processType]?.[materialGroup]?.[sizeCategory] || null;
+}
+
+function getForgingToolToleranceFactor(punchMaterial, dieMaterial) {
+  const materialScore = (material) => {
+    switch (material) {
+      case "carbide":
+        return 0.2;
+      case "h13":
+      case "d2":
+        return 0.35;
+      case "p20":
+        return 0.55;
+      default:
+        return 0.5;
+    }
+  };
+
+  const punchScore = materialScore(punchMaterial);
+  const dieScore = materialScore(dieMaterial);
+  const average = (punchScore + dieScore) / 2;
+
+  if (punchMaterial === dieMaterial) {
+    return average * 0.85;
+  }
+
+  return Math.min(0.65, average + 0.1);
+}
+
+function calculateForgingClearance() {
+  const processType = "hot";
+  const materialGroup = getForgingMaterialGroup(elements.forgingWorkpieceMaterial.value);
+  const dieHoleDiameter = Number(elements.forgingDieHoleDiameter.value);
+  const temperatureInput = elements.forgingTemperature.value.trim();
+  const temperature = temperatureInput === "" ? null : Number(temperatureInput);
+  const punchMaterial = elements.forgingPunchMaterial.value;
+  const dieMaterial = elements.forgingDieMaterial.value;
+  const punchMaterialLabel = elements.forgingPunchMaterial.options[elements.forgingPunchMaterial.selectedIndex]?.textContent || "";
+  const dieMaterialLabel = elements.forgingDieMaterial.options[elements.forgingDieMaterial.selectedIndex]?.textContent || "";
+
+  elements.forgingResult.textContent = "--";
+  elements.forgingDetails.textContent = "";
+  updateForgingMessage("");
+
+  if (isNaN(dieHoleDiameter) || dieHoleDiameter <= 0) {
+    updateForgingMessage("لطفاً قطر دهانه قالب معتبر وارد کنید.", true);
+    return;
+  }
+
+  const sizeCategory = getForgingSizeCategory(dieHoleDiameter);
+  const range = getForgingClearanceRange(processType, materialGroup, sizeCategory);
+
+  if (!range) {
+    updateForgingMessage("برای ترکیب انتخاب شده، محدوده لقی تعریف نشده است.", true);
+    return;
+  }
+
+  const [minPerSide, maxPerSide] = range;
+  const toolFactor = getForgingToolToleranceFactor(punchMaterial, dieMaterial);
+  const referencePerSide = minPerSide + (maxPerSide - minPerSide) * toolFactor;
+  const referenceLabel = toolFactor <= 0.3 ? "محدوده دقیق‌تر" : toolFactor >= 0.55 ? "محدوده محافظه‌کارانه" : "محدوده میانی";
+
+  const totalMin = minPerSide * 2;
+  const totalMax = maxPerSide * 2;
+  const referenceTotal = referencePerSide * 2;
+  const recommendedPunchDiameter = dieHoleDiameter - referenceTotal;
+
+  if (recommendedPunchDiameter <= 0) {
+    updateForgingMessage("قطر دهانه قالب کمتر از مجموع لقی پیشنهادی است.", true);
+    return;
+  }
+
+  elements.forgingResult.textContent = `قطر سنبه پیشنهادی: ${trimNumber(recommendedPunchDiameter, 3)} mm`;
+  elements.forgingDetails.innerHTML = `
+    <strong>Per Side:</strong> ${referencePerSide.toFixed(3)} mm<br>
+    <strong>Total Clearance:</strong> ${referenceTotal.toFixed(3)} mm<br>
+    <strong>حداقل محدوده:</strong> ${minPerSide.toFixed(3)} mm / سمت<br>
+    <strong>حداکثر محدوده:</strong> ${maxPerSide.toFixed(3)} mm / سمت<br>
+    <strong>قطر دهانه قالب:</strong> ${dieHoleDiameter.toFixed(3)} mm<br>
+    <strong>جنس سنبه:</strong> ${punchMaterialLabel}<br>
+    <strong>جنس قالب:</strong> ${dieMaterialLabel}<br>
+    <br>
+    پایه انتخاب مقدار: ${referenceLabel} برای فورج ${processType === "hot" ? "گرم" : processType === "warm" ? "داغ" : "سرد"} روی ${elements.forgingWorkpieceMaterial.options[elements.forgingWorkpieceMaterial.selectedIndex].textContent}.
+  `;
+
+  if (temperature !== null && processType !== "cold") {
+    const minTemp = processType === "hot" ? 900 : 400;
+    if (temperature < minTemp) {
+      updateForgingMessage(`دمای وارد شده پایین‌تر از حد معمول برای فورج ${processType === "hot" ? "گرم" : "داغ"} است. مقدار دقیق باید با شرایط فرآیند بررسی شود.`, true);
+      return;
+    }
+  }
+
+  updateForgingMessage(`مقدار مرجع بر اساس محدوده‌های مهندسی انتخاب شد.`);
+}
+
+function resetForgingClearanceForm() {
+  elements.forgingWorkpieceMaterial.value = "carbonSteel";
+  elements.forgingDieHoleDiameter.value = "";
+  elements.forgingTemperature.value = "";
+  elements.forgingPunchMaterial.value = "h13";
+  elements.forgingDieMaterial.value = "h13";
+  elements.forgingResult.textContent = "--";
+  elements.forgingDetails.textContent = "";
+  updateForgingMessage("");
+}
+
+function updateWeightMessage(text, isError = false) {
+  elements.weightMessage.textContent = text;
+  elements.weightMessage.style.color = isError ? "#f87171" : "#38bdf8";
+}
+
+function calculateWeight() {
+  const volumeCm3 = getShapeVolumeCm3();
+  const density = Number(elements.weightDensity.value);
+  elements.weightResult.textContent = "--";
+  elements.weightDetails.textContent = "";
+  updateWeightMessage("");
+
+  if (volumeCm3 === null || isNaN(volumeCm3) || volumeCm3 <= 0) {
+    updateWeightMessage("لطفاً ابعاد یا حجم معتبر وارد کنید.", true);
+    return;
+  }
+
+  if (isNaN(density) || density <= 0) {
+    updateWeightMessage("لطفاً چگالی معتبر وارد کنید.", true);
+    return;
+  }
+
+  const massGrams = volumeCm3 * density;
+  elements.weightResult.textContent = formatWeight(massGrams);
+  elements.weightDetails.innerHTML = `حجم: ${trimNumber(volumeCm3, 2)} cm³<br>چگالی: ${trimNumber(density, 2)} g/cm³`;
+  updateWeightMessage("وزن قطعه محاسبه شد.");
+}
+
+function resetWeightForm() {
+  elements.shapeSelect.value = "rectangular";
+  renderWeightShapeInputs();
+  elements.weightMaterial.selectedIndex = 0;
+  updateWeightDensityFromMaterial();
+  elements.weightResult.textContent = "--";
+  elements.weightDetails.textContent = "";
+  updateWeightMessage("");
+}
+
 bindEvents();
 renderTapOptions();
 renderEdmOptions();
+renderWeightMaterials();
+renderWeightShapeInputs();
 // در شروع برنامه هیچ پنلی باز نباشد
 elements.panels.forEach(panel => {
   panel.hidden = true;
