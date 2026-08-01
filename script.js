@@ -553,7 +553,7 @@ function resetInactivityTimer() {
 
         window.location.href = "login.html";
 
-    }, 180000);
+    }, 1800000);
 
 }
 
