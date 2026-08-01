@@ -115,8 +115,30 @@ O1: {
 2738: {
     eyebrow: "بانک متریال",
     title: "فولاد 1.2738"
+},VCN150: {
+    eyebrow: "بانک متریال",
+    title: "VCN 150"
 },
-castIron: {
+VCN200: {
+    eyebrow: "بانک متریال",
+    title: "VCN 200"
+},
+MO40: {
+    eyebrow: "بانک متریال",
+    title: "MO40"
+},
+CK45: {
+    eyebrow: "بانک متریال",
+    title: "CK45"
+},
+CK75: {
+    eyebrow: "بانک متریال",
+    title: "CK75"
+},
+H7176: {
+    eyebrow: "بانک متریال",
+    title: "H7176"
+},castIron: {
   eyebrow: "بانک متریال",
   title: "چدن‌های ریخته‌گری"
 },
