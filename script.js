@@ -355,6 +355,8 @@ function getTapCalculations(tap) {
 }
 
 function renderTapOptions(filter = "") {
+  if (!elements.tapSelect) return;
+
   const query = filter.trim().toLowerCase();
   const filteredTaps = TAP_DATA.filter((tap) => tap.size.toLowerCase().includes(query));
 
@@ -380,6 +382,8 @@ function renderTapOptions(filter = "") {
 }
 
 function updateTapDetails(size) {
+  if (!elements.drillSize || !elements.metricsGrid) return;
+
   const tap = TAP_DATA.find((item) => item.size === size);
 
   if (!tap) {
@@ -400,6 +404,8 @@ function updateTapDetails(size) {
 }
 
 function updateTapEmptyState() {
+  if (!elements.drillSize || !elements.metricsGrid) return;
+
   elements.drillSize.textContent = "--";
   elements.metricsGrid.innerHTML = `
     <article class="metric-card">
@@ -410,6 +416,8 @@ function updateTapEmptyState() {
 }
 
 function renderEdmOptions() {
+  if (!elements.edmSelect) return;
+
   EDM_DATA.forEach((setting) => {
     const option = document.createElement("option");
     option.value = setting.name;
@@ -421,6 +429,8 @@ function renderEdmOptions() {
 }
 
 function updateEdmSettings(name) {
+  if (!elements.edmSettings) return;
+
   const setting = EDM_DATA.find((item) => item.name === name);
 
   if (!setting) {
@@ -446,111 +456,165 @@ function updateEdmSettings(name) {
 }
 
 function switchTool(tool, addToHistory = true) {
-  if (!PAGE_TITLES[tool]) {
+  if (!tool || !PAGE_TITLES[tool]) {
     return;
   }
+
+  if (currentTool === tool) {
+    if (addToHistory && location.hash !== `#${tool}`) {
+      history.pushState({ tool }, "", `#${tool}`);
+    }
+    return;
+  }
+
   const welcomeCard = document.getElementById("welcomeCard");
 
   if (elements.newsCard) {
     elements.newsCard.hidden = true;
   }
 
-if (welcomeCard && !welcomeCard.classList.contains("hide")) {
-  welcomeCard.classList.add("hide");
+  if (welcomeCard && !welcomeCard.classList.contains("hide")) {
+    welcomeCard.classList.add("hide");
 
-  setTimeout(() => {
-    welcomeCard.style.display = "none";
-  }, 500);
-}
+    setTimeout(() => {
+      if (welcomeCard) {
+        welcomeCard.style.display = "none";
+      }
+    }, 500);
+  }
 
-  elements.toolCards.forEach((card) => {
-    card.classList.toggle("active", card.dataset.tool === tool);
-  });
+  if (elements.toolCards) {
+    elements.toolCards.forEach((card) => {
+      card.classList.toggle("active", card.dataset.tool === tool);
+    });
+  }
 
- elements.panels.forEach((panel) => {
-  const active = panel.dataset.panel === tool || panel.id === tool + "Panel";
+  if (elements.panels) {
+    elements.panels.forEach((panel) => {
+      const active = panel.dataset.panel === tool || panel.id === tool + "Panel";
 
-  panel.classList.toggle("active", active);
-  panel.hidden = !active;
-});
+      panel.classList.toggle("active", active);
+      panel.hidden = !active;
+    });
+  }
 
-  elements.pageEyebrow.textContent = PAGE_TITLES[tool].eyebrow;
-  elements.pageTitle.textContent = PAGE_TITLES[tool].title;
+  if (elements.pageEyebrow) {
+    elements.pageEyebrow.textContent = PAGE_TITLES[tool].eyebrow;
+  }
+  if (elements.pageTitle) {
+    elements.pageTitle.textContent = PAGE_TITLES[tool].title;
+  }
 
-currentTool = tool;
+  currentTool = tool;
 
-if (addToHistory) {
-    history.pushState({ tool: tool }, "", "#" + tool);
-}
+  if (addToHistory && location.hash !== `#${tool}`) {
+    history.pushState({ tool }, "", `#${tool}`);
+  }
 }
 
 function bindEvents() {
-  elements.homeButton.addEventListener("click", () => {
-    history.pushState({}, "", location.pathname);
+  if (elements.homeButton) {
+    elements.homeButton.addEventListener("click", () => {
+      history.replaceState({}, "", location.pathname);
 
-    elements.panels.forEach((panel) => {
-      panel.hidden = true;
-      panel.classList.remove("active");
+      if (elements.panels) {
+        elements.panels.forEach((panel) => {
+          panel.hidden = true;
+          panel.classList.remove("active");
+        });
+      }
+      if (elements.toolCards) {
+        elements.toolCards.forEach((card) => card.classList.remove("active"));
+      }
+
+      if (elements.pageEyebrow) {
+        elements.pageEyebrow.textContent = "";
+      }
+      if (elements.pageTitle) {
+        elements.pageTitle.textContent = "MACHINIST TOOL BOX";
+      }
+
+      const welcomeCard = document.getElementById("welcomeCard");
+      if (welcomeCard) {
+        welcomeCard.style.display = "flex";
+        welcomeCard.classList.remove("hide");
+      }
+      if (elements.newsCard) elements.newsCard.hidden = false;
+      currentTool = null;
     });
-    elements.toolCards.forEach((card) => card.classList.remove("active"));
+  }
 
-    elements.pageEyebrow.textContent = "";
-    elements.pageTitle.textContent = "MACHINIST TOOL BOX";
+  if (elements.toolCards) {
+    elements.toolCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        if (card.classList.contains("locked")) return;
 
-    const welcomeCard = document.getElementById("welcomeCard");
-    if (welcomeCard) {
-      welcomeCard.style.display = "flex";
-      welcomeCard.classList.remove("hide");
-    }
-    if (elements.newsCard) elements.newsCard.hidden = false;
-  });
+        const tool = card.dataset.tool;
 
- elements.toolCards.forEach((card) => {
-  card.addEventListener("click", () => {
+        if (tool) {
+          switchTool(tool);
+        }
+      });
+    });
+  }
 
-    if (card.classList.contains("locked")) return;
+  if (elements.tapSearch) {
+    elements.tapSearch.addEventListener("input", (event) => {
+      renderTapOptions(event.target.value);
+    });
+  }
 
-    const tool = card.dataset.tool;
+  if (elements.tapSelect) {
+    elements.tapSelect.addEventListener("change", (event) => {
+      updateTapDetails(event.target.value);
+    });
+  }
 
-    if (tool) {
-      switchTool(tool);
-    }
+  if (elements.edmSelect) {
+    elements.edmSelect.addEventListener("change", (event) => {
+      updateEdmSettings(event.target.value);
+    });
+  }
 
-    
-  });
-});
+  if (elements.threadPitch) {
+    elements.threadPitch.addEventListener("change", () => {
+      updateThreadDepth();
+    });
+  }
 
-  elements.tapSearch.addEventListener("input", (event) => {
-    renderTapOptions(event.target.value);
-  });
-
-  elements.tapSelect.addEventListener("change", (event) => {
-    updateTapDetails(event.target.value);
-  });
-
-  elements.edmSelect.addEventListener("change", (event) => {
-    updateEdmSettings(event.target.value);
-  });
-  elements.threadPitch.addEventListener("change", () => {
-    updateThreadDepth();
-  });
-  elements.calcTaper.addEventListener("click", calculateTaper);
-  elements.convertHardness.addEventListener("click", updateHardnessResult);
-  elements.resetHardness.addEventListener("click", resetHardnessForm);
-  elements.hardnessValue.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      updateHardnessResult();
-    }
-  });
-  elements.shapeSelect.addEventListener("change", () => {
-    renderWeightShapeInputs();
-  });
-  elements.weightMaterial.addEventListener("change", () => {
-    updateWeightDensityFromMaterial();
-  });
-  elements.calculateWeight.addEventListener("click", calculateWeight);
-  elements.resetWeight.addEventListener("click", resetWeightForm);
+  if (elements.calcTaper) {
+    elements.calcTaper.addEventListener("click", calculateTaper);
+  }
+  if (elements.convertHardness) {
+    elements.convertHardness.addEventListener("click", updateHardnessResult);
+  }
+  if (elements.resetHardness) {
+    elements.resetHardness.addEventListener("click", resetHardnessForm);
+  }
+  if (elements.hardnessValue) {
+    elements.hardnessValue.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        updateHardnessResult();
+      }
+    });
+  }
+  if (elements.shapeSelect) {
+    elements.shapeSelect.addEventListener("change", () => {
+      renderWeightShapeInputs();
+    });
+  }
+  if (elements.weightMaterial) {
+    elements.weightMaterial.addEventListener("change", () => {
+      updateWeightDensityFromMaterial();
+    });
+  }
+  if (elements.calculateWeight) {
+    elements.calculateWeight.addEventListener("click", calculateWeight);
+  }
+  if (elements.resetWeight) {
+    elements.resetWeight.addEventListener("click", resetWeightForm);
+  }
   if (elements.calculateForgingClearance) {
     elements.calculateForgingClearance.addEventListener("click", calculateForgingClearance);
   }
@@ -567,10 +631,19 @@ function bindEvents() {
       });
     });
   }
-  elements.refreshNews.addEventListener("click", loadNews);
-  function updateThreadDepth() {
+  if (elements.refreshNews) {
+    elements.refreshNews.addEventListener("click", loadNews);
+  }
+}
+
+function updateThreadDepth() {
+  if (!elements.threadPitch || !elements.threadDepthResult) return;
 
   const pitch = Number(elements.threadPitch.value);
+  if (Number.isNaN(pitch) || pitch <= 0) {
+    elements.threadDepthResult.innerHTML = "مقدار گام معتبر نیست.";
+    return;
+  }
 
   const pitchInch = pitch / 25.4;
   const tpi = 25.4 / pitch;
@@ -584,8 +657,6 @@ function bindEvents() {
 عمق شعاعی دندانه: ${radial.toFixed(3)} mm<br>
 عمق قطری دندانه: ${diameter.toFixed(3)} mm
 `;
-
-}
 }
 function calculateTaper() {
 
@@ -782,6 +853,8 @@ function getShapeVolumeCm3() {
 }
 
 function renderWeightShapeInputs() {
+  if (!elements.shapeSelect || !elements.shapeInputs) return;
+
   const shape = elements.shapeSelect.value;
   const inputSections = {
     rectangular: `
@@ -848,6 +921,8 @@ function renderWeightShapeInputs() {
 }
 
 function renderWeightMaterials() {
+  if (!elements.weightMaterial) return;
+
   elements.weightMaterial.innerHTML = "";
   const allowedMaterials = new Set([
     "MO40",
@@ -884,6 +959,8 @@ function renderWeightMaterials() {
 }
 
 function updateWeightDensityFromMaterial() {
+  if (!elements.weightMaterial || !elements.weightDensity || !elements.weightDensityNote) return;
+
   const materialKey = elements.weightMaterial.value;
   const material = MATERIAL_DENSITY_MAP[materialKey];
   const materialLabel = material?.label || materialKey || "متریال";
@@ -911,44 +988,66 @@ function getForgingSizeCategory(sizeMm) {
 
 function getForgingMaterialGroup(materialKey) {
   switch (materialKey) {
-    case "carbonSteel":
-    case "stainlessSteel":
-      return materialKey;
-    case "aluminum":
-      return "aluminum";
     case "copper":
-    case "brass":
-    case "bronze":
       return "copper";
-    case "titanium":
-      return "titanium";
+    case "brass":
+      return "brass";
+    case "bronze":
+      return "bronze";
     default:
-      return "carbonSteel";
+      return "copper";
+  }
+}
+
+function getForgingProcessType(temperature) {
+  if (temperature == null || Number.isNaN(temperature)) {
+    return "hot";
+  }
+
+  if (temperature >= 900) {
+    return "hot";
+  }
+
+  if (temperature >= 650) {
+    return "warm";
+  }
+
+  return "cold";
+}
+
+function getForgingTemperatureFactor(processType, temperature) {
+  if (temperature == null || Number.isNaN(temperature)) {
+    return 0;
+  }
+
+  switch (processType) {
+    case "hot":
+      return temperature >= 1000 ? 0.12 : temperature >= 900 ? 0.06 : 0.02;
+    case "warm":
+      return temperature >= 800 ? 0.10 : temperature >= 700 ? 0.05 : 0.02;
+    case "cold":
+      return 0.0;
+    default:
+      return 0;
   }
 }
 
 function getForgingClearanceRange(processType, materialGroup, sizeCategory) {
   const table = {
     hot: {
-      carbonSteel: { small: [0.08, 0.18], medium: [0.10, 0.22], large: [0.12, 0.26] },
-      stainlessSteel: { small: [0.10, 0.20], medium: [0.12, 0.24], large: [0.14, 0.28] },
-      aluminum: { small: [0.06, 0.14], medium: [0.08, 0.18], large: [0.10, 0.20] },
-      copper: { small: [0.05, 0.12], medium: [0.06, 0.14], large: [0.08, 0.16] },
-      titanium: { small: [0.10, 0.22], medium: [0.12, 0.26], large: [0.14, 0.30] }
+      copper: { small: [0.06, 0.12], medium: [0.07, 0.14], large: [0.08, 0.16] },
+      brass: { small: [0.07, 0.14], medium: [0.08, 0.16], large: [0.09, 0.18] },
+      bronze: { small: [0.06, 0.13], medium: [0.07, 0.15], large: [0.08, 0.17] }
     },
     warm: {
-      carbonSteel: { small: [0.06, 0.14], medium: [0.08, 0.18], large: [0.10, 0.22] },
-      stainlessSteel: { small: [0.08, 0.16], medium: [0.10, 0.20], large: [0.12, 0.24] },
-      aluminum: { small: [0.05, 0.12], medium: [0.06, 0.14], large: [0.08, 0.16] },
       copper: { small: [0.04, 0.10], medium: [0.05, 0.12], large: [0.06, 0.14] },
-      titanium: { small: [0.08, 0.18], medium: [0.10, 0.20], large: [0.12, 0.24] }
+      brass: { small: [0.05, 0.11], medium: [0.06, 0.13], large: [0.07, 0.15] },
+      bronze: { small: [0.04, 0.10], medium: [0.05, 0.12], large: [0.06, 0.14] }
     },
     cold: {
-      carbonSteel: { small: [0.04, 0.10], medium: [0.05, 0.12], large: [0.06, 0.14] },
-      stainlessSteel: { small: [0.05, 0.12], medium: [0.06, 0.14], large: [0.08, 0.16] },
-      aluminum: { small: [0.03, 0.08], medium: [0.04, 0.10], large: [0.05, 0.12] },
-      copper: { small: [0.03, 0.08], medium: [0.04, 0.10], large: [0.05, 0.12] },
-      titanium: { small: [0.06, 0.14], medium: [0.08, 0.16], large: [0.10, 0.18] }
+      copper: { small: [0.03, 0.07], medium: [0.04, 0.09], large: [0.05, 0.11] },
+      brass: { small: [0.04, 0.09], medium: [0.05, 0.11], large: [0.06, 0.13] },
+      bronze: { small: [0.03, 0.08], medium: [0.04, 0.10], large: [0.05, 0.12] }
     }
   };
 
@@ -960,13 +1059,13 @@ function getForgingToolToleranceFactor() {
 }
 
 function calculateForgingClearance() {
-  const processType = "hot";
   const materialGroup = getForgingMaterialGroup(elements.forgingWorkpieceMaterial.value);
   const dieHoleDiameter = Number(elements.forgingDieHoleDiameter.value);
   const temperatureInput = elements.forgingTemperature.value.trim();
   const temperature = temperatureInput === "" ? null : Number(temperatureInput);
-  const punchMaterialLabel = "H13 یا فولاد ابزار";
-  const dieMaterialLabel = "H13 یا فولاد ابزار";
+  const processType = getForgingProcessType(temperature);
+  const punchMaterialLabel = "H13";
+  const dieMaterialLabel = "H13";
 
   elements.forgingResult.textContent = "--";
   elements.forgingDetails.textContent = "";
@@ -987,8 +1086,10 @@ function calculateForgingClearance() {
 
   const [minPerSide, maxPerSide] = range;
   const toolFactor = getForgingToolToleranceFactor();
-  const referencePerSide = minPerSide + (maxPerSide - minPerSide) * toolFactor;
-  const referenceLabel = toolFactor <= 0.3 ? "محدوده دقیق‌تر" : toolFactor >= 0.55 ? "محدوده محافظه‌کارانه" : "محدوده میانی";
+  const temperatureFactor = getForgingTemperatureFactor(processType, temperature);
+  const selectionFactor = Math.min(0.75, Math.max(0.25, toolFactor + temperatureFactor));
+  const referencePerSide = minPerSide + (maxPerSide - minPerSide) * selectionFactor;
+  const referenceLabel = selectionFactor <= 0.3 ? "محدوده دقیق‌تر" : selectionFactor >= 0.6 ? "محدوده محافظه‌کارانه" : "محدوده میانی";
 
   const totalMin = minPerSide * 2;
   const totalMax = maxPerSide * 2;
@@ -1000,36 +1101,44 @@ function calculateForgingClearance() {
     return;
   }
 
+  const materialLabel = elements.forgingWorkpieceMaterial.options[elements.forgingWorkpieceMaterial.selectedIndex].textContent;
+  const temperatureLabel = temperature == null ? "بدون ورود دما" : `${temperature.toFixed(0)} °C`;
+
   elements.forgingResult.textContent = `قطر سنبه پیشنهادی: ${trimNumber(recommendedPunchDiameter, 3)} mm`;
   elements.forgingDetails.innerHTML = `
-    <strong>Per Side:</strong> ${referencePerSide.toFixed(3)} mm<br>
-    <strong>Total Clearance:</strong> ${referenceTotal.toFixed(3)} mm<br>
+    <strong>قطر سنبه پیشنهادی:</strong> ${recommendedPunchDiameter.toFixed(3)} mm<br>
+    <strong>لقی هر سمت:</strong> ${referencePerSide.toFixed(3)} mm<br>
+    <strong>لقی کل:</strong> ${referenceTotal.toFixed(3)} mm<br>
     <strong>حداقل محدوده:</strong> ${minPerSide.toFixed(3)} mm / سمت<br>
     <strong>حداکثر محدوده:</strong> ${maxPerSide.toFixed(3)} mm / سمت<br>
     <strong>قطر دهانه قالب:</strong> ${dieHoleDiameter.toFixed(3)} mm<br>
+    <strong>جنس قطعه:</strong> ${materialLabel}<br>
+    <strong>دمای فورج:</strong> ${temperatureLabel}<br>
     <strong>جنس سنبه:</strong> ${punchMaterialLabel}<br>
     <strong>جنس قالب:</strong> ${dieMaterialLabel}<br>
     <br>
-    پایه انتخاب مقدار: ${referenceLabel} برای فورج ${processType === "hot" ? "گرم" : processType === "warm" ? "داغ" : "سرد"} روی ${elements.forgingWorkpieceMaterial.options[elements.forgingWorkpieceMaterial.selectedIndex].textContent}.
+    پایه انتخاب مقدار: ${referenceLabel} برای فورج ${processType === "hot" ? "گرم" : processType === "warm" ? "نیمه‌گرم" : "سرد"} بر اساس ${materialLabel}.
   `;
-
-  if (temperature !== null && processType !== "cold") {
-    const minTemp = processType === "hot" ? 900 : 400;
-    if (temperature < minTemp) {
-      updateForgingMessage(`دمای وارد شده پایین‌تر از حد معمول برای فورج ${processType === "hot" ? "گرم" : "داغ"} است. مقدار دقیق باید با شرایط فرآیند بررسی شود.`, true);
-      return;
-    }
-  }
 
   updateForgingMessage(`مقدار مرجع بر اساس محدوده‌های مهندسی انتخاب شد.`);
 }
 
 function resetForgingClearanceForm() {
-  elements.forgingWorkpieceMaterial.value = "carbonSteel";
-  elements.forgingDieHoleDiameter.value = "";
-  elements.forgingTemperature.value = "";
-  elements.forgingResult.textContent = "--";
-  elements.forgingDetails.textContent = "";
+  if (elements.forgingWorkpieceMaterial) {
+    elements.forgingWorkpieceMaterial.value = "copper";
+  }
+  if (elements.forgingDieHoleDiameter) {
+    elements.forgingDieHoleDiameter.value = "";
+  }
+  if (elements.forgingTemperature) {
+    elements.forgingTemperature.value = "";
+  }
+  if (elements.forgingResult) {
+    elements.forgingResult.textContent = "--";
+  }
+  if (elements.forgingDetails) {
+    elements.forgingDetails.textContent = "";
+  }
   updateForgingMessage("");
 }
 
@@ -1126,100 +1235,82 @@ window.addEventListener("popstate", (event) => {
 let inactivityTimer;
 
 function resetInactivityTimer() {
-
     clearTimeout(inactivityTimer);
 
     inactivityTimer = setTimeout(() => {
-
         alert("به عدم فعالیت، از برنامه خارج شدید.");
-
         sessionStorage.removeItem("loggedIn");
-
         window.location.href = "login.html";
-
     }, 1800000);
-
 }
 
-// رویدادهای فعالیت کاربر
-["mousemove", "mousedown", "click", "scroll", "keydown", "touchstart"].forEach(event => {
+["mousemove", "mousedown", "click", "scroll", "keydown", "touchstart"].forEach((event) => {
     document.addEventListener(event, resetInactivityTimer);
 });
 
-// شروع تایمر
 resetInactivityTimer();
+
 const notes = document.getElementById("workshopNotes");
 const saveBtn = document.getElementById("saveNotes");
 const clearBtn = document.getElementById("clearNotes");
 const status = document.getElementById("saveStatus");
 const counter = document.getElementById("charCount");
 
-notes.value = localStorage.getItem("easyPipeNotes") || "";
+function updateCounter() {
+    if (counter && notes) {
+        counter.textContent = `${notes.value.length} / 5000`;
+    }
+}
 
-updateCounter();
-
-notes.addEventListener("input",()=>{
-
+if (notes) {
+    notes.value = localStorage.getItem("easyPipeNotes") || "";
     updateCounter();
 
-    localStorage.setItem("easyPipeNotes",notes.value);
-
-    status.textContent="Saved";
-
-});
-
-saveBtn.addEventListener("click",()=>{
-
-    localStorage.setItem("easyPipeNotes",notes.value);
-
-    status.textContent="Saved";
-
-});
-
-clearBtn.addEventListener("click",()=>{
-
-    if(confirm("همه یادداشت‌ها پاک شوند؟")){
-
-        notes.value="";
-
-        localStorage.removeItem("easyPipeNotes");
-
+    notes.addEventListener("input", () => {
         updateCounter();
-
-        status.textContent="Cleared";
-
-    }
-
-});
-
-function updateCounter(){
-
-    counter.textContent=notes.value.length+" / 5000";
-
+        localStorage.setItem("easyPipeNotes", notes.value);
+        if (status) {
+            status.textContent = "Saved";
+        }
+    });
 }
-saveBtn.classList.add("saved");
 
-setTimeout(() => {
+if (saveBtn) {
+    saveBtn.addEventListener("click", () => {
+        if (notes) {
+            localStorage.setItem("easyPipeNotes", notes.value);
+        }
+        if (status) {
+            status.textContent = "Saved";
+        }
+        saveBtn.classList.add("saved");
+        setTimeout(() => {
+            saveBtn.classList.remove("saved");
+        }, 500);
+    });
+}
 
-    saveBtn.classList.remove("saved");
+if (clearBtn && notes) {
+    clearBtn.addEventListener("click", () => {
+        if (confirm("همه یادداشت‌ها پاک شوند؟")) {
+            notes.value = "";
+            localStorage.removeItem("easyPipeNotes");
+            updateCounter();
+            if (status) {
+                status.textContent = "Cleared";
+            }
+        }
+    });
+}
 
-}, 500);
 const notesToggle = document.getElementById("notesToggle");
 const notesCard = document.querySelector(".notes-card");
 
-notesToggle.addEventListener("click",()=>{
-
-    if(notesCard.style.display==="block"){
-
-        notesCard.style.display="none";
-
-    }else{
-
-        notesCard.style.display="block";
-
-    }
-
-});
+if (notesToggle && notesCard) {
+    notesToggle.addEventListener("click", () => {
+        notesCard.style.display = notesCard.style.display === "block" ? "none" : "block";
+    });
+}
 function isWithinLast24Hours(item) {
     const raw = item.publishedAt || item.date;
     if (!raw) return true;
@@ -1240,7 +1331,7 @@ async function loadNews() {
         const response = await fetch(newsUrl, { cache: "no-store" });
         if (!response.ok) throw new Error(`News request failed: ${response.status}`);
         const news = await response.json();
-        const recentNews = news.filter(isWithinLast24Hours);
+        const recentNews = Array.isArray(news) ? news.filter(isWithinLast24Hours) : [];
         container.replaceChildren();
 
         if (!recentNews.length) {
@@ -1249,10 +1340,10 @@ async function loadNews() {
             return;
         }
 
-        recentNews.forEach(item => {
+        recentNews.forEach((item) => {
             const article = document.createElement("a");
             article.className = item.image ? "news-item has-image" : "news-item";
-            article.href = item.url;
+            article.href = item.url || "#";
             article.target = "_blank";
             article.rel = "noopener noreferrer";
 
@@ -1275,11 +1366,11 @@ async function loadNews() {
             body.className = "news-body";
 
             const title = document.createElement("h3");
-            title.textContent = item.title;
+            title.textContent = item.title || "خبر";
             const summary = document.createElement("p");
-            summary.textContent = item.summary;
+            summary.textContent = item.summary || "";
             const meta = document.createElement("small");
-            meta.textContent = `${item.source} • ${item.date}`;
+            meta.textContent = `${item.source || "منبع"} • ${item.date || "—"}`;
             body.append(title, summary, meta);
             article.append(body);
             container.append(article);
@@ -1296,8 +1387,15 @@ loadNews();
 // ===== تغییر تم دارک/روشن =====
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
-  // Set initial icon based on current theme
-  const currentTheme = localStorage.getItem('theme') || 'dark';
+  const savedTheme = localStorage.getItem('theme');
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  const currentTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+
+  if (currentTheme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
   themeToggle.textContent = currentTheme === 'light' ? '☀️' : '🌙';
 
   themeToggle.addEventListener('click', () => {
