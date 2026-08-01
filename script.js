@@ -331,6 +331,32 @@ const elements = {
 let currentTool = null;
 let ignoreHistory = false;
 
+// Interactive 3D Logo
+const brandMark = document.querySelector('.brand-mark');
+if (brandMark) {
+  const logo = brandMark.querySelector('img');
+  if (logo) {
+    brandMark.addEventListener('mousemove', (e) => {
+      const rect = brandMark.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+      
+      const rotateY = (mouseX / (rect.width / 2)) * 12;
+      const rotateX = -(mouseY / (rect.height / 2)) * 12;
+      
+      logo.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+    });
+    
+    brandMark.addEventListener('mouseleave', () => {
+      logo.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+    });
+  }
+}
+
+
 const trimNumber = (value, digits = 2) => Number(value.toFixed(digits)).toString();
 const formatMm = (value, digits = 2) => `${trimNumber(value, digits)} میلی‌متر`;
 const formatInch = (value) => `${value.toFixed(4)} اینچ`;

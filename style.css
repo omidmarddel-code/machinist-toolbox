@@ -29,13 +29,30 @@
 
 [data-theme="light"] body {
   background:
-    linear-gradient(rgba(241, 245, 249, 0.85), rgba(241, 245, 249, 0.92)),
+    linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.6)),
     url("images/welcome.png");
 }
 
 [data-theme="light"] .tool-card {
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.02));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .tool-card:hover,
+[data-theme="light"] .tool-card:focus-visible {
+  border-color: rgba(2, 132, 199, 0.5);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.25), 0 0 15px rgba(22, 163, 74, 0.15);
+}
+
+[data-theme="light"] .tool-card:active {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .tool-card.active {
+  background: linear-gradient(135deg, rgba(22, 163, 74, 0.25), rgba(2, 132, 199, 0.15));
+  border-color: rgba(22, 163, 74, 0.5);
+  box-shadow: 0 5px 16px rgba(22, 163, 74, 0.25), 0 0 20px rgba(2, 132, 199, 0.15);
 }
 
 [data-theme="light"] .tool-icon {
@@ -283,22 +300,63 @@ button {
   padding: 14px;
   color: var(--text);
   text-align: right;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.055);
-  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.tool-card:hover::before {
+  left: 100%;
 }
 
 .tool-card:hover,
 .tool-card:focus-visible {
-  transform: translateY(-2px);
-  border-color: rgba(56, 189, 248, 0.48);
+  transform: translateY(-4px);
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 
+    0 12px 32px rgba(56, 189, 248, 0.35),
+    0 0 28px rgba(34, 197, 94, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
   outline: none;
 }
 
+.tool-card:active {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 16px rgba(56, 189, 248, 0.25),
+    0 0 12px rgba(34, 197, 94, 0.15);
+}
+
 .tool-card.active {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.22), rgba(56, 189, 248, 0.14));
-  border-color: rgba(34, 197, 94, 0.45);
+  background: linear-gradient(145deg, rgba(34, 197, 94, 0.35), rgba(56, 189, 248, 0.25));
+  border-color: rgba(34, 197, 94, 0.7);
+  box-shadow: 
+    0 8px 24px rgba(34, 197, 94, 0.4),
+    0 0 32px rgba(56, 189, 248, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .tool-card.locked {
@@ -1377,6 +1435,23 @@ button {
 .brand-mark {
   width: 154px;
   height: 154px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.1s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .tool-card {
@@ -1468,17 +1543,18 @@ button {
 .topbar.home-topbar {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: flex-start;
   min-height: 0;
   padding: 26px;
   gap: 18px;
+  position: relative;
 }
 
 .home-topbar > .page-intro {
   order: 1;
   width: 100%;
-  text-align: right;
+  text-align: center;
 }
 
 .home-topbar > .news-card {
@@ -1496,10 +1572,12 @@ button {
 }
 
 .home-topbar #pageTitle {
-  font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
-  font-size: clamp(1.45rem, 3vw, 2.2rem);
-  font-weight: 700;
-  line-height: 1.35;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 900px) {
