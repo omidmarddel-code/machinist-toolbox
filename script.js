@@ -1264,7 +1264,7 @@ function resetInactivityTimer() {
     clearTimeout(inactivityTimer);
 
     inactivityTimer = setTimeout(() => {
-        alert("به عدم فعالیت، از برنامه خارج شدید.");
+        alert("به علت عدم فعالیت، از برنامه خارج شدید.");
         sessionStorage.removeItem("loggedIn");
         window.location.href = "login.html";
     }, 1800000);
