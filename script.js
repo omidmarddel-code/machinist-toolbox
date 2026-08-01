@@ -319,8 +319,6 @@ const elements = {
   forgingWorkpieceMaterial: document.querySelector("#forgingWorkpieceMaterial"),
   forgingDieHoleDiameter: document.querySelector("#forgingDieHoleDiameter"),
   forgingTemperature: document.querySelector("#forgingTemperature"),
-  forgingPunchMaterial: document.querySelector("#forgingPunchMaterial"),
-  forgingDieMaterial: document.querySelector("#forgingDieMaterial"),
   calculateForgingClearance: document.querySelector("#calculateForgingClearance"),
   resetForgingClearance: document.querySelector("#resetForgingClearance"),
   forgingMessage: document.querySelector("#forgingMessage"),
@@ -851,11 +849,26 @@ function renderWeightShapeInputs() {
 
 function renderWeightMaterials() {
   elements.weightMaterial.innerHTML = "";
-  const materialEntries = Object.entries(MATERIAL_DENSITY_MAP).sort(([aKey, aValue], [bKey, bValue]) => {
-    const aName = aValue.label.toLowerCase();
-    const bName = bValue.label.toLowerCase();
-    return aName.localeCompare(bName, "fa", { sensitivity: "base" });
-  });
+  const allowedMaterials = new Set([
+    "MO40",
+    "VCN150",
+    "VCN200",
+    "CK75",
+    "CK45",
+    "H13",
+    "H7176",
+    "POM",
+    "PEEK",
+    "PTFE"
+  ]);
+
+  const materialEntries = Object.entries(MATERIAL_DENSITY_MAP)
+    .filter(([key]) => allowedMaterials.has(key))
+    .sort(([aKey, aValue], [bKey, bValue]) => {
+      const aName = aValue.label.toLowerCase();
+      const bName = bValue.label.toLowerCase();
+      return aName.localeCompare(bName, "fa", { sensitivity: "base" });
+    });
 
   materialEntries.forEach(([key, item]) => {
     const option = document.createElement("option");
@@ -904,6 +917,8 @@ function getForgingMaterialGroup(materialKey) {
     case "aluminum":
       return "aluminum";
     case "copper":
+    case "brass":
+    case "bronze":
       return "copper";
     case "titanium":
       return "titanium";
@@ -940,30 +955,8 @@ function getForgingClearanceRange(processType, materialGroup, sizeCategory) {
   return table[processType]?.[materialGroup]?.[sizeCategory] || null;
 }
 
-function getForgingToolToleranceFactor(punchMaterial, dieMaterial) {
-  const materialScore = (material) => {
-    switch (material) {
-      case "carbide":
-        return 0.2;
-      case "h13":
-      case "d2":
-        return 0.35;
-      case "p20":
-        return 0.55;
-      default:
-        return 0.5;
-    }
-  };
-
-  const punchScore = materialScore(punchMaterial);
-  const dieScore = materialScore(dieMaterial);
-  const average = (punchScore + dieScore) / 2;
-
-  if (punchMaterial === dieMaterial) {
-    return average * 0.85;
-  }
-
-  return Math.min(0.65, average + 0.1);
+function getForgingToolToleranceFactor() {
+  return 0.35;
 }
 
 function calculateForgingClearance() {
@@ -972,10 +965,8 @@ function calculateForgingClearance() {
   const dieHoleDiameter = Number(elements.forgingDieHoleDiameter.value);
   const temperatureInput = elements.forgingTemperature.value.trim();
   const temperature = temperatureInput === "" ? null : Number(temperatureInput);
-  const punchMaterial = elements.forgingPunchMaterial.value;
-  const dieMaterial = elements.forgingDieMaterial.value;
-  const punchMaterialLabel = elements.forgingPunchMaterial.options[elements.forgingPunchMaterial.selectedIndex]?.textContent || "";
-  const dieMaterialLabel = elements.forgingDieMaterial.options[elements.forgingDieMaterial.selectedIndex]?.textContent || "";
+  const punchMaterialLabel = "H13 یا فولاد ابزار";
+  const dieMaterialLabel = "H13 یا فولاد ابزار";
 
   elements.forgingResult.textContent = "--";
   elements.forgingDetails.textContent = "";
@@ -995,7 +986,7 @@ function calculateForgingClearance() {
   }
 
   const [minPerSide, maxPerSide] = range;
-  const toolFactor = getForgingToolToleranceFactor(punchMaterial, dieMaterial);
+  const toolFactor = getForgingToolToleranceFactor();
   const referencePerSide = minPerSide + (maxPerSide - minPerSide) * toolFactor;
   const referenceLabel = toolFactor <= 0.3 ? "محدوده دقیق‌تر" : toolFactor >= 0.55 ? "محدوده محافظه‌کارانه" : "محدوده میانی";
 
@@ -1037,8 +1028,6 @@ function resetForgingClearanceForm() {
   elements.forgingWorkpieceMaterial.value = "carbonSteel";
   elements.forgingDieHoleDiameter.value = "";
   elements.forgingTemperature.value = "";
-  elements.forgingPunchMaterial.value = "h13";
-  elements.forgingDieMaterial.value = "h13";
   elements.forgingResult.textContent = "--";
   elements.forgingDetails.textContent = "";
   updateForgingMessage("");
