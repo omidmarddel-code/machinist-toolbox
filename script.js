@@ -1351,61 +1351,100 @@ async function loadNews() {
 
     container.className = "";
     container.textContent = "در حال دریافت اخبار…";
+    
+    // Try remote URL first, then fallback to local file
+    const remoteUrl = "https://raw.githubusercontent.com/omidmarddel-code/machinist-toolbox/main/www/data/mechanical-news.json";
+    const localUrl = new URL("www/data/mechanical-news.json", document.baseURI);
+    
+    let news = null;
+    let errorSource = "";
+    
     try {
-        const newsUrl = new URL("www/data/mechanical-news.json", document.baseURI);
-        newsUrl.searchParams.set("v", Date.now().toString());
-        const response = await fetch(newsUrl, { cache: "no-store" });
-        if (!response.ok) throw new Error(`News request failed: ${response.status}`);
-        const news = await response.json();
-        const recentNews = Array.isArray(news) ? news.filter(isWithinLast24Hours) : [];
-        container.replaceChildren();
-
-        if (!recentNews.length) {
+        // Try remote URL with cache busting
+        const remoteNewsUrl = new URL(remoteUrl);
+        remoteNewsUrl.searchParams.set("v", Date.now().toString());
+        const response = await fetch(remoteNewsUrl, { 
+            cache: "no-store",
+            headers: {
+                "Accept": "application/json"
+            }
+        });
+        
+        if (response.ok) {
+            news = await response.json();
+            console.log("News loaded from remote server");
+        } else {
+            throw new Error(`Remote request failed: ${response.status}`);
+        }
+    } catch (remoteError) {
+        console.warn("Failed to load from remote, trying local:", remoteError);
+        errorSource = "remote";
+        
+        try {
+            // Fallback to local file
+            const localNewsUrl = new URL(localUrl);
+            localNewsUrl.searchParams.set("v", Date.now().toString());
+            const response = await fetch(localNewsUrl, { cache: "no-store" });
+            
+            if (response.ok) {
+                news = await response.json();
+                console.log("News loaded from local file");
+            } else {
+                throw new Error(`Local request failed: ${response.status}`);
+            }
+        } catch (localError) {
+            console.error("Both remote and local failed:", localError);
             container.className = "news-error";
-            container.textContent = "خبر جدیدی در ۲۴ ساعت گذشته یافت نشد.";
+            container.textContent = "دریافت اخبار در حال حاضر ممکن نیست. لطفاً دوباره تلاش کنید.";
             return;
         }
-
-        recentNews.forEach((item) => {
-            const article = document.createElement("a");
-            article.className = item.image ? "news-item has-image" : "news-item";
-            article.href = item.url || "#";
-            article.target = "_blank";
-            article.rel = "noopener noreferrer";
-
-            if (item.image) {
-                const thumb = document.createElement("img");
-                thumb.className = "news-thumb";
-                thumb.src = item.image;
-                thumb.alt = item.title || "";
-                thumb.loading = "lazy";
-                thumb.decoding = "async";
-                thumb.referrerPolicy = "no-referrer";
-                thumb.addEventListener("error", () => {
-                    thumb.remove();
-                    article.classList.remove("has-image");
-                });
-                article.append(thumb);
-            }
-
-            const body = document.createElement("div");
-            body.className = "news-body";
-
-            const title = document.createElement("h3");
-            title.textContent = item.title || "خبر";
-            const summary = document.createElement("p");
-            summary.textContent = item.summary || "";
-            const meta = document.createElement("small");
-            meta.textContent = `${item.source || "منبع"} • ${item.date || "—"}`;
-            body.append(title, summary, meta);
-            article.append(body);
-            container.append(article);
-        });
-    } catch (error) {
-        console.error(error);
-        container.className = "news-error";
-        container.textContent = "دریافت اخبار در حال حاضر ممکن نیست. لطفاً دوباره تلاش کنید.";
     }
+    
+    // Process and display news
+    const recentNews = Array.isArray(news) ? news.filter(isWithinLast24Hours) : [];
+    container.replaceChildren();
+
+    if (!recentNews.length) {
+        container.className = "news-error";
+        container.textContent = "خبر جدیدی در ۲۴ ساعت گذشته یافت نشد.";
+        return;
+    }
+
+    recentNews.forEach((item) => {
+        const article = document.createElement("a");
+        article.className = item.image ? "news-item has-image" : "news-item";
+        article.href = item.url || "#";
+        article.target = "_blank";
+        article.rel = "noopener noreferrer";
+
+        if (item.image) {
+            const thumb = document.createElement("img");
+            thumb.className = "news-thumb";
+            thumb.src = item.image;
+            thumb.alt = item.title || "";
+            thumb.loading = "lazy";
+            thumb.decoding = "async";
+            thumb.referrerPolicy = "no-referrer";
+            thumb.addEventListener("error", () => {
+                thumb.remove();
+                article.classList.remove("has-image");
+            });
+            article.append(thumb);
+        }
+
+        const body = document.createElement("div");
+        body.className = "news-body";
+
+        const title = document.createElement("h3");
+        title.textContent = item.title || "خبر";
+        const summary = document.createElement("p");
+        summary.textContent = item.summary || "";
+        const meta = document.createElement("small");
+        meta.textContent = `${item.source || "منبع"} • ${item.date || "—"}`;
+        body.append(title, summary, meta);
+        article.append(body);
+        container.append(article);
+    });
 }
 loadNews();
 
