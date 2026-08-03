@@ -1,0 +1,13 @@
+{
+  "appId": "com.omid.machinisttoolbox",
+  "appName": "Machinist Toolbox",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "android": {
+    "buildOptions": {
+      "minSdkVersion": 22,
+      "targetSdkVersion": 34,
+      "compileSdkVersion": 34
+    }
+  }
+}

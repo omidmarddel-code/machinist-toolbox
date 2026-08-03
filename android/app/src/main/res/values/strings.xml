@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Machinist Toolbox</string>
+    <string name="title_activity_main">Machinist Toolbox</string>
+    <string name="package_name">com.omid.machinisttoolbox</string>
+    <string name="custom_url_scheme">com.omid.machinisttoolbox</string>
+</resources>
