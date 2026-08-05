@@ -1337,14 +1337,6 @@ if (notesToggle && notesCard) {
         notesCard.style.display = notesCard.style.display === "block" ? "none" : "block";
     });
 }
-function isWithinLast24Hours(item) {
-    const raw = item.publishedAt || item.date;
-    if (!raw) return true;
-    const published = new Date(raw);
-    if (Number.isNaN(published.getTime())) return true;
-    return Date.now() - published.getTime() <= 24 * 60 * 60 * 1000;
-}
-
 async function loadNews() {
     const container = document.getElementById("newsList");
     if (!container) return;
@@ -1400,13 +1392,15 @@ async function loadNews() {
         }
     }
     
-    // Process and display news
-    const recentNews = Array.isArray(news) ? news.filter(isWithinLast24Hours) : [];
+    // Process and display news - show all articles from the feed
+    // The Python script already filters for recent articles (last 24h)
+    // and falls back to newest available if none are recent
+    const recentNews = Array.isArray(news) ? news : [];
     container.replaceChildren();
 
     if (!recentNews.length) {
         container.className = "news-error";
-        container.textContent = "خبر جدیدی در ۲۴ ساعت گذشته یافت نشد.";
+        container.textContent = "هیچ خبری در حال حاضر موجود نیست.";
         return;
     }
 
