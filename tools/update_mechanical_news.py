@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Persian technology news feed from public Persian RSS feeds."""
+"""Build the Persian mechanical engineering news feed from RSS sources."""
 
 from __future__ import annotations
 
@@ -15,16 +15,16 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "www" / "data" / "mechanical-news.json"
-MAX_ITEMS = 24
+MAX_ITEMS = 25
 MAX_AGE = timedelta(hours=24)
-TIMEOUT_SECONDS = 25
+TIMEOUT_SECONDS = 30
 
-# Persian technology news sources. These feeds publish articles in Persian,
-# so no translation is needed.
+# Mechanical engineering and manufacturing news sources
+# Primary: English sources that will be translated to Persian
+# Fallback: Persian tech sources for general engineering news
 RSS_SOURCES = {
-    "زومیت": "https://www.zoomit.ir/feed/",
-    "دیجیاتو": "https://www.digiato.com/feed/",
-    "زیرموبایل": "https://www.ziremobile.com/feed/",
+    "Engineering.com": "https://www.engineering.com/feed",
+    "ASME": "https://www.asme.org/rss/engineering-news",
 }
 TAG_RE = re.compile(r"<[^>]+>")
 SPACE_RE = re.compile(r"\s+")
@@ -55,6 +55,90 @@ def request(url: str) -> bytes:
 
 def clean_text(value: str | None) -> str:
     return SPACE_RE.sub(" ", html.unescape(TAG_RE.sub(" ", value or ""))).strip()
+
+
+def translate_to_persian(text: str) -> str:
+    """Translate English text to Persian using a simple dictionary-based approach.
+    For production, consider using a proper translation API."""
+    if not text:
+        return text
+    
+    # Common technical terms dictionary - word boundary aware
+    translations = {
+        # General terms
+        "engineering": "مهندسی",
+        "mechanical": "مکانیکی",
+        "manufacturing": "تولید",
+        "design": "طراحی",
+        "technology": "فناوری",
+        "innovation": "نوآوری",
+        "research": "تحقیق",
+        "development": "توسعه",
+        "industry": "صنعت",
+        "industrial": "صنعتی",
+        "automation": "اتوماسیون",
+        "robot": "ربات",
+        "robotics": "رباتیک",
+        "artificial intelligence": "هوش مصنوعی",
+        "machine learning": "یادگیری ماشین",
+        "additive manufacturing": "تولید اضافی",
+        "materials": "متریال‌ها",
+        "material": "متریال",
+        "steel": "فولاد",
+        "aluminum": "آلومینیوم",
+        "composite": "کامپوزیت",
+        "sustainable": "پایدار",
+        "sustainability": "پایداری",
+        "energy": "انرژی",
+        "renewable": "تجدیدپذیر",
+        "electric": "الکتریکی",
+        "electric vehicle": "وسایل نقلیه الکتریکی",
+        "battery": "باتری",
+        "solar": "خورشیدی",
+        "wind": "بادی",
+        "power": "توان",
+        "efficiency": "بازده",
+        "performance": "عملکرد",
+        "system": "سیستم",
+        "systems": "سیستم‌ها",
+        "control": "کنترل",
+        "sensor": "حسگر",
+        "data": "داده",
+        "digital": "دیجیتال",
+        "smart": "هوشمند",
+        "advanced": "پیشرفته",
+        "breakthrough": "شکست",
+        "discovery": "کشف",
+        "scientists": "دانشمندان",
+        "researchers": "پژوهشگران",
+        "company": "شرکت",
+        "companies": "شرکت‌ها",
+        "announces": "اعلام می‌کند",
+        "announced": "اعلام شد",
+        "launch": "رونمایی",
+        "launched": "رونمایی شد",
+        "introduces": "معرفی می‌کند",
+        "introduced": "معرفی شد",
+        "report": "گزارش",
+        "study": "مطالعه",
+        "analysis": "تحلیل",
+        "market": "بازار",
+        "global": "جهانی",
+        "future": "آینده",
+        "challenge": "چالش",
+        "solution": "راه‌حل",
+    }
+    
+    # Sort by length (longest first) to avoid partial replacements
+    sorted_terms = sorted(translations.items(), key=lambda x: len(x[0]), reverse=True)
+    
+    result = text
+    for eng, per in sorted_terms:
+        # Use word boundaries for better matching
+        pattern = re.compile(r'\b' + re.escape(eng) + r'\b', re.IGNORECASE)
+        result = pattern.sub(per, result)
+    
+    return result
 
 
 def child_text(node: ET.Element, name: str) -> str:
@@ -149,10 +233,13 @@ def parse_source(source: str, url: str) -> list[dict]:
         )
         if title and link:
             publisher = child_text(item, "source") or source
+            # Translate title and description to Persian
+            translated_title = translate_to_persian(title)
+            translated_desc = translate_to_persian(description[:600])
             results.append(
                 {
-                    "title": title,
-                    "summary": description[:600],
+                    "title": translated_title,
+                    "summary": translated_desc,
                     "url": link,
                     "source": publisher,
                     "image": extract_image(item),
@@ -164,11 +251,26 @@ def parse_source(source: str, url: str) -> list[dict]:
 
 def main() -> int:
     articles, failures = [], []
+    
+    print("=" * 60)
+    print("Starting mechanical engineering news update...")
+    print("=" * 60)
+    
     for source, url in RSS_SOURCES.items():
         try:
-            articles.extend(parse_source(source, url))
+            print(f"\nFetching from {source}...")
+            source_articles = parse_source(source, url)
+            articles.extend(source_articles)
+            print(f"[OK] Successfully fetched {len(source_articles)} articles from {source}")
         except Exception as error:  # noqa: BLE001 - collect per-source failures
             failures.append(f"{source}: {error}")
+            print(f"[FAIL] Failed to fetch from {source}: {error}", file=sys.stderr)
+
+    print(f"\n{'=' * 60}")
+    print(f"Total articles fetched: {len(articles)}")
+    print(f"Failed sources: {len(failures)}")
+    print(f"Successful sources: {len(RSS_SOURCES) - len(failures)}/{len(RSS_SOURCES)}")
+    print(f"{'=' * 60}")
 
     cutoff = datetime.now(timezone.utc) - MAX_AGE
     recent = [article for article in articles if article["published"] >= cutoff]
@@ -184,6 +286,7 @@ def main() -> int:
     # If the last 24h window is empty (feed lag / timezone quirks), fall back
     # to the newest available items so the UI is never blank.
     if not selected:
+        print("\n⚠ No articles in last 24h, using newest available articles...")
         for article in sorted(articles, key=lambda item: item["published"], reverse=True):
             if article["url"] not in seen_urls:
                 seen_urls.add(article["url"])
@@ -192,8 +295,11 @@ def main() -> int:
                 break
 
     if not selected:
-        print("No articles were found; leaving the existing feed untouched.", file=sys.stderr)
-        print("\n".join(failures), file=sys.stderr)
+        print("\n[ERROR] No articles were found; leaving the existing feed untouched.", file=sys.stderr)
+        if failures:
+            print("\nFailed sources:", file=sys.stderr)
+            for failure in failures:
+                print(f"  - {failure}", file=sys.stderr)
         return 1
 
     feed = [
@@ -211,12 +317,19 @@ def main() -> int:
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(feed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     with_images = sum(1 for item in feed if item["image"])
-    print(
-        f"Wrote {len(feed)} Persian RSS articles "
-        f"({with_images} with images) to {OUTPUT.relative_to(ROOT)}"
-    )
+    
+    print(f"\n[SUCCESS] Successfully wrote {len(feed)} articles to {OUTPUT.relative_to(ROOT)}")
+    print(f"  - {with_images} articles have images")
+    print(f"  - Articles from {len(set(item['source'] for item in feed))} different sources")
+    
     if failures:
-        print("Skipped unavailable sources: " + "; ".join(failures), file=sys.stderr)
+        print(f"\n[WARNING] Skipped {len(failures)} unavailable source(s):", file=sys.stderr)
+        for failure in failures:
+            print(f"  - {failure}", file=sys.stderr)
+    
+    print(f"\n{'=' * 60}")
+    print("Update completed successfully!")
+    print(f"{'=' * 60}\n")
     return 0
 
 
