@@ -31,6 +31,8 @@
   background:
     linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.6)),
     url("images/welcome.png");
+  background-attachment: fixed;
+  background-position: center;
 }
 
 [data-theme="light"] .tool-card {
@@ -203,9 +205,11 @@ body {
   margin: 0;
   direction: rtl;
   font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
-background:
+  background:
         linear-gradient(rgba(8,12,20,.80), rgba(8,12,20,.90)),
         url("images/welcome.png");
+  background-attachment: fixed;
+  background-position: center;
 }
 
 button,
@@ -1388,18 +1392,14 @@ button {
 
 .news-card{
     position:relative;
-
-    top:130px;      /* زیر کادر عنوان */
     top:auto;
     right:auto;
-
     width:auto;
-
+    display:flex;
+    flex-direction:column;
     background:rgba(7,12,20,.48);
-
     border-radius:20px;
     border:1px solid rgba(255,255,255,.08);
-
     padding:20px;
 }
 
@@ -1431,7 +1431,6 @@ button {
 #refreshNews:hover,
 #refreshNews:focus-visible { background:rgba(56,189,248,.24); outline:none; }
 
-#newsList { max-height:320px; overflow-y:auto; }
 .loading-news, .news-error { padding:12px 0 4px; color:var(--muted); }
 
 .news-item{
@@ -1495,6 +1494,7 @@ button {
 
 @media (max-width:620px) {
   .news-card { width:100%; max-width:none; }
+  #newsList { max-height: none; }
 }
 
 /* چیدمان اصلی خانه و منو */
@@ -1528,12 +1528,6 @@ button {
   transition: transform 0.1s ease-out;
   transform-style: preserve-3d;
   will-change: transform;
-}
-
-.brand-mark img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 
 .tool-card {
@@ -1685,16 +1679,5 @@ button {
   .topbar:has(#pageTitle) { padding: 18px; gap: 14px; }
   .topbar:has(#pageTitle) > .news-card { padding: 14px; }
   .news-header { align-items: flex-start; }
-  #newsList { max-height: 260px; }
-}
-.news-card{
-    display:flex;
-    flex-direction:column;
-    height: calc(100vh - 230px);
-}
-
-#newsList{
-    flex:1;
-    overflow-y:auto;
-    max-height:none;
+  #newsList { max-height: none; }
 }

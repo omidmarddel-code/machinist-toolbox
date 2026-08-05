@@ -1,74 +1,227 @@
 [
   {
-    "title": "Backflip’s back. Is the mesh-to-CAD AI real this time?",
-    "summary": "CEO Greg Mark explains the delayed رونمایی, how Backflip’s AI model has improved, and what happened to the Solidworks plugin. The post Backflip’s back. Is the mesh-to-CAD AI real this time? appeared first on مهندسی.com .",
-    "url": "https://www.engineering.com/backflips-back-is-the-mesh-to-cad-ai-real-this-time/",
-    "source": "Engineering.com",
-    "image": "https://www.engineering.com/wp-content/uploads/2026/08/img_backflip_fusion.png",
-    "date": "2026-08-04",
-    "publishedAt": "2026-08-04T17:38:12+00:00"
+    "title": "دادخواست جدید اپل علیه OpenAI: کارمندان سابق بیشتری اسرار تجاری ما را سرقت کرده‌اند",
+    "summary": "تحقیقات داخلی جدید اپل نشان می‌دهد حداقل ۱۱ کارمند سابق دیگر در پرونده OpenAI نقش داشته یا شاهد سرقت اطلاعات محرمانه بوده‌اند.",
+    "url": "https://digiato.com/finance-investment/apple-openai-trade-secrets-lawsuit-update",
+    "source": "Digiato",
+    "image": "https://static.digiato.com/digiato/2026/08/apple-openai-trade-secrets-lawsuit-update-۱.jpeg.webp",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:53:31+00:00"
   },
   {
-    "title": "SMT deploys Siemens Teamcenter for medical device PLM",
-    "summary": "The سیستم connects مهندسی, quality and regulatory داده to support DHF, DMR, change management and traceability. The post SMT deploys Siemens Teamcenter for medical device PLM appeared first on مهندسی.com .",
-    "url": "https://www.engineering.com/smt-deploys-siemens-teamcenter-for-medical-device-plm/",
-    "source": "Engineering.com",
-    "image": "",
-    "date": "2026-08-04",
-    "publishedAt": "2026-08-04T12:21:38+00:00"
+    "title": "شیائومی یک پروژکتور جدید با گیمبال داخلی معرفی کرد",
+    "summary": "شیائومی از پروژکتور اقتصادی جدید خود با نام «ردمی پروژکتور ۵» مجهز به گیمبال داخلی و وضوح تصویر بالا رونمایی کرد.",
+    "url": "https://www.zoomit.ir/video-projector/464493-xiaomi-redmi-projector-5-launched/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a71897d1e20719af568c3bd?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:40:00+00:00"
   },
   {
-    "title": "Inspire update adds point cloud and ATS800 support",
-    "summary": "The 2026 release adds raw scan recovery, faster point cloud handling and updated CAD compatibility. The post Inspire update adds point cloud and ATS800 support appeared first on مهندسی.com .",
-    "url": "https://www.engineering.com/inspire-update-adds-point-cloud-and-ats800-support/",
-    "source": "Engineering.com",
-    "image": "",
-    "date": "2026-08-04",
-    "publishedAt": "2026-08-04T12:03:24+00:00"
+    "title": "رئیس سازمان امور مالیاتی: بلاگرهای پردرآمد مشمول مالیات هستند",
+    "summary": "سبحانیان از اخذ مالیات از بلاگرهای پردرآمد و تداوم اجرای قانون مالیات بر خودروها و خانه‌های لوکس در سال جاری خبر داد.",
+    "url": "https://www.zoomit.ir/iran-news/464554-tax-on-high-income-bloggers/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a72d83b1e20719af568c66b?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:29:27+00:00"
   },
   {
-    "title": "Simple انرژی expands use of Siemens Xcelerator software",
-    "summary": "The EV maker is adding cloud-based PLM, CAD and BOM tools to manage vehicle variants and speed product توسعه. The post Simple انرژی expands use of Siemens Xcelerator software appeared first on مهندسی.com .",
-    "url": "https://www.engineering.com/simple-energy-expands-use-of-siemens-xcelerator-software/",
-    "source": "Engineering.com",
-    "image": "https://www.engineering.com/wp-content/uploads/2026/08/siemens-designcenter-x-simple-energy-newsroom-02-1280x720-1.jpg",
-    "date": "2026-08-04",
-    "publishedAt": "2026-08-04T12:00:25+00:00"
+    "title": "قیمت پارس نوآ افزایش یافت [مرداد ۱۴۰۵]",
+    "summary": "پارس نوآ همانند بسیاری دیگر از خودروهای جدید بازار، دچار شوک قیمتی اولیه شده است.",
+    "url": "https://digiato.com/price-terms-of-sale-car/pars-nova-price-increased-august-1405",
+    "source": "Digiato",
+    "image": "https://static.digiato.com/digiato/2026/08/Pars-Nova-3.jpg.webp",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:27:56+00:00"
   },
   {
-    "title": "Kioxia SSDs reach 10 million random read IOPS",
-    "summary": "PCIe 6.0 NVMe drives use XL-FLASH generation 2 memory for GPU direct access and AI memory extension. The post Kioxia SSDs reach 10 million random read IOPS appeared first on مهندسی.com .",
-    "url": "https://www.engineering.com/kioxia-ssds-reach-10-million-random-read-iops/",
-    "source": "Engineering.com",
-    "image": "https://www.engineering.com/wp-content/uploads/2026/08/KIOXIA_GP1_group-1.jpg",
-    "date": "2026-08-04",
-    "publishedAt": "2026-08-04T11:29:25+00:00"
+    "title": "اسپیس ایکس با استارلینک موبایل به جنگ اپراتورهای بزرگ آمریکا می‌رود",
+    "summary": "ارتقای سرویس ماهواره‌ای و ساخت ایستگاه‌های زمینی کوچک، استارلینک را از سال ۲۰۲۷ به رقیب مستقیم اپراتورهای همراه تبدیل می‌کند.",
+    "url": "https://digiato.com/internet-network/spacex-starlink-mobile-challenge-us-carriers",
+    "source": "Digiato",
+    "image": "https://static.digiato.com/digiato/2026/08/starlink-mobile.jpg.webp",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:21:31+00:00"
   },
   {
-    "title": "d-Matrix acquires Wallaroo.ai to expand AI inference platform",
-    "summary": "The deal adds AI deployment software and مهندسی talent to simplify inference scaling across heterogeneous داده centers. The post d-Matrix acquires Wallaroo.ai to expand AI inference platform appeared first on مهندسی.com .",
-    "url": "https://www.engineering.com/d-matrix-acquires-wallaroo-ai-to-expand-ai-inference-platform/",
-    "source": "Engineering.com",
-    "image": "",
-    "date": "2026-08-04",
-    "publishedAt": "2026-08-04T10:49:57+00:00"
+    "title": "کاظمی خبر داد: تجهیز ۵۰۰۰ کلاس درس به هوش مصنوعی و اینترنت با همکاری بنیاد مستضعفان",
+    "summary": "وزارت آموزش و پرورش در آستانه سال تحصیلی جدید از افتتاح ۲۳۰۰ پروژه آموزشی شامل ۱۳ هزار کلاس درس و تجهیز ۵۰۰۰ کلاس به فناوری‌های نوین خبر داد.",
+    "url": "https://www.zoomit.ir/iran-news/464548-education-ministry-new-projects-smart-schools/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a72d43f1e20719af568c660?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:12:24+00:00"
   },
   {
-    "title": "Superblocks brings enterprise AI app platform to AWS",
-    "summary": "The collaboration adds Amazon Bedrock and Aurora integration to help enterprises build governed AI apps with lower costs. The post Superblocks brings enterprise AI app platform to AWS appeared first on مهندسی.com .",
-    "url": "https://www.engineering.com/superblocks-brings-enterprise-ai-app-platform-to-aws/",
-    "source": "Engineering.com",
-    "image": "",
-    "date": "2026-08-04",
-    "publishedAt": "2026-08-04T10:41:14+00:00"
+    "title": "درآمد کسب‌‌وکار هوش مصنوعی اسپیس‌ایکس از بخش فضایی پیشی گرفت",
+    "summary": "درآمد بخش هوش مصنوعی اسپیس‌ایکس در سه‌ماهه‌ی اخیر به ۲٫۶ میلیارد دلار رسید و از درآمد بخش فضایی پیشی گرفت.",
+    "url": "https://www.zoomit.ir/business/464551-spacex-ai-revenue-surpasses-space/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a5874184d5a6f1e7d62c1d2?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:11:50+00:00"
   },
   {
-    "title": "Kioxia unveils XL1 CXL-compatible memory expansion module",
-    "summary": "Designed to expand سیستم memory with CXL فناوری, the XL1 Series targets high-عملکرد computing and AI workloads. The post Kioxia unveils XL1 CXL-compatible memory expansion module appeared first on مهندسی.com .",
-    "url": "https://www.engineering.com/kioxia-unveils-xl1-cxl-compatible-memory-expansion-module/",
-    "source": "Engineering.com",
-    "image": "https://www.engineering.com/wp-content/uploads/2026/08/KIOXIA_PRESS_XL1-1.jpg",
+    "title": "گوشی وان‌پلاس ۱۶ با باتری ۹ هزار میلی‌آمپرساعتی وارد خط تولید شد",
+    "summary": "وان‌پلاس تولید آزمایشی گوشی پرچمدار نسل بعدی خود یعنی وان‌پلاس ۱۶ را با باتری غول‌پیکر ۹۰۰۰ میلی‌آمپرساعتی آغاز کرد.",
+    "url": "https://www.zoomit.ir/mobile/464503-oneplus-16-9000mah-battery-production/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/695143ce4005abd2809a3f06?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:05:00+00:00"
+  },
+  {
+    "title": "شرط ادامه دریافت یارانه نقدی و کالابرگ اعلام شد",
+    "summary": "احراز اقامت برخی مشمولان یارانه و کالابرگ آغاز شد و دولت درباره پیامک‌های بدون لینک هشدار داد.",
+    "url": "https://www.zoomit.ir/iran-news/464545-housing-verification-subsidy-coupon-message/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a48b9394827070afcc7d4c1?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:00:39+00:00"
+  },
+  {
+    "title": "شاخص کل بورس بعد از یک ماه دوباره رکورد شکست",
+    "summary": "شاخص کل از سقف ۵ میلیون و ۴۰۰ هزار واحدی عبور کرد.",
+    "url": "https://digiato.com/finance-investment/tehran-stock-exchange-overall-index-breaks-record-again",
+    "source": "Digiato",
+    "image": "https://static.digiato.com/digiato/2026/08/شاخص-کل-بورس.jpg.webp",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T06:00:25+00:00"
+  },
+  {
+    "title": "بانک مرکزی: بخشی از یارانه و مزایای کارمندان از طریق «کیف پول ایران» پرداخت می‌شود",
+    "summary": "کیف پول ایران چیست و چه کاربردی دارد؟",
+    "url": "https://digiato.com/iran-technology-news/iran-central-bank-wallet-subsidy-plan",
+    "source": "Digiato",
+    "image": "https://static.digiato.com/digiato/2026/08/کیف-پول-ایران.jpg.webp",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T05:50:07+00:00"
+  },
+  {
+    "title": "اولین گزارش مالی اسپیس ایکس پس از عرضه عمومی منتشر شد؛ رشد درآمد و کاهش زیان خالص",
+    "summary": "نخستین گزارش مالی اسپیس ایکس پس از عرضه عمومی، علاوه‌بر رشد ۹۲ درصدی درآمد، هزینه‌های ۱۵.۸ میلیارد دلاری آن بخش هوش مصنوعی را فاش کرد.",
+    "url": "https://digiato.com/finance-investment/spacex-first-public-earnings-report-ai-financials",
+    "source": "Digiato",
+    "image": "https://static.digiato.com/digiato/2026/08/SpaceX.jpg.webp",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T05:44:59+00:00"
+  },
+  {
+    "title": "خودنمایی پیکسل ۱۱ پرو ایکس‌ال؛ گوگل یکی از جذاب‌ترین گوشی‌های امسال را می‌سازد",
+    "summary": "تصاویر رسمی فاش‌شده از پیکسل ۱۱ پرو XL طراحی نهایی و ویژگی‌های ظاهری پرچمدار جدید گوگل را پیش از رونمایی به‌نمایش گذاشت.",
+    "url": "https://www.zoomit.ir/mobile/464534-google-pixel-11-pro-xl-leaked/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a72a1bb1e20719af568c61d?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T05:40:00+00:00"
+  },
+  {
+    "title": "واکنش پاول دورف به حذف تلگرام از اپ استور: اقدام اپل زیادی بود",
+    "summary": "تلگرام روز گذشته از اپ استور اپل در چندین کشور ناپدید شد و اکنون «پاول دورف» درباره ابعاد فنی و حقوقی این رخداد صحبت کرد.",
+    "url": "https://digiato.com/app/pavel-durov-reaction-telegram-app-store-brief-removal-csam",
+    "source": "Digiato",
+    "image": "https://static.digiato.com/digiato/2026/08/telegram-app-store-brief-removal-csam-۱-1.jpeg.webp",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T05:32:26+00:00"
+  },
+  {
+    "title": "شرکتی که فیفا، بتلفیلد و نید فور اسپید را به خانه شما آورد، به دست عربستان تصاحب شد",
+    "summary": "الکترونیک آرتز با نهایی‌شدن معامله‌ی ۵۵ میلیارد دلاری، رسما به یک شرکت خصوصی تبدیل شد و زیر چتر عربستان قرار گرفت.",
+    "url": "https://www.zoomit.ir/business/464539-ea-becomes-private-company-deal/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a72c6551e20719af568c644?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T05:22:41+00:00"
+  },
+  {
+    "title": "تصاویر گلکسی S26 FE لو رفت؛ خبری از تغییرات بزرگ نیست",
+    "summary": "تصاویر افشاشده‌ی جدید از گوشی گلکسی S26 FE، طراحی جزیره‌ی دوربین و رنگ‌های متنوع این محصول جدید سامسونگ را به نمایش گذاشت.",
+    "url": "https://www.zoomit.ir/mobile/464538-samsung-galaxy-s26-fe-leak-new-images/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/68d3f317460ef70870294041?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T05:22:11+00:00"
+  },
+  {
+    "title": "رشد درآمد دیتاسنتر و فراموشی گیمرهای عادی؛ گزارش مالی جدید AMD منتشر شد",
+    "summary": "درآمد بخش دیتاسنترهای AMD در جدیدترین گزارش مالی این شرکت با رشد چشمگیر ۱۰۷ درصدی نسبت‌به سال گذشته به ۶٫۷ میلیارد دلار رسید.",
+    "url": "https://www.zoomit.ir/economics/464537-amd-q2-2026-earnings-report/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/68a06222025cd65f413c09cf?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T05:12:32+00:00"
+  },
+  {
+    "title": "سونی از یک لنز تله‌فوتو اقتصادی برای عکاسان تازه‌کار رونمایی کرد",
+    "summary": "سونی از لنز تله‌فوتو جدید و اقتصادی FE 100-400mm f/5.6-8 OSS با قیمت ۸۵۰ دلار برای دوربین‌های فول‌فریم رونمایی کرد.",
+    "url": "https://www.zoomit.ir/camera/464522-sony-fe-100-400mm-lens-announced/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a7209381e20719af568c4bc?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T04:50:00+00:00"
+  },
+  {
+    "title": "اپل برای یکی از مهم‌ترین مراسم‌های تاریخش آماده می‌شود",
+    "summary": "اپل فرآیند آماده‌سازی برای برگزاری رویداد بزرگ معرفی آیفون ۱۸ پرو، آیفون ۱۸ پرو مکس و یک مدل کاملا جدید از آیفون تاشو را در ماه سپتامبر آغاز کرده است.",
+    "url": "https://www.zoomit.ir/exhibition/464531-apple-prepares-september-iphone-event/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/679c8769017fd128760ddd4d?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T04:10:00+00:00"
+  },
+  {
+    "title": "لحظه‌ای تاریخی؛ یک ربات انسان‌نما به‌صورت کاملا مستقل از نردبان بالا رفت",
+    "summary": "ربات انسان‌نمای Figure 03 موفق شد بدون نیاز به کمک انسان یا کنترل از راه دور، به‌صورت کاملا مستقل از نردبان بالا برود.",
+    "url": "https://www.zoomit.ir/robotics-smart-machines/464521-figure-03-humanoid-ladder-climb/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a7207f61e20719af568c4b8?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T03:50:00+00:00"
+  },
+  {
+    "title": "تبلیغ فیلم مرد عنکبوتی در داخل خودروهای بی‌ام‌و، خشم رانندگان را برانگیخت",
+    "summary": "نمایش آگهی‌های تبلیغاتی فیلم جدید مرد عنکبوتی در داخل خودروهای بی‌ام‌و، موجی از نارضایتی را میان رانندگان ایجاد کرد.",
+    "url": "https://www.zoomit.ir/car/464533-bmw-spiderman-in-car-ads/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a723dda1e20719af568c5aa?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T03:30:00+00:00"
+  },
+  {
+    "title": "اعتیاد پنهان به هوش مصنوعی؛ سلامت ذهن مردم در خطر است",
+    "summary": "وابستگی غیرسالم به چت‌بات‌های هوش مصنوعی، فراتر از تصور عمومی شیوع پیدا کرده است و سلامت ذهنی کاربران را تهدید می‌کند.",
+    "url": "https://www.zoomit.ir/human-science/464530-unhealthy-llm-ai-chatbot-use/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a7235471e20719af568c580?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T03:05:00+00:00"
+  },
+  {
+    "title": "«یونی‌تری» با ربات‌های پیشرفته‌اش وارد بازار بورس می‌شود؛ زنگ خطر برای تسلا و بوستون داینامیکس",
+    "summary": "ارزش بازار شرکت چینی یونی‌تری، سازنده‌ی ربات‌های انسان‌نما، پس از عرضه‌ی اولیه سهام در بورس شانگهای به بیش از ۷٫۴ میلیارد دلار خواهد رسید.",
+    "url": "https://www.zoomit.ir/business/464520-unitree-ipo-valuation-7-billion/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/6a7204c21e20719af568c4b1?w=800&q=95",
+    "date": "2026-08-05",
+    "publishedAt": "2026-08-05T02:30:00+00:00"
+  },
+  {
+    "title": "ایکس‌باکس گیم پس میزبان نسخه بتای Gears of War: E-Day می‌شود",
+    "summary": "مایکروسافت فهرست بازی‌های جدید ایکس‌باکس گیم پس را به‌نمایش گذاشت و در بین آن‌ها، نسخه‌ی بتای Gears of War: E-Day خودنمایی می‌کند.",
+    "url": "https://www.zoomit.ir/gaming/464526-gears-of-war-eday-gamepass/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/638bb2ff8b369136d45871a0?w=800&q=95",
     "date": "2026-08-04",
-    "publishedAt": "2026-08-04T10:32:09+00:00"
+    "publishedAt": "2026-08-04T23:30:00+00:00"
+  },
+  {
+    "title": "آیفون ۲۰ با خنک‌کننده پیشرفته و بدنه فوق‌باریک مشابه آیفون ایر عرضه می‌شود",
+    "summary": "بر اساس ادعای منبعی آگاه، گوشی آیفون ۲۰ قرار است سیستم خنک‌کننده‌ی پیشرفته و بدنه‌ی فوق باریک داشته باشد.",
+    "url": "https://www.zoomit.ir/mobile/464519-iphone-20-cooling-air-frame-leak/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/68e50a1aa358db02e0900e80?w=800&q=95",
+    "date": "2026-08-04",
+    "publishedAt": "2026-08-04T23:20:00+00:00"
   }
 ]
