@@ -22,6 +22,34 @@
     }
   </script>
   <button id="notesToggle" class="notes-fab">📝</button>
+  <section class="notes-card">
+
+    <div class="notes-header">
+      <h2>📝 NOTE</h2>
+      <span id="saveStatus">Ready</span>
+    </div>
+
+    <textarea id="workshopNotes" placeholder="یادداشت‌های روزانه، نکات قالب سازی، تعمیرات، برنامه‌ها..."></textarea>
+
+    <div class="notes-footer">
+
+      <small id="charCount">0 / 5000</small>
+
+      <div>
+
+        <button id="clearNotes" class="notes-btn danger">
+          پاک کردن
+        </button>
+
+        <button id="saveNotes" class="notes-btn">
+          ذخیره
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
   <div class="app-shell">
     <aside class="sidebar" aria-label="ناوبری جعبه ابزار">
       <div class="brand">
@@ -102,35 +130,6 @@
           <div class="loading-news">
 
             در حال دریافت اخبار...
-
-          </div>
-
-        </div>
-
-      </section>
-
-      <section class="notes-card">
-
-        <div class="notes-header">
-          <h2>📝 NOTE</h2>
-          <span id="saveStatus">Ready</span>
-        </div>
-
-        <textarea id="workshopNotes" placeholder="یادداشت‌های روزانه، نکات قالب سازی، تعمیرات، برنامه‌ها..."></textarea>
-
-        <div class="notes-footer">
-
-          <small id="charCount">0 / 5000</small>
-
-          <div>
-
-            <button id="clearNotes" class="notes-btn danger">
-              پاک کردن
-            </button>
-
-            <button id="saveNotes" class="notes-btn">
-              ذخیره
-            </button>
 
           </div>
 

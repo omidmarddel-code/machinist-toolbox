@@ -1252,6 +1252,17 @@ button {
 
 }
 
+.notes-footer > div {
+    display: flex;
+    gap: 10px;
+}
+
+.notes-footer .notes-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    white-space: nowrap;
+}
+
 .notes-btn{
     position: relative;
     overflow: hidden;
@@ -1351,6 +1362,22 @@ button {
 .notes-card{
 
     display:none;
+
+    position: fixed;
+    top: 80px;
+    left: 18px;
+    bottom: 100px;
+    width: 300px;
+    max-width: calc(100vw - 36px);
+    z-index: 9998;
+    overflow-y: auto;
+    background: var(--surface-strong);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(22px);
+    border-radius: 22px;
+    padding: 20px;
+    margin: 0;
 
 }
 .notes-fab{
@@ -1641,11 +1668,6 @@ button {
   border-radius: 18px;
 }
 
-.home-topbar > .notes-card {
-  order: 3;
-  width: 100%;
-  max-width: none;
-}
 
 .home-topbar #pageTitle {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
