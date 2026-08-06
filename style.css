@@ -1521,7 +1521,7 @@ button {
 
 @media (max-width:620px) {
   .news-card { width:100%; max-width:none; }
-  #newsList { max-height: none; }
+  #newsList { max-height: calc(100vh - 280px); }
 }
 
 /* چیدمان اصلی خانه و منو */
@@ -1701,5 +1701,20 @@ button {
   .topbar:has(#pageTitle) { padding: 18px; gap: 14px; }
   .topbar:has(#pageTitle) > .news-card { padding: 14px; }
   .news-header { align-items: flex-start; }
-  #newsList { max-height: none; }
+}
+
+/* ===== News page: fit viewport, only news list scrolls ===== */
+body:has(.news-card:not([hidden])) {
+  overflow: hidden;
+}
+
+#newsList {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+@media (max-width: 620px) {
+  #newsList {
+    max-height: calc(100vh - 280px);
+  }
 }

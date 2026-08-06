@@ -1482,16 +1482,20 @@ async function loadNews() {
         if (item.image) {
             const thumb = document.createElement("img");
             thumb.className = "news-thumb";
-            thumb.src = item.image;
+            // Use CORS proxy for Digiato images to bypass CDN restrictions
+            const imageUrl = item.image.includes("digiato.com") 
+                ? `https://corsproxy.io/?${encodeURIComponent(item.image)}`
+                : item.image;
+            thumb.src = imageUrl;
             thumb.alt = item.title || "";
-            thumb.loading = "lazy";
-            thumb.decoding = "async";
-            thumb.referrerPolicy = "no-referrer";
-            thumb.addEventListener("error", function onImgError() {
-                thumb.removeEventListener("error", onImgError);
-                thumb.remove();
+            thumb.onerror = function() {
+                console.warn("Image blocked or failed to load:", item.image);
+                this.style.display = 'none';
                 article.classList.remove("has-image");
-            });
+            };
+            thumb.onload = function() {
+                console.log("Image loaded successfully:", imageUrl);
+            };
             article.append(thumb);
         }
 
@@ -1505,6 +1509,7 @@ async function loadNews() {
         const meta = document.createElement("small");
         const newsDate = formatNewsDate(parseNewsDate(item));
         meta.textContent = `${item.source || "منبع"} • ${newsDate}`;
+        
         body.append(title, summary, meta);
         article.append(body);
         container.append(article);
