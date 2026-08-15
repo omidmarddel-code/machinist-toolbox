@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer & Contact - Easy Pipe Machinist Toolbox</title>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+        (function () {
+            var t = localStorage.getItem('theme') || 'dark';
+            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        })();
+    </script>
+</head>
+
+<body>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="تغییر تم">🌙</button>
+
+    <div class="contact-page">
+        <div class="contact-card">
+            <div class="contact-header">
+                <button class="back-btn" id="backBtn" type="button" aria-label="بازگشت به برنامه">
+                    <span class="back-icon">←</span>
+                    <span class="back-text">بازگشت</span>
+                </button>
+                <h1 class="contact-title">Developer & Contact</h1>
+            </div>
+
+            <div class="contact-body">
+                <div class="contact-avatar">
+                    <div class="avatar-circle">
+                        <span class="avatar-icon">👨‍💻</span>
+                    </div>
+                    <h2 class="developer-name">Omid Marddel</h2>
+                    <p class="developer-role">Developer & Machinist Engineer</p>
+                </div>
+
+                <div class="contact-grid">
+                    <div class="contact-row">
+                        <span class="contact-icon">🛠️</span>
+                        <span class="contact-label">Project</span>
+                        <span class="contact-value">Easy Pipe / Machinist Tool Box</span>
+                    </div>
+
+                    <div class="contact-row">
+                        <span class="contact-icon">📞</span>
+                        <span class="contact-label">Phone</span>
+                        <a href="tel:09197392944" class="contact-action-btn call-btn">
+                            <span class="btn-icon">📞</span>
+                            <span class="btn-text">09197392944</span>
+                        </a>
+                    </div>
+
+                    <div class="contact-row">
+                        <span class="contact-icon">✉️</span>
+                        <span class="contact-label">Email</span>
+                        <a href="mailto:omidmarddel@gmail.com" class="contact-action-btn email-btn">
+                            <span class="btn-icon">✉️</span>
+                            <span class="btn-text">omidmarddel@gmail.com</span>
+                        </a>
+                    </div>
+
+                    <div class="contact-row">
+                        <span class="contact-icon">📱</span>
+                        <span class="contact-label">Social</span>
+                        <div class="social-buttons">
+                            <a href="https://wa.me/989197392944" class="social-btn whatsapp" target="_blank"
+                                rel="noopener">
+                                <span class="social-icon">💬</span>
+                                <span>WhatsApp</span>
+                            </a>
+                            <a href="https://t.me/omidmarddel" class="social-btn telegram" target="_blank"
+                                rel="noopener">
+                                <span class="social-icon">✈️</span>
+                                <span>Telegram</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-row">
+                        <span class="contact-icon">📦</span>
+                        <span class="contact-label">Version</span>
+                        <span class="contact-value">1.0.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-footer">
+                <small>© 2026 Omid Marddel</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+            const currentTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+            themeToggle.textContent = currentTheme === 'light' ? '☀️' : '🌙';
+            themeToggle.addEventListener('click', () => {
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                if (isLight) {
+                    document.documentElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.textContent = '🌙';
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.textContent = '☀️';
+                }
+            });
+        }
+
+        // Back button
+        const backBtn = document.getElementById('backBtn');
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        }
+    </script>
+</body>
+
+</html>

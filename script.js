@@ -1858,3 +1858,15 @@ if (themeToggle) {
     }
   });
 }
+
+// ===== Developer & Contact Button =====
+(function () {
+  const devContactBtn = document.getElementById("devContactBtn");
+  if (devContactBtn) {
+    devContactBtn.addEventListener("click", () => {
+      window.location.href = "contact.html";
+    });
+  }
+})();
+
+
