@@ -1538,7 +1538,7 @@ button {
 
 .brand {
   justify-content: center;
-  padding: 8px 0 14px;
+  padding: 0;
 }
 
 .brand-mark {
@@ -1546,6 +1546,7 @@ button {
   height: 154px;
   perspective: 1000px;
   cursor: pointer;
+margin-top: 12px;
 }
 
 .brand-mark img {
