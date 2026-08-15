@@ -331,32 +331,6 @@ const elements = {
 let currentTool = null;
 let ignoreHistory = false;
 
-// Interactive 3D Logo
-const brandMark = document.querySelector('.brand-mark');
-if (brandMark) {
-  const logo = brandMark.querySelector('img');
-  if (logo) {
-    brandMark.addEventListener('mousemove', (e) => {
-      const rect = brandMark.getBoundingClientRect();
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      
-      const mouseX = e.clientX - centerX;
-      const mouseY = e.clientY - centerY;
-      
-      const rotateY = (mouseX / (rect.width / 2)) * 12;
-      const rotateX = -(mouseY / (rect.height / 2)) * 12;
-      
-      logo.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
-    });
-    
-    brandMark.addEventListener('mouseleave', () => {
-      logo.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-    });
-  }
-}
-
-
 const trimNumber = (value, digits = 2) => Number(value.toFixed(digits)).toString();
 const formatMm = (value, digits = 2) => `${trimNumber(value, digits)} میلی‌متر`;
 const formatInch = (value) => `${value.toFixed(4)} اینچ`;
@@ -1275,6 +1249,340 @@ function resetInactivityTimer() {
 });
 
 resetInactivityTimer();
+
+// ===== Utility Panel: Clock + Calendar + Calculator =====
+(function() {
+  'use strict';
+
+  // ===== Analog Clock =====
+  const hourHand = document.getElementById('hourHand');
+  const minuteHand = document.getElementById('minuteHand');
+  const secondHand = document.getElementById('secondHand');
+  const clockMarkers = document.getElementById('clockMarkers');
+
+  // Create clock markers
+  if (clockMarkers) {
+    for (let i = 0; i < 12; i++) {
+      const marker = document.createElement('div');
+      marker.className = 'clock-marker' + (i % 3 === 0 ? ' major' : '');
+      marker.style.transform = `rotate(${i * 30}deg)`;
+      clockMarkers.appendChild(marker);
+    }
+  }
+
+  function updateClock() {
+    const now = new Date();
+    const hours = now.getHours() % 12;
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const milliseconds = now.getMilliseconds();
+
+    // Smooth second hand movement
+    const secondAngle = (seconds + milliseconds / 1000) * 6;
+    const minuteAngle = (minutes + seconds / 60) * 6;
+    const hourAngle = (hours + minutes / 60) * 30;
+
+    if (secondHand) {
+      secondHand.style.transform = `rotate(${secondAngle}deg)`;
+    }
+    if (minuteHand) {
+      minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+    }
+    if (hourHand) {
+      hourHand.style.transform = `rotate(${hourAngle}deg)`;
+    }
+
+    requestAnimationFrame(updateClock);
+  }
+
+  if (hourHand || minuteHand || secondHand) {
+    requestAnimationFrame(updateClock);
+  }
+
+  // ===== Scientific Calculator =====
+  const calculatorToggle = document.getElementById('calculatorToggle');
+  const scientificCalculator = document.getElementById('scientificCalculator');
+  const calcExpression = document.getElementById('calcExpression');
+  const calcResult = document.getElementById('calcResult');
+  const calcHistory = document.getElementById('calcHistory');
+  const degRadToggle = document.getElementById('degRadToggle');
+
+  let isCalculatorOpen = false;
+  let currentExpression = '';
+  let currentResult = '0';
+  let lastAnswer = 0;
+  let memory = 0;
+  let isDegree = true;
+  let openParentheses = 0;
+
+  if (calculatorToggle && scientificCalculator) {
+    calculatorToggle.addEventListener('click', () => {
+      isCalculatorOpen = !isCalculatorOpen;
+      scientificCalculator.classList.toggle('active', isCalculatorOpen);
+      calculatorToggle.classList.toggle('active', isCalculatorOpen);
+    });
+  }
+
+  if (degRadToggle) {
+    degRadToggle.addEventListener('click', () => {
+      isDegree = !isDegree;
+      degRadToggle.textContent = isDegree ? 'DEG' : 'RAD';
+      degRadToggle.classList.toggle('active', !isDegree);
+    });
+  }
+
+  function toRadians(angle) {
+    return isDegree ? (angle * Math.PI / 180) : angle;
+  }
+
+  function fromRadians(angle) {
+    return isDegree ? (angle * 180 / Math.PI) : angle;
+  }
+
+  function updateDisplay() {
+    if (calcExpression) {
+      calcExpression.textContent = currentExpression || '0';
+    }
+    if (calcResult) {
+      calcResult.textContent = currentResult;
+    }
+  }
+
+  function appendToExpression(value) {
+    currentExpression += value;
+    updateDisplay();
+  }
+
+  function clearCalculator() {
+    currentExpression = '';
+    currentResult = '0';
+    openParentheses = 0;
+    updateDisplay();
+  }
+
+  function calculateResult() {
+    try {
+      let expr = currentExpression;
+
+      // Replace constants
+      expr = expr.replace(/π/g, Math.PI.toString());
+      expr = expr.replace(/e(?![a-z])/g, Math.E.toString());
+
+      // Handle functions
+      expr = expr.replace(/sin\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.sin(toRadians(val));
+      });
+
+      expr = expr.replace(/cos\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.cos(toRadians(val));
+      });
+
+      expr = expr.replace(/tan\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.tan(toRadians(val));
+      });
+
+      expr = expr.replace(/sin⁻¹\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return fromRadians(Math.asin(val));
+      });
+
+      expr = expr.replace(/cos⁻¹\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return fromRadians(Math.acos(val));
+      });
+
+      expr = expr.replace(/tan⁻¹\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return fromRadians(Math.atan(val));
+      });
+
+      expr = expr.replace(/√\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.sqrt(val);
+      });
+
+      expr = expr.replace(/log\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.log10(val);
+      });
+
+      expr = expr.replace(/ln\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.log(val);
+      });
+
+      // Handle power operator
+      expr = expr.replace(/\^/g, '**');
+
+      // Evaluate the expression
+      const result = evaluateExpression(expr);
+
+      if (isFinite(result)) {
+        if (calcHistory) {
+          calcHistory.textContent = currentExpression + ' =';
+        }
+        lastAnswer = result;
+        currentResult = formatNumber(result);
+        currentExpression = '';
+        updateDisplay();
+      } else {
+        currentResult = 'خطا';
+        updateDisplay();
+      }
+    } catch (e) {
+      currentResult = 'خطا';
+      updateDisplay();
+    }
+  }
+
+  function evaluateExpression(expr) {
+    // Safe evaluation using Function constructor
+    const sanitized = expr.replace(/[^0-9+\-*/().%e\s]/g, '');
+    return new Function('return ' + sanitized)();
+  }
+
+  function formatNumber(num) {
+    if (Number.isInteger(num)) return num.toString();
+    return parseFloat(num.toFixed(8)).toString();
+  }
+
+  function handleParenthesis() {
+    if (openParentheses === 0 || currentExpression.slice(-1) === '(') {
+      appendToExpression('(');
+      openParentheses++;
+    } else {
+      appendToExpression(')');
+      openParentheses--;
+    }
+  }
+
+  // Calculator button events
+  document.querySelectorAll('.calc-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const action = button.dataset.action;
+      const value = button.dataset.value;
+
+      if (value !== undefined) {
+        appendToExpression(value);
+      } else if (action) {
+        switch (action) {
+          case 'clear':
+            clearCalculator();
+            break;
+          case 'parenthesis':
+            handleParenthesis();
+            break;
+          case 'percent':
+            appendToExpression('%');
+            break;
+          case 'add':
+            appendToExpression('+');
+            break;
+          case 'subtract':
+            appendToExpression('-');
+            break;
+          case 'multiply':
+            appendToExpression('×');
+            break;
+          case 'divide':
+            appendToExpression('÷');
+            break;
+          case 'equals':
+            calculateResult();
+            break;
+          case 'sqrt':
+            appendToExpression('√(');
+            openParentheses++;
+            break;
+          case 'power':
+            appendToExpression('^');
+            break;
+          case 'sin':
+            appendToExpression('sin(');
+            openParentheses++;
+            break;
+          case 'cos':
+            appendToExpression('cos(');
+            openParentheses++;
+            break;
+          case 'tan':
+            appendToExpression('tan(');
+            openParentheses++;
+            break;
+          case 'asin':
+            appendToExpression('sin⁻¹(');
+            openParentheses++;
+            break;
+          case 'acos':
+            appendToExpression('cos⁻¹(');
+            openParentheses++;
+            break;
+          case 'atan':
+            appendToExpression('tan⁻¹(');
+            openParentheses++;
+            break;
+          case 'log':
+            appendToExpression('log(');
+            openParentheses++;
+            break;
+          case 'ln':
+            appendToExpression('ln(');
+            openParentheses++;
+            break;
+          case 'pi':
+            appendToExpression('π');
+            break;
+          case 'e':
+            appendToExpression('e');
+            break;
+          case 'memory':
+            memory = parseFloat(currentResult) || 0;
+            if (calcHistory) {
+              calcHistory.textContent = `M = ${memory}`;
+            }
+            break;
+          case 'memory-recall':
+            appendToExpression(formatNumber(memory));
+            break;
+          case 'ans':
+            appendToExpression(formatNumber(lastAnswer));
+            break;
+        }
+      }
+    });
+  });
+
+  // Keyboard support for calculator
+  document.addEventListener('keydown', (e) => {
+    if (!isCalculatorOpen) return;
+
+    const key = e.key;
+    if (/[0-9]/.test(key)) {
+      appendToExpression(key);
+    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+      const opMap = { '*': '×', '/': '÷' };
+      appendToExpression(opMap[key] || key);
+    } else if (key === '(' || key === ')') {
+      handleParenthesis();
+    } else if (key === '%') {
+      appendToExpression('%');
+    } else if (key === '^') {
+      appendToExpression('^');
+    } else if (key === 'Enter' || key === '=') {
+      e.preventDefault();
+      calculateResult();
+    } else if (key === 'Escape' || key === 'c' || key === 'C') {
+      clearCalculator();
+    } else if (key === 'Backspace') {
+      currentExpression = currentExpression.slice(0, -1);
+      updateDisplay();
+    }
+  });
+
+})();
 
 const notes = document.getElementById("workshopNotes");
 const saveBtn = document.getElementById("saveNotes");
