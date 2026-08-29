@@ -179,7 +179,56 @@ CK75: {
 H7176: {
     eyebrow: "بانک متریال",
     title: "H7176"
-},castIron: {
+},
+P20: {
+  eyebrow: "بانک متریال",
+  title: "فولاد P20"
+},
+A2: {
+  eyebrow: "بانک متریال",
+  title: "فولاد A2"
+},
+S7: {
+  eyebrow: "بانک متریال",
+  title: "فولاد S7"
+},
+2080: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2080 (SPK)"
+},
+2316: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2316"
+},
+2343: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2343 (H11)"
+},
+2714: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2714"
+},
+2436: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2436 (D6)"
+},
+2842: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2842 (O2)"
+},
+2767: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2767"
+},
+3343: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.3343 (M2)"
+},
+1545: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.1545 (W1)"
+},
+castIron: {
   eyebrow: "بانک متریال",
   title: "چدن‌های ریخته‌گری"
 },
@@ -287,6 +336,8 @@ const elements = {
   toolCards: document.querySelectorAll(".tool-card"),
   panels: document.querySelectorAll(".tool-panel"),
   tapSearch: document.querySelector("#tapSearch"),
+  materialSearch: document.querySelector("#materialSearch"),
+  materialSearchResults: document.querySelector("#materialSearchResults"),
   tapSelect: document.querySelector("#tapSelect"),
   drillSize: document.querySelector("#drillSize"),
   metricsGrid: document.querySelector("#metricsGrid"),
@@ -510,6 +561,113 @@ function switchTool(tool, addToHistory = true) {
   if (addToHistory && location.hash !== `#${tool}`) {
     history.pushState({ tool }, "", `#${tool}`);
   }
+}
+
+function normalizeMaterialSearchText(text) {
+  if (!text) return "";
+
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/[۰-۹]/g, (digit) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(digit)))
+    .replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit)))
+    .replace(/ي/g, "ی")
+    .replace(/ك/g, "ک")
+    .replace(/\u200c/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildMaterialSearchIndex() {
+  const index = [];
+
+  const categoryKeys = Array.from(
+    document.querySelectorAll("#materialsPanel button.tool-card[data-tool]")
+  ).map((button) => button.dataset.tool);
+
+  categoryKeys.forEach((categoryKey) => {
+    const categoryPanel = document.querySelector(
+      `section.calculator-panel.tool-panel[data-panel="${categoryKey}"]`
+    );
+    if (!categoryPanel) return;
+
+    categoryPanel.querySelectorAll("button.tool-card[data-tool]").forEach((button) => {
+      const key = button.dataset.tool;
+      if (!key) return;
+
+      const strong = button.querySelector("strong")?.textContent.trim() || "";
+      const small = button.querySelector("small")?.textContent.trim() || "";
+      const materialPanel = document.querySelector(
+        `section.calculator-panel.tool-panel[data-panel="${key}"]`
+      );
+      const title = materialPanel?.querySelector("h3")?.textContent.trim() || "";
+
+      index.push({
+        key,
+        source: button,
+        searchText: normalizeMaterialSearchText([key, strong, small, title].join(" "))
+      });
+    });
+  });
+
+  return index;
+}
+
+function renderMaterialSearchResults(entries, query) {
+  const container = elements.materialSearchResults;
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (!query) {
+    container.hidden = true;
+    return;
+  }
+
+  if (entries.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "material-search-empty";
+    empty.textContent = "متریالی با این نام در بانک متریال پیدا نشد.";
+    container.appendChild(empty);
+    container.hidden = false;
+    return;
+  }
+
+  entries.forEach(({ source }) => {
+    const clone = source.cloneNode(true);
+    clone.classList.remove("active");
+    container.appendChild(clone);
+  });
+  container.hidden = false;
+}
+
+function setupMaterialSearch() {
+  if (!elements.materialSearch || !elements.materialSearchResults) return;
+
+  const searchIndex = buildMaterialSearchIndex();
+
+  const handleMaterialSearch = () => {
+    const query = normalizeMaterialSearchText(elements.materialSearch.value);
+
+    if (!query) {
+      renderMaterialSearchResults([], "");
+      return;
+    }
+
+    const matches = searchIndex.filter((entry) => entry.searchText.includes(query));
+    renderMaterialSearchResults(matches, query);
+  };
+
+  elements.materialSearch.addEventListener("input", handleMaterialSearch);
+
+  elements.materialSearchResults.addEventListener("click", (event) => {
+    const card = event.target.closest("button.tool-card[data-tool]");
+    if (!card) return;
+
+    elements.materialSearch.value = "";
+    renderMaterialSearchResults([], "");
+    switchTool(card.dataset.tool);
+  });
 }
 
 function bindEvents() {
@@ -1185,6 +1343,7 @@ renderTapOptions();
 renderEdmOptions();
 renderWeightMaterials();
 renderWeightShapeInputs();
+setupMaterialSearch();
 // در شروع برنامه هیچ پنلی باز نباشد
 elements.panels.forEach(panel => {
   panel.hidden = true;

@@ -342,9 +342,17 @@
       <section class="calculator-panel tool-panel" data-panel="materials" id="materialsPanel">
 
         <div class="panel-header">
-          <h2>بانک متریال</h2>
-          <p>نوع متریال را انتخاب کنید.</p>
+          <div>
+            <h2>بانک متریال</h2>
+            <p>نوع متریال را انتخاب کنید یا نام آن را جستجو کنید.</p>
+          </div>
+          <label class="search-box">
+            <span aria-hidden="true">&#9906;</span>
+            <input id="materialSearch" type="search" placeholder="جستجوی متریال مثل SPK، 1.2080، D2، M2..." autocomplete="off" />
+          </label>
         </div>
+
+        <div class="dashboard-grid material-search-results" id="materialSearchResults" hidden></div>
 
         <div class="dashboard-grid">
 
@@ -1852,6 +1860,52 @@
 
         <div class="dashboard-grid">
 
+          <button class="tool-card" data-tool="P20" type="button">
+            <span class="tool-icon">🧱</span>
+            <span>
+              <strong>P20</strong>
+              <small>Pre-Hardened Mold Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2311" type="button">
+            <span class="tool-icon">🧩</span>
+            <span>
+              <strong>1.2311</strong>
+              <small>P20 Mold Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2312" type="button">
+            <span class="tool-icon">⚙️</span>
+            <span>
+              <strong>1.2312</strong>
+              <small>P20 + S</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2738" type="button">
+            <span class="tool-icon">🏭</span>
+            <span>
+              <strong>1.2738</strong>
+              <small>P20 + Ni</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2083" type="button">
+            <span class="tool-icon">💎</span>
+            <span>
+              <strong>1.2083</strong>
+              <small>420 Stainless Mold Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2316" type="button">
+            <span class="tool-icon">🧪</span>
+            <span>
+              <strong>1.2316</strong>
+              <small>Stainless Mold Steel</small>
+            </span>
           </button>
 
           <button class="tool-card" data-tool="H13" type="button">
@@ -1862,6 +1916,22 @@
             </span>
           </button>
 
+          <button class="tool-card" data-tool="2343" type="button">
+            <span class="tool-icon">🌡️</span>
+            <span>
+              <strong>1.2343</strong>
+              <small>H11 Hot Work</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2714" type="button">
+            <span class="tool-icon">🏗️</span>
+            <span>
+              <strong>1.2714</strong>
+              <small>Forging Die Steel</small>
+            </span>
+          </button>
+
           <button class="tool-card" data-tool="D2" type="button">
             <span class="tool-icon">⚙️</span>
             <span>
@@ -1869,6 +1939,31 @@
               <small>Cold Work Steel</small>
             </span>
           </button>
+
+          <button class="tool-card" data-tool="2080" type="button">
+            <span class="tool-icon">🪨</span>
+            <span>
+              <strong>1.2080</strong>
+              <small>SPK / D3 High-Cr Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2436" type="button">
+            <span class="tool-icon">🗡️</span>
+            <span>
+              <strong>1.2436</strong>
+              <small>D6 High Wear Resistance</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="A2" type="button">
+            <span class="tool-icon">🎯</span>
+            <span>
+              <strong>A2</strong>
+              <small>Air Hardening</small>
+            </span>
+          </button>
+
           <button class="tool-card" data-tool="O1" type="button">
             <span class="tool-icon">🧰</span>
             <span>
@@ -1876,34 +1971,31 @@
               <small>Oil Hardening</small>
             </span>
           </button>
-          <button class="tool-card" data-tool="2083" type="button">
-            <span class="tool-icon">💎</span>
+
+          <button class="tool-card" data-tool="2842" type="button">
+            <span class="tool-icon">📐</span>
             <span>
-              <strong>1.2083</strong>
-              <small>420 Stainless Mold Steel</small>
+              <strong>1.2842</strong>
+              <small>O2 Precision Cold Work</small>
             </span>
           </button>
-          <button class="tool-card" data-tool="2311" type="button">
-            <span class="tool-icon">🧩</span>
+
+          <button class="tool-card" data-tool="2767" type="button">
+            <span class="tool-icon">💪</span>
             <span>
-              <strong>1.2311</strong>
-              <small>P20 Mold Steel</small>
+              <strong>1.2767</strong>
+              <small>High Toughness Ni-Steel</small>
             </span>
           </button>
-          <button class="tool-card" data-tool="2312" type="button">
-            <span class="tool-icon">⚙️</span>
+
+          <button class="tool-card" data-tool="S7" type="button">
+            <span class="tool-icon">💥</span>
             <span>
-              <strong>1.2312</strong>
-              <small>P20 + S</small>
+              <strong>S7</strong>
+              <small>Shock Resisting</small>
             </span>
           </button>
-          <button class="tool-card" data-tool="2738" type="button">
-            <span class="tool-icon">🏭</span>
-            <span>
-              <strong>1.2738</strong>
-              <small>P20 + Ni</small>
-            </span>
-          </button>
+
           <button class="tool-card" data-tool="VCN150" type="button">
             <span class="tool-icon">🧱</span>
             <span>
@@ -1911,6 +2003,7 @@
               <small>Cold Work Steel</small>
             </span>
           </button>
+
           <button class="tool-card" data-tool="VCN200" type="button">
             <span class="tool-icon">🛡️</span>
             <span>
@@ -1918,6 +2011,23 @@
               <small>Cold Work Steel</small>
             </span>
           </button>
+
+          <button class="tool-card" data-tool="3343" type="button">
+            <span class="tool-icon">⚡</span>
+            <span>
+              <strong>1.3343</strong>
+              <small>M2 High Speed Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="1545" type="button">
+            <span class="tool-icon">🔨</span>
+            <span>
+              <strong>1.1545</strong>
+              <small>W1 Water Hardening</small>
+            </span>
+          </button>
+
           <button class="tool-card" data-tool="MO40" type="button">
             <span class="tool-icon">🔩</span>
             <span>
@@ -1925,6 +2035,7 @@
               <small>Alloy Steel</small>
             </span>
           </button>
+
           <button class="tool-card" data-tool="CK45" type="button">
             <span class="tool-icon">🛠️</span>
             <span>
@@ -1932,6 +2043,7 @@
               <small>Medium Carbon Steel</small>
             </span>
           </button>
+
           <button class="tool-card" data-tool="CK75" type="button">
             <span class="tool-icon">📏</span>
             <span>
@@ -1939,6 +2051,7 @@
               <small>High Carbon Steel</small>
             </span>
           </button>
+
           <button class="tool-card" data-tool="H7176" type="button">
             <span class="tool-icon">🌿</span>
             <span>
@@ -1991,6 +2104,26 @@
             <strong>بسیار خوب ⭐⭐⭐⭐</strong>
           </div>
 
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.35–0.45 | Cr 1.80–2.10 | Mn 1.30–1.60 | Mo 0.15–0.25</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>استحکام کششی</span>
+            <strong>≈950–1100 MPa</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>پیش‌سخت (در صورت نیاز: آستنیت 830–870°C، تمپر 550–650°C)</strong>
+          </div>
+
         </div>
         <div class="lesson-card">
 
@@ -2001,6 +2134,24 @@
             این فولاد به صورت پیش‌سخت شده (Pre Hardened) عرضه می‌شود و نیاز به عملیات حرارتی بیشتری ندارد.
             برای قالب‌های تزریق پلاستیک با تیراژ متوسط تا بالا، انتخاب ایده‌آل است.
           </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی تحویل: 28–32 HRC (پیش‌سخت)</li>
+            <li>استحکام کششی: ≈950–1100 MPa</li>
+            <li>چقرمگی و ماشینکاری بسیار خوب</li>
+            <li>سختی یکنواخت در مقاطع بزرگ</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>عرضه پیش‌سخت‌شده؛ معمولاً نیازی به عملیات حرارتی مجدد نیست</li>
+            <li>در صورت نیاز: آستنیت‌سازی 830–870°C و کوئنچ روغن</li>
+            <li>تمپر: 550–650°C (دو مرحله) → سختی 30–36 HRC</li>
+            <li>برطرف تنش پس از ماشینکاری سنگین: حدود 550°C</li>
+          </ul>
 
           <p><strong>کاربردها</strong></p>
 
@@ -2031,9 +2182,9 @@
           </ul>
 
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2311<br>
+            DIN: 1.2311 (40CrMnMo7)<br>
             AISI: P20<br>
-            JIS: PMS
+            GB: 3Cr2Mo
           </p>
 
         </div>
@@ -2085,6 +2236,26 @@
             <strong>عالی ⭐⭐⭐⭐⭐</strong>
           </div>
 
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.35–0.42 | Cr 4.80–5.50 | Mo 1.20–1.50 | V 0.85–1.15 | Si 0.80–1.20</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤229 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>44–52 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 1020–1050°C، کوئنچ هوا/روغن، تمپر 2× 550–650°C</strong>
+          </div>
+
         </div>
         <div class="lesson-card">
 
@@ -2095,6 +2266,24 @@
             به دلیل مقاومت بالا در برابر حرارت، شوک حرارتی و سایش،
             برای قالب‌های دایکاست و فورج بسیار مناسب است.
           </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 44–52 HRC (پس از کوئنچ و تمپر)</li>
+            <li>استحکام کششی در سختی تحویل: ≈1000–1200 MPa</li>
+            <li>استحکام گرم حفظ‌شده تا حدود 550–600°C</li>
+            <li>چقرمگی خوب و مقاومت عالی به شوک حرارتی</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 229 HB</li>
+            <li>آستنیت‌سازی: 1020–1050°C و کوئنچ هوا/روغن/حمام گرم</li>
+            <li>تمپر: حداقل دو مرحله 550–650°C (پرهیز از محدوده 400–500°C)</li>
+            <li>برطرف تنش پس از ماشینکاری: 600–650°C</li>
+          </ul>
 
           <p><strong>کاربردها</strong></p>
 
@@ -2121,8 +2310,10 @@
           </ul>
 
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2344<br>
-            AISI: H13
+            DIN: 1.2344 (X40CrMoV5-1)<br>
+            AISI: H13<br>
+            JIS: SKD61<br>
+            Böhler: W302
           </p>
 
         </div>
@@ -2152,6 +2343,26 @@
           <div class="metric-card">
             <span>سختی تحویل</span>
             <strong>255 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 1.45–1.60 | Cr 11.0–13.0 | Mo 0.70–1.00 | V 0.70–1.00</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>58–62 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.70 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 1010–1030°C، کوئنچ روغن/هوا، تمپر 2× 170–250°C</strong>
           </div>
 
           <div class="metric-card">
@@ -2203,9 +2414,29 @@
             <li>✖ چقرمگی کمتر نسبت به H13</li>
           </ul>
 
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 58–62 HRC (با تمپر 170–250°C تا 60–62 HRC)</li>
+            <li>استحکام فشاری و مقاومت سایشی آبراتی بسیار بالا</li>
+            <li>قابلیت برطرف کردن تنش و نیترات‌کردن و پوشش‌دهی سطحی</li>
+            <li>پایداری ابعادی خوب در عملیات حرارتی</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 255 HB (830–850°C با سرد شدن کوره‌ای)</li>
+            <li>آستنیت‌سازی: 1010–1030°C و کوئنچ روغن، حمام گرم، هوا یا وکیوم</li>
+            <li>تمپر: دو مرحله 170–250°C → سختی 58–62 HRC</li>
+            <li>برطرف تنش: 650–700°C با سرد شدن کوره‌ای</li>
+          </ul>
+
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2379<br>
-            AISI: D2
+            DIN: 1.2379 (X153CrMoV12)<br>
+            AISI: D2<br>
+            JIS: SKD11<br>
+            Böhler: K110
           </p>
 
         </div>
@@ -2252,6 +2483,26 @@
             <strong>خوب ⭐⭐⭐⭐</strong>
           </div>
 
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.95–1.05 | Cr 4.75–5.50 | Mo 0.90–1.40 | V 0.15–0.35 | Mn 0.60–1.00</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>57–62 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 940–970°C، کوئنچ هوا، تمپر 2× 175–260°C</strong>
+          </div>
+
         </div>
         <div class="lesson-card">
 
@@ -2262,6 +2513,24 @@
             میزان اعوجاج در عملیات حرارتی خیلی کم دارد. این ویژگی آن را برای قالب‌های پانچ و برش دقیق
             بسیار مناسب می‌کند.
           </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 57–62 HRC (با تمپر 175–230°C حدود 58–60 HRC)</li>
+            <li>تعادل خوب بین مقاومت سایشی و چقرمگی</li>
+            <li>پایداری ابعادی عالی در عملیات حرارتی</li>
+            <li>ماشینکاری نسبتاً خوب (حدود 70٪ فولاد کربنی 1٪)</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 235 HB (حدود 843°C با سرد شدن کوره‌ای)</li>
+            <li>آستنیت‌سازی: 940–970°C و کوئنچ هوا/گاز فشرده/روغن قطع</li>
+            <li>تمپر: دو مرحله 175–260°C → سختی 57–62 HRC</li>
+            <li>تنش‌گیری قبل از سخت‌کاری: 600–650°C</li>
+          </ul>
 
           <p><strong>کاربردها</strong></p>
 
@@ -2292,9 +2561,10 @@
           </ul>
 
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2363<br>
+            DIN: 1.2363 (X100CrMoV5)<br>
             AISI: A2<br>
-            JIS: SKS3
+            JIS: SKD12<br>
+            Böhler: K120
           </p>
 
         </div>
@@ -2322,8 +2592,28 @@
           </div>
 
           <div class="metric-card">
-            <span>سختی تحویل</span>
-            <strong>210 HB</strong>
+            <span>سختی نرم‌شده</span>
+            <strong>≤229 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.90–1.05 | Mn 1.00–1.20 | Cr 0.50–0.70 | W 0.50–0.70 | V 0.05–0.15</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>57–62 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 790–820°C، کوئنچ روغن، تمپر 150–200°C</strong>
           </div>
 
           <div class="metric-card">
@@ -2380,8 +2670,26 @@
             <li>✖ مناسب قالب‌های گرم‌کار نیست</li>
           </ul>
 
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 57–62 HRC (با تمپر 150–200°C حدود 60–62 HRC)</li>
+            <li>ماشینکاری عالی (حدود 85–90٪ فولاد کربنی 1٪)</li>
+            <li>اعوجاج کم در عملیات حرارتی و پایداری ابعادی خوب</li>
+            <li>مقاومت سایشی متوسط و نگه‌داشت لبه خوب</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 229 HB</li>
+            <li>آستنیت‌سازی: 790–820°C و کوئنچ روغن (کوئنچ گرم 150–200°C توصیه می‌شود)</li>
+            <li>تمپر: 150–200°C (حداقل یک مرحله) → سختی 60–62 HRC</li>
+            <li>برطرف تنش قبل از سخت‌کاری: 600–650°C</li>
+          </ul>
+
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2510<br>
+            DIN: 1.2510 (100MnCrW4)<br>
             AISI: O1<br>
             JIS: SKS3
           </p>
@@ -2430,6 +2738,26 @@
             <strong>عالی ⭐⭐⭐⭐⭐</strong>
           </div>
 
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.45–0.55 | Cr 3.00–3.25 | Mo 1.30–1.60 | Si 0.20–0.90 | V 0.20–0.30</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>54–58 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.80 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 925–955°C، کوئنچ هوا/روغن، تمپر 2× 200–300°C</strong>
+          </div>
+
         </div>
         <div class="lesson-card">
 
@@ -2440,6 +2768,24 @@
             که نیاز به مقاومت بالا در برابر ضربه و خم‌شدگی دارند، طراحی شده است. این فولاد تعادل بهتری
             بین سختی، مقاومت سایشی و مقاومت ضربه دارد.
           </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 54–58 HRC (کار سرد) و تا حدود 45–50 HRC در کار گرم</li>
+            <li>چقرمگی ضربه‌ای بسیار بالا (بالاترین در بین فولادهای ابزار متداول)</li>
+            <li>سخت‌شوندگی در هوا یا روغن با اعوجاج کم</li>
+            <li>قابل استفاده در دماهای کاری تا حدود 540°C</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 223 HB (حدود 843°C با سرد شدن کوره‌ای)</li>
+            <li>آستنیت‌سازی: 925–955°C و کوئنچ هوا/گاز فشرده/روغن گرم</li>
+            <li>تمپر: دو مرحله 200–300°C برای کار سرد (54–58 HRC)</li>
+            <li>برای کاربردهای گرم‌کار: تمپر بالای 480°C و الزاماً دو مرحله</li>
+          </ul>
 
           <p><strong>کاربردها</strong></p>
 
@@ -2470,9 +2816,9 @@
           </ul>
 
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2355<br>
             AISI: S7<br>
-            JIS: SKS4
+            DIN: 1.2355 (تقریبی)<br>
+            JIS: SKS4 (تقریبی)
           </p>
 
         </div>
@@ -2500,8 +2846,23 @@
           </div>
 
           <div class="metric-card">
-            <span>سختی تحویل</span>
-            <strong>≈220 HB</strong>
+            <span>سختی نرم‌شده</span>
+            <strong>≤235 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.38–0.45 | Cr 12.50–14.50 | Si ≤1.00 | Mn ≤1.00</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.70 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 980–1030°C، کوئنچ روغن/هوا، تمپر 200–300°C</strong>
           </div>
 
           <div class="metric-card">
@@ -2563,9 +2924,28 @@
             <li>✖ ماشینکاری سخت‌تر از P20</li>
           </ul>
 
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 50–54 HRC (با تمپر 200–300°C)</li>
+            <li>مقاومت خوردگی عالی در برابر پلاستیک‌های خورنده و اسیدی</li>
+            <li>پولیش‌پذیری آینه‌ای و کیفیت سطح بسیار بالا</li>
+            <li>مناسب برای کروم‌سنجابی و نیترات‌کردن</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 235 HB</li>
+            <li>آستنیت‌سازی: 980–1030°C و کوئنچ روغن یا هوا (مقاطع کوچک)</li>
+            <li>تمپر: 200–300°C (دو مرحله) → سختی 50–54 HRC</li>
+            <li>برای حفظ مقاومت خوردگی از تمپر در محدوده 400–500°C پرهیز شود</li>
+          </ul>
+
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2083<br>
-            AISI: 420
+            DIN: 1.2083 (X40Cr14)<br>
+            AISI: 420<br>
+            JIS: SUS420J2
           </p>
 
         </div>
@@ -2622,6 +3002,21 @@
             <strong>مناسب ⭐⭐⭐⭐</strong>
           </div>
 
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.35–0.45 | Cr 1.80–2.10 | Mn 1.30–1.60 | Mo 0.15–0.25 | Si 0.20–0.40</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>استحکام کششی</span>
+            <strong>≈950–1100 MPa</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
         </div>
         <div class="lesson-card">
 
@@ -2659,9 +3054,27 @@
             <li>✖ برای قالب‌های آینه‌ای مناسب نیست</li>
           </ul>
 
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی تحویل: 30–34 HRC (پیش‌سخت)</li>
+            <li>استحکام کششی: ≈950–1100 MPa</li>
+            <li>ماشینکاری و جوشکاری ترمیمی مناسب</li>
+            <li>سختی یکنواخت در مقاطع متوسط</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>عرضه پیش‌سخت‌شده؛ معمولاً نیازی به عملیات حرارتی مجدد نیست</li>
+            <li>در صورت نیاز: آستنیت‌سازی 830–870°C و کوئنچ روغن</li>
+            <li>تمپر: 550–650°C (دو مرحله) → سختی 30–36 HRC</li>
+          </ul>
+
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2311<br>
-            AISI: P20
+            DIN: 1.2311 (40CrMnMo7)<br>
+            AISI: P20<br>
+            GB: 3Cr2Mo
           </p>
 
         </div>
@@ -2718,6 +3131,21 @@
             <strong>متوسط ⭐⭐⭐</strong>
           </div>
 
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.35–0.45 | Cr 1.80–2.10 | Mn 1.30–1.60 | Mo 0.15–0.25 | S 0.05–0.10</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>استحکام کششی</span>
+            <strong>≈950–1100 MPa</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
         </div>
         <div class="lesson-card">
 
@@ -2752,9 +3180,27 @@
             <li>✖ مقاومت خوردگی پایین</li>
           </ul>
 
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی تحویل: 30–34 HRC (پیش‌سخت)</li>
+            <li>استحکام کششی: ≈950–1100 MPa</li>
+            <li>ماشینکاری فوق‌العاده به دلیل گوگرد (Free Cutting)</li>
+            <li>پولیش‌پذیری متوسط (کمتر از 1.2311 بدون گوگرد)</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>عرضه پیش‌سخت‌شده؛ نیازی به عملیات حرارتی مجدد نیست</li>
+            <li>در صورت نیاز: آستنیت‌سازی 830–870°C و کوئنچ روغن</li>
+            <li>تمپر: 550–650°C (دو مرحله) → سختی 30–36 HRC</li>
+          </ul>
+
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.2312<br>
-            AISI: P20 + S
+            DIN: 1.2312 (40CrMnMoS8-6)<br>
+            AISI: P20 + S<br>
+            Uddeholm: 618S
           </p>
 
         </div>
@@ -2811,6 +3257,21 @@
             <strong>قالب‌های بزرگ تزریق پلاستیک</strong>
           </div>
 
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.35–0.45 | Cr 1.80–2.10 | Ni 0.90–1.20 | Mn 1.30–1.60 | Mo 0.15–0.25</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>استحکام کششی</span>
+            <strong>≈1000–1150 MPa</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
         </div>
         <div class="lesson-card">
 
@@ -2858,9 +3319,32 @@
           </ul>
 
           <p>
+            <strong>خواص مکانیکی</strong>
+          </p>
+
+          <ul>
+            <li>سختی تحویل: 30–36 HRC (پیش‌سخت)</li>
+            <li>استحکام کششی: ≈1000–1150 MPa</li>
+            <li>چقرمگی بالا و سختی یکنواخت در مقاطع ضخیم (به دلیل نیکل)</li>
+            <li>پولیش‌پذیری بسیار خوب</li>
+          </ul>
+
+          <p>
+            <strong>عملیات حرارتی</strong>
+          </p>
+
+          <ul>
+            <li>عرضه پیش‌سخت‌شده؛ معمولاً نیازی به عملیات حرارتی مجدد نیست</li>
+            <li>در صورت نیاز: آستنیت‌سازی 840–870°C و کوئنچ روغن</li>
+            <li>تمپر: 550–650°C (دو مرحله) → سختی 30–36 HRC</li>
+            <li>برطرف تنش پس از ماشینکاری سنگین: حدود 550°C</li>
+          </ul>
+
+          <p>
             <strong>معادل‌ها</strong><br>
-            DIN: 1.2738<br>
-            AISI: P20 + Ni
+            DIN: 1.2738 (40CrMnNiMo8-6-4)<br>
+            AISI: P20 + Ni<br>
+            Uddeholm: 718
           </p>
 
         </div>
@@ -3070,7 +3554,17 @@
 
           <div class="metric-card">
             <span>معادل</span>
-            <strong>DIN 1.0503 / EN 10083-2 (تقریبی)</strong>
+            <strong>AISI 1040 / DIN C40 (1.0511) / JIS S40C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.37–0.44 | Mn 0.60–0.90 | Si ≤0.40</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>استحکام کششی</span>
+            <strong>≈570–620 MPa (نرمال) / تا ~850 MPa (سخت‌کاری و تمپر)</strong>
           </div>
 
           <div class="metric-card">
@@ -3137,9 +3631,27 @@
             <li>✖ نیاز به عملیات حرارتی برای رسیدن به خواص نهایی</li>
           </ul>
 
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی تحویل: 180–230 HB</li>
+            <li>استحکام کششی نرمال‌شده: ≈570–620 MPa</li>
+            <li>پس از سخت‌کاری و تمپر: تا حدود 850 MPa بسته به مقطع</li>
+            <li>قابلیت کربن‌دهی و نیترات‌کردن برای مقاومت سطحی</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرمال‌کردن: 840–880°C با سرد شدن در هوا</li>
+            <li>آستنیت‌سازی: 820–850°C و کوئنچ روغن/آب (بسته به مقطع)</li>
+            <li>تمپر: 550–620°C → سختی کاری متوسط با چقرمگی مناسب</li>
+          </ul>
+
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.0503<br>
-            EN: 10083-2
+            AISI/SAE: 1040<br>
+            DIN: C40 / CK40 (1.0511 / 1.1186)<br>
+            JIS: S40C
           </p>
 
         </div>
@@ -3163,7 +3675,17 @@
 
           <div class="metric-card">
             <span>معادل</span>
-            <strong>DIN 1.0503 / EN 10083-2</strong>
+            <strong>AISI 1045 / DIN C45E (1.1191)</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.42–0.48 | Mn 0.50–0.80 | Si ≤0.40</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>استحکام کششی</span>
+            <strong>≈560–660 MPa (نرمال) / 700–850 MPa (سخت‌کاری و تمپر)</strong>
           </div>
 
           <div class="metric-card">
@@ -3230,9 +3752,27 @@
             <li>✖ چقرمگی کمتر نسبت به فولادهای آلیاژی</li>
           </ul>
 
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی تحویل: 180–230 HB</li>
+            <li>استحکام کششی نرمال‌شده: ≈560–660 MPa (حداقل 560 MPa طبق EN 10083-2)</li>
+            <li>پس از کوئنچ و تمپر: 700–850 MPa بسته به مقطع</li>
+            <li>قابلیت سخت‌کاری سطحی (آب‌سرد) و کربن‌دهی</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرمال‌کردن: 830–870°C با سرد شدن در هوا</li>
+            <li>آستنیت‌سازی: 820–850°C و کوئنچ آب/روغن (بسته به مقطع)</li>
+            <li>تمپر: 540–680°C → استحکام بالا با چقرمگی مناسب</li>
+          </ul>
+
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.0503<br>
-            EN: 10083-2
+            AISI/SAE: 1045<br>
+            DIN: C45E / CK45 (1.1191)<br>
+            JIS: S45C
           </p>
 
         </div>
@@ -3256,7 +3796,12 @@
 
           <div class="metric-card">
             <span>معادل</span>
-            <strong>DIN 1.1248 / EN 10084</strong>
+            <strong>DIN C75S (1.1248) / EN 10132-4 / ~AISI 1080</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.70–0.80 | Mn 0.60–0.80 | Si 0.15–0.35</strong>
           </div>
 
           <div class="metric-card">
@@ -3266,7 +3811,7 @@
 
           <div class="metric-card">
             <span>سختی پس از عملیات</span>
-            <strong>55–62 HRC</strong>
+            <strong>55–62 HRC (تمپر 200–300°C) / 28–34 HRC (تمپر 540–620°C)</strong>
           </div>
 
           <div class="metric-card">
@@ -3323,9 +3868,27 @@
             <li>✖ ماشینکاری قبل از عملیات حرارتی بهتر است</li>
           </ul>
 
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>استحکام و سختی بالا پس از کوئنچ و تمپر</li>
+            <li>مقاومت خستگی خوب (مناسب فنر و تیغه)</li>
+            <li>سختی‌پذیری متوسط (نیازمند کوئنچ تندتر نسبت به فولادهای آلیاژی)</li>
+            <li>ماشینکاری بهتر قبل از عملیات حرارتی</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>آستنیت‌سازی: 790–830°C و کوئنچ روغن/آب (بسته به مقطع)</li>
+            <li>تمپر 200–300°C → سختی 55–62 HRC (تیغه و ابزار برش)</li>
+            <li>تمپر 540–620°C → استحکام و مقاومت خستگی (شفت و قطعات فشاری)</li>
+          </ul>
+
           <p><strong>معادل‌ها</strong><br>
-            DIN: 1.1248<br>
-            EN: 10084
+            DIN: C75S / CK75 (1.1248)<br>
+            EN: 10132-4<br>
+            AISI: 1080 (تقریبی)
           </p>
 
         </div>
@@ -3420,6 +3983,1091 @@
           <p><strong>معادل‌ها</strong><br>
             EN: 10089<br>
             AISI/JIS: 65Si7 / 60Si7 (تقریبی)
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="2080" id="2080Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.2080 (SPK) Cold Work Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.2080 / X210Cr12</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>AISI D3 / JIS SKD1</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 1.90–2.20 | Cr 11.0–13.0 | Mn 0.20–0.60 | Si 0.10–0.60</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤255 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>58–64 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 930–970°C، کوئنچ روغن، تمپر 150–250°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.70 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>مقاومت سایشی</span>
+            <strong>فوق‌العاده ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ماشینکاری</span>
+            <strong>پایین ⭐⭐☆☆☆</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد <strong>1.2080 (X210Cr12)</strong> که در بازار ایران با نام تجاری <strong>SPK</strong> شناخته می‌شود،
+            یک فولاد سردکار پرکربن با حدود ۱۲٪ کروم (ساختار لدبوریتی) است. کاربیدهای کرومی فراوان، بالاترین
+            مقاومت سایشی و استحکام فشاری را فراهم می‌کنند و به دلیل درصد کروم بالا، مقاومت خوردگی نسبی نیز دارد.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 58–64 HRC پس از آستنیت‌سازی و تمپر</li>
+            <li>استحکام فشاری بسیار بالا</li>
+            <li>چقرمگی: کم (مناسب ابزارهای استاتیک و برشی)</li>
+            <li>پایداری ابعادی خوب در عملیات حرارتی</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 255 HB</li>
+            <li>آستنیت‌سازی: 930–970°C و کوئنچ روغن (مقاطع کوچک در هوا)</li>
+            <li>تمپر: 150–250°C (دو مرحله) → سختی 58–64 HRC</li>
+            <li>برطرف تنش: حدود 650°C</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>قالب‌های برش و پانچ ورق ضخیم و سخت</li>
+            <li>قالب‌های غلتک رزوه‌زنی</li>
+            <li>ماتریس کشش و سنبه‌های فشار سرد</li>
+            <li>تیغه‌ها و چاقوهای صنعتی</li>
+            <li>گیج‌ها و ابزار اندازه‌گیری</li>
+            <li>قالب‌های پرس پودر و سرامیک</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ بالاترین مقاومت سایشی در بین فولادهای متداول سردکار</li>
+            <li>✔ استحکام فشاری عالی</li>
+            <li>✔ مقاومت خوردگی نسبی به دلیل ۱۲٪ کروم</li>
+            <li>✔ قیمت مناسب‌تر از فولادهای پودری</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ چقرمگی پایین (حساس به ضربه)</li>
+            <li>✖ ماشینکاری سخت پس از سخت‌کاری</li>
+            <li>✖ ریسک ترک در کوئنچ نامناسب</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.2080 (X210Cr12)<br>
+            AISI: D3<br>
+            JIS: SKD1<br>
+            Böhler: K100
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="2436" id="2436Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.2436 Cold Work Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.2436 / X210CrW12</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>AISI D6 / AFNOR Z210CW12-01</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 2.00–2.30 | Cr 11.0–13.0 | W 0.60–0.80 | Mn 0.30–0.60</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤250 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>58–64 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 930–970°C، کوئنچ روغن، تمپر 150–250°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.70 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>مقاومت سایشی</span>
+            <strong>بسیار بالا ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ماشینکاری</span>
+            <strong>پایین ⭐⭐☆☆☆</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد <strong>1.2436 (X210CrW12)</strong> فولاد سردکار لدبوریتی با ۱۲٪ کروم و افزودن تنگستن است.
+            تنگستن، سختی‌پذیری و نگه‌داشت لبه را نسبت به 1.2080 بهبود می‌دهد. این فولاد بالاترین مقاومت سایشی،
+            پایداری ابعادی خوب و استحکام فشاری بالا دارد.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 58–64 HRC</li>
+            <li>استحکام فشاری بسیار بالا</li>
+            <li>چقرمگی کم تا متوسط</li>
+            <li>مقاومت سایشی در حد فولادهای پرکاربید</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 250 HB</li>
+            <li>آستنیت‌سازی: 930–970°C و کوئنچ روغن یا هوا</li>
+            <li>تمپر: 150–250°C (دو مرحله) → سختی 58–64 HRC</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>تیغه‌ها و چاقوهای برش کاغذ و پلاستیک</li>
+            <li>غلتک‌های صافکاری و سنبه‌های کشش</li>
+            <li>قالب‌های برش ورق نازک (تا ۲ میلی‌متر)</li>
+            <li>قالب‌های صنایع سرامیک</li>
+            <li>قالب‌های فرم‌دهی و پانچ</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ مقاومت سایشی فوق‌العاده</li>
+            <li>✔ بهبود سختی‌پذیری و نگه‌داشت لبه به دلیل تنگستن</li>
+            <li>✔ پایداری ابعادی خوب</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ ماشینکاری و گریند سخت</li>
+            <li>✖ چقرمگی پایین</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.2436 (X210CrW12)<br>
+            AISI: D6<br>
+            Böhler: K107
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="2343" id="2343Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.2343 (H11) Hot Work Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.2343 / X37CrMoV5-1</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>AISI H11 / JIS SKD6</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.33–0.41 | Cr 4.80–5.50 | Mo 1.10–1.50 | V 0.25–0.50 | Si 0.80–1.20</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤229 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>44–52 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 1000–1040°C، کوئنچ هوا/روغن، تمپر 2× 550–650°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.78 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چقرمگی</span>
+            <strong>عالی ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>مقاومت شوک حرارتی</span>
+            <strong>بسیار بالا ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد <strong>1.2343 (H11)</strong> یک فولاد گرم‌کار کروم-مولیبدن-وانادیم با چقرمگی عالی و
+            مقاومت بسیار خوب در برابر شوک حرارتی است. نسبت به H13 چقرمگی بالاتری دارد و برای قالب‌های
+            دایکاست سبک، فورج و ابزارهای اکستروژن با تنش حرارتی بالا انتخاب می‌شود.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 44–52 HRC (با تمپر 550°C حدود 48–50 HRC)</li>
+            <li>چقرمگی ضربه‌ای عالی (بهتر از H13)</li>
+            <li>استحکام گرم حفظ‌شده تا حدود 550°C</li>
+            <li>هدایت حرارتی خوب → خنک‌کاری مؤثر قالب</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 229 HB</li>
+            <li>آستنیت‌سازی: 1000–1040°C و کوئنچ هوا، روغن یا حمام گرم</li>
+            <li>تمپر: حداقل دو مرحله 550–650°C (سختی 44–52 HRC)</li>
+            <li>برطرف تنش پس از ماشینکاری: 600–650°C</li>
+            <li>قابلیت نیترات‌کردن و PVD برای افزایش مقاومت سطحی</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>قالب دایکاست آلومینیوم و منیزیم (درج و کور)</li>
+            <li>قالب فورج و سنبه‌های گرم‌کار</li>
+            <li>ابزار اکستروژن و ماتریس‌های گرم</li>
+            <li>تیغه‌های برش گرم</li>
+            <li>قالب پلاستیک تحت تنش حرارتی</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ چقرمگی و مقاومت به شوک حرارتی عالی</li>
+            <li>✔ استحکام گرم بالا</li>
+            <li>✔ پولیش‌پذیری خوب</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ مقاومت خوردگی پایین</li>
+            <li>✖ مقاومت سایشی گرم کمی کمتر از H13</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.2343 (X37CrMoV5-1)<br>
+            AISI: H11<br>
+            JIS: SKD6<br>
+            Böhler: W300
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="2714" id="2714Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.2714 Hot Work Die Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.2714 / 55NiCrMoV7</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>AFNOR 55NCDV7 / ~AISI L6 / ~JIS SKT4</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.50–0.60 | Cr 0.90–1.20 | Ni 1.50–1.80 | Mo 0.40–0.55 | V 0.05–0.15</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤250 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>38–46 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 840–870°C، کوئنچ روغن، تمپر 500–650°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>استحکام کششی (Q+T)</span>
+            <strong>≈1200–1350 MPa</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چقرمگی</span>
+            <strong>بسیار خوب ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد <strong>1.2714 (55NiCrMoV7)</strong> یک فولاد گرم‌کار (فولاد قالب فورج) با نیکل متوسط است
+            که چقرمگی عالی، سختی‌پذیری کامل در مقاطع بزرگ و استحکام فشاری بالا دارد. برای بلوک‌های قالب فورج
+            چکشی و پرس و قطعات تحت بار ضربه‌ای گرم انتخاب کلاسیک است.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 38–46 HRC (بسته به دمای تمپر)</li>
+            <li>استحکام کششی در حالت کوئنچ و تمپر: ≈1200–1350 MPa</li>
+            <li>چقرمگی ضربه‌ای عالی به دلیل نیکل</li>
+            <li>سختی‌پذیری کامل در بلوک‌های بزرگ</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 250 HB</li>
+            <li>آستنیت‌سازی: 840–870°C و کوئنچ روغن</li>
+            <li>تمپر: 500–650°C (دو مرحله) → سختی 38–46 HRC</li>
+            <li>برطرف تنش پس از ماشینکاری سنگین توصیه می‌شود</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>بلوک و درج قالب‌های فورج چکشی و پرس با ابعاد بزرگ</li>
+            <li>ابزار پرس و سردکاری (Swaging)</li>
+            <li>تیغه‌های برش گرم فولاد</li>
+            <li>ابزار اکستروژن و سنبه‌ها</li>
+            <li>نگهدارنده قالب (Die Holder) و پایه‌های ابزار</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ چقرمگی و مقاومت ضربه عالی</li>
+            <li>✔ مناسب برای مقاطع بسیار بزرگ</li>
+            <li>✔ استحکام فشاری بالا و نگه‌داشت سختی در گرمای متوسط</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ مقاومت سایشی کمتر از H13/1.2344</li>
+            <li>✖ جوشکاری توصیه نمی‌شود</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.2714 (55NiCrMoV7)<br>
+            AFNOR: 55NCDV7<br>
+            AISI: L6 (تقریبی)<br>
+            JIS: SKT4 (تقریبی)
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="2316" id="2316Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.2316 Stainless Mold Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.2316 / X38CrMo16</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>AISI 420 Modified / AFNOR Z38CD16-01</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.33–0.45 | Cr 15.50–17.00 | Mo 0.90–1.30</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی تحویل</span>
+            <strong>پیش‌سخت ≈280–320 HB (30–34 HRC)</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>45–50 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 1030–1050°C، کوئنچ روغن/هوا، تمپر 2× 500–550°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.70 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>مقاومت خوردگی</span>
+            <strong>عالی ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>پولیش‌پذیری</span>
+            <strong>بسیار خوب ⭐⭐⭐⭐☆</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد <strong>1.2316 (X38CrMo16)</strong> یک فولاد زنگ‌نزن مارتنزیتی مخصوص قالب‌سازی با حدود
+            ۱۶٪ کروم و مولیبدن است. مقاومت خوردگی آن بالاتر از 1.2083 است و به صورت پیش‌سخت عرضه می‌شود؛
+            انتخاب اصلی برای پلاستیک‌های خورنده مانند PVC و مواد ساینده شیمیایی.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی تحویل: ≈280–320 HB (30–34 HRC)</li>
+            <li>سختی کاری پس از عملیات: 45–50 HRC</li>
+            <li>مقاومت خوردگی عالی (بالاتر از 1.2083)</li>
+            <li>پولیش‌پذیری و ماشینکاری خوب</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>معمولاً پیش‌سخت عرضه می‌شود و نیازی به عملیات مجدد ندارد</li>
+            <li>آستنیت‌سازی: 1030–1050°C و کوئنچ روغن/هوا</li>
+            <li>تمپر: دو مرحله 500–550°C → سختی 45–50 HRC</li>
+            <li>نیترات‌کردن برای افزایش مقاومت سایشی سطحی امکان‌پذیر است</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>قالب تزریق پلاستیک‌های خورنده (PVC، استات‌ها و افزودنی‌های اسیدی)</li>
+            <li>کور و قالب‌های قطعات پزشکی و بهداشتی</li>
+            <li>قالب‌های شفاف با نیاز به مقاومت خوردگی</li>
+            <li>قطعات هیدرولیک و ماشین‌سازی در محیط خورنده</li>
+            <li>قالب فوم و مواد شیمیایی صنعتی</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ مقاومت خوردگی عالی</li>
+            <li>✔ پولیش‌پذیری خوب</li>
+            <li>✔ آماده مصرف (پیش‌سخت) و صرفه‌جویی در زمان</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ مقاومت سایشی کمتر از 1.2083 سخت‌کاری‌شده</li>
+            <li>✖ قیمت بالاتر از 1.2311</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.2316 (X38CrMo16)<br>
+            AISI: 420 Modified<br>
+            AFNOR: Z38CD16-01<br>
+            Böhler: M300
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="2842" id="2842Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.2842 (O2) Cold Work Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.2842 / 90MnCrV8</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>AISI O2 / B.S. BO2</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.85–0.95 | Mn 1.80–2.20 | Cr 0.20–0.50 | V 0.05–0.20</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤229 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>57–62 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 790–820°C، کوئنچ روغن، تمپر 150–250°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.85 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>پایداری ابعادی</span>
+            <strong>بسیار خوب ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ماشینکاری</span>
+            <strong>خوب ⭐⭐⭐⭐</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد <strong>1.2842 (90MnCrV8)</strong> یک فولاد سردکار روغن‌سخت با منگنز بالا است که
+            پایداری ابعادی عالی و مقاومت بسیار خوب در برابر ترک در عملیات حرارتی دارد. در مقایسه با 1.2510
+            (O1) بدون تنگستن است و مقاومت سایشی و لبه‌برندگی مشابهی با اعوجاج کمتر ارائه می‌دهد.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 57–62 HRC (پس از کوئنچ حدود 64 HRC)</li>
+            <li>مقاومت سایشی و نگه‌داشت لبه خوب</li>
+            <li>استحکام فشاری خوب</li>
+            <li>مقاومت بالا در برابر ترک‌های کوئنچ</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 229 HB (نرم‌کردن 690–720°C)</li>
+            <li>آستنیت‌سازی: 790–820°C و کوئنچ روغن</li>
+            <li>تمپر: 150–250°C → سختی 57–62 HRC</li>
+            <li>تنش‌گیری: 600–650°C با سرد شدن کوره‌ای</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>قالب‌های برش و پانچ ورق (تا حدود ۶ میلی‌متر)</li>
+            <li>سنبه، ماتریس و ابزار فرم‌دهی دقیق</li>
+            <li>گیج‌ها و ابزار اندازه‌گیری</li>
+            <li>ابزار نجاری و چوب‌بری</li>
+            <li>قالب‌های پلاستیک کوچک و لاینرها</li>
+            <li>تیغه‌های ماشین و ریش‌زنی</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ پایداری ابعادی عالی در عملیات حرارتی</li>
+            <li>✔ مقاومت بسیار خوب در برابر ترک</li>
+            <li>✔ قیمت اقتصادی و در دسترس</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ مقاومت سایشی کمتر از D2/1.2379</li>
+            <li>✖ مقاومت خوردگی پایین</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.2842 (90MnCrV8)<br>
+            AISI: O2<br>
+            B.S.: BO2<br>
+            Böhler: K460
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="2767" id="2767Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.2767 High Toughness Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.2767 / X45NiCrMo4</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>45NiCrMo16 / ~AISI 6F7</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.40–0.50 | Ni 3.80–4.30 | Cr 1.20–1.50 | Mo 0.15–0.35</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤285 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>50–56 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 840–870°C، کوئنچ روغن/هوا، تمپر 2× 170–300°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.80 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چقرمگی</span>
+            <strong>بسیار بالا ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>پولیش‌پذیری</span>
+            <strong>خوب ⭐⭐⭐⭐</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد <strong>1.2767 (X45NiCrMo4)</strong> یک فولاد سردکار با حدود ۴٪ نیکل است که چقرمگی
+            استثنایی و سختی‌پذیری کامل در مقاطع بزرگ (تا حدود ۱۵۰ میلی‌متر در هوا) دارد. برای قالب‌های بزرگ
+            پلاستیک با نیاز به تحمل ضربه، قالب‌های شکل‌دهی و ابزارهای برشی سنگین انتخاب می‌شود.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 50–56 HRC (متداول 52–55 HRC)</li>
+            <li>چقرمگی ضربه‌ای بسیار بالا (بهترین در کلاس سردکار)</li>
+            <li>استحکام فشاری بالا</li>
+            <li>پولیش‌پذیری خوب و قابلیت EDM</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 285 HB</li>
+            <li>آستنیت‌سازی: 840–870°C و کوئنچ روغن (مقاطع بزرگ در هوا)</li>
+            <li>تمپر: دو مرحله 170–300°C → سختی 50–56 HRC</li>
+            <li>دمای تمپر باید حداقل 50°C بالاتر از دمای کاری قالب باشد</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>قالب‌های بزرگ و بلوک‌های قالب پلاستیک با چقرمگی بالا</li>
+            <li>قالب‌های شکل‌دهی فلزات و برش‌کاری سنگین</li>
+            <li>سنبه‌ها و ابزارهای تحت ضربه</li>
+            <li>تیغه‌های برش و ابزار خم‌کاری</li>
+            <li>قالب‌های قالب‌گیری سرد و نگهدارنده‌ها</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ بالاترین چقرمگی در بین فولادهای سردکار کلاسیک</li>
+            <li>✔ سختی‌پذیری کامل در مقاطع بزرگ</li>
+            <li>✔ پایداری ابعادی خوب در سخت‌کاری</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ مقاومت سایشی کمتر از D2</li>
+            <li>✖ مقاومت خوردگی پایین</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.2767 (X45NiCrMo4 / 45NiCrMo16)<br>
+            AISI: 6F7 (تقریبی)<br>
+            B.S.: 817M40 (تقریبی)<br>
+            Böhler: K600
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="3343" id="3343Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.3343 (M2) High Speed Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.3343 / HS6-5-2</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>AISI M2 / JIS SKH51 / B.S. BM2</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.86–0.94 | W 5.90–6.70 | Mo 4.70–5.20 | Cr 3.80–4.50 | V 1.70–2.10</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤255 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>62–65 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 1190–1230°C، کوئنچ روغن/حمام نمک، تمپر 3× 540–560°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>8.14 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی گرم (Red Hardness)</span>
+            <strong>عالی تا ~600°C ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ماشینکاری</span>
+            <strong>پایین ⭐⭐☆☆☆</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد تندبر <strong>1.3343 (M2 / HS6-5-2)</strong> پرکاربردترین فولاد سریع‌بر (HSS) در جهان است.
+            ترکیب تنگستن-مولیبدن با وانادیم، سختی گرم عالی (حفظ لبه تا حدود 600°C)، مقاومت سایشی بالا و
+            چقرمگی متعادل را به همراه دارد.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی کاری: 62–65 HRC (پس از تمپر سه‌مرحله‌ای)</li>
+            <li>سختی گرم عالی؛ حفظ سختی و لبه‌برندگی تا حدود 600°C</li>
+            <li>مقاومت سایشی و استحکام فشاری بسیار بالا</li>
+            <li>چقرمگی خوب در بین فولادهای تندبر</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 255 HB</li>
+            <li>پیش‌گرم: 800–850°C و سپس 1050°C</li>
+            <li>آستنیت‌سازی: 1190–1230°C (ابزار برش) یا 1175–1190°C (چقرمگی بیشتر)</li>
+            <li>کوئنچ: روغن، حمام نمک 500–550°C یا گاز فشرده</li>
+            <li>تمپر: سه مرحله 540–560°C (هر بار ۲ ساعت) → سختی 63–65 HRC</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>مته‌ها، قلاویزها و ابزار رزوه‌زنی</li>
+            <li>فرزها، برقوها و سوهان‌های ماشینی</li>
+            <li>تیغه اره و ابزار برش فلز</li>
+            <li>سنبه‌ها و ابزار پانچ سرد با سرعت بالا</li>
+            <li>ابزار فرم‌دهی و پانچ ورق‌های سخت</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ بهترین تعادل سختی گرم، سایش و چقرمگی در بین HSSها</li>
+            <li>✔ عمر ابزار بالا در ماشین‌کاری فلزات</li>
+            <li>✔ قابلیت پوشش‌دهی TiN/TiAlN</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ ماشینکاری و گریند سخت</li>
+            <li>✖ حساس به دکربوره شدن در آستنیت‌سازی بالا</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.3343 (HS6-5-2)<br>
+            AISI: M2<br>
+            JIS: SKH51<br>
+            AFNOR: Z85WDCV6
+          </p>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="1545" id="1545Panel">
+
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">بانک متریال</p>
+            <h3>1.1545 (W1) Water Hardening Steel</h3>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+
+          <div class="metric-card">
+            <span>نام استاندارد</span>
+            <strong>DIN 1.1545 / C105W1</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>معادل</span>
+            <strong>AISI W1 / AFNOR Y105</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ترکیب شیمیایی</span>
+            <strong>C 0.95–1.10 | Si ≤0.40 | Mn ≤0.40 (بدون آلیاژ اصلی)</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی نرم‌شده</span>
+            <strong>≤200 HB</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی کاری</span>
+            <strong>58–63 HRC</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>عملیات حرارتی</span>
+            <strong>آستنیت‌سازی 770–800°C، کوئنچ آب/آب‌نمک، تمپر 150–200°C</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>چگالی</span>
+            <strong>7.84 g/cm³</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>سختی‌پذیری</span>
+            <strong>کم (سخت‌کاری سطحی)</strong>
+          </div>
+
+          <div class="metric-card">
+            <span>ماشینکاری</span>
+            <strong>عالی ⭐⭐⭐⭐⭐</strong>
+          </div>
+
+        </div>
+        <div class="lesson-card">
+
+          <h4>توضیحات مهندسی</h4>
+
+          <p>
+            فولاد <strong>1.1545 (C105W1)</strong> یک فولاد ابزار ساده کربنی (بدون آلیاژ) با سخت‌شوندگی در آب است.
+            سخت‌کاری آن سطحی است و مغز قطعه چقرم و نرم می‌ماند؛ به همین دلیل برای ابزارهایی که لبه سخت و مغز
+            چقرمه می‌خواهند (مانند اسکنه و چکش) بسیار مناسب و اقتصادی است.
+          </p>
+
+          <p><strong>خواص مکانیکی</strong></p>
+
+          <ul>
+            <li>سختی سطحی پس از سخت‌کاری: 58–63 HRC (تا 65 HRC)</li>
+            <li>عمق سخت‌کاری کم (سخت‌کاری سطحی) → مغز چقرم</li>
+            <li>ماشینکاری عالی در حالت نرم‌شده</li>
+            <li>حساس به ترک در کوئنچ آب (مقاطع با تغییر مقطع شدید)</li>
+          </ul>
+
+          <p><strong>عملیات حرارتی</strong></p>
+
+          <ul>
+            <li>نرم‌کردن کامل: حداکثر 200 HB</li>
+            <li>آستنیت‌سازی: 770–800°C و کوئنچ آب یا آب‌نمک</li>
+            <li>تمپر: 150–200°C (یک مرحله) → سختی 58–63 HRC</li>
+            <li>تنش‌گیری قبل از سخت‌کاری: 600–650°C</li>
+          </ul>
+
+          <p><strong>کاربردها</strong></p>
+
+          <ul>
+            <li>ابزار دستی: اسکنه، سندان، پتک و قلم کاری</li>
+            <li>سوهان، رنده و ابزار نجاری</li>
+            <li>پین‌ها، شافت‌ها و قطعات ساینده سبک</li>
+            <li>گیج‌ها و قالب‌های کوچک کم‌تیراژ</li>
+            <li>سنگ‌زنی و ساخت نمونه‌های ابزاری</li>
+          </ul>
+
+          <p><strong>مزایا</strong></p>
+
+          <ul>
+            <li>✔ بسیار اقتصادی و در دسترس</li>
+            <li>✔ ماشینکاری عالی و عملیات حرارتی ساده</li>
+            <li>✔ ترکیب لبه سخت و مغز چقرم</li>
+          </ul>
+
+          <p><strong>معایب</strong></p>
+
+          <ul>
+            <li>✖ اعوجاج و ریسک ترک در کوئنچ آب</li>
+            <li>✖ سختی‌پذیری کم (مناسب مقاطع بزرگ نیست)</li>
+            <li>✖ مقاومت خوردگی و سایش پایین</li>
+          </ul>
+
+          <p><strong>معادل‌ها</strong><br>
+            DIN: 1.1545 (C105W1)<br>
+            AISI: W1<br>
+            AFNOR: Y105<br>
+            JIS: SK3 (تقریبی)
           </p>
 
         </div>

@@ -471,6 +471,24 @@ button {
   color: #64748b;
 }
 
+.material-search-results {
+  margin-top: 18px;
+}
+
+.material-search-results[hidden] {
+  display: none;
+}
+
+.material-search-empty {
+  grid-column: 1 / -1;
+  padding: 16px;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  color: #64748b;
+  font-weight: 600;
+  text-align: center;
+}
+
 .selector-row {
   display: grid;
   gap: 9px;
