@@ -1,5 +1,77 @@
 [
   {
+    "title": "گوگل با سرعت سرسام‌آور در حال آماده‌سازی Gemini 3.8 است",
+    "summary": "گوگل ظاهرا آزمایش داخلی هوش مصنوعی جدید Gemini 3.8 Flash را کلید زده است.",
+    "url": "https://www.zoomit.ir/ai-articles/466157-google-tests-gemini-flash-preview/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/cover-6a61f649d755c293cec03372?w=1920&q=75",
+    "date": "2026-08-30",
+    "publishedAt": "2026-08-30T05:15:00+00:00"
+  },
+  {
+    "title": "سونی حذف دیسک بازی‌های پلی‌استیشن را به تأخیر می‌اندازد؟",
+    "summary": "شایعه‌ای جدید ادعا می‌کند که سونی احتمالا برنامه‌ی حذف دیسک‌های فیزیکی را به تعویق خواهد انداخت.",
+    "url": "https://www.zoomit.ir/gaming/466206-sony-delays-digital-only-plans/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/2020-12-white-playstation-5-glossy-logo-with-blue-highlights-on-its-side-638c64e4a77666af5aef0d14?w=1920&q=75",
+    "date": "2026-08-30",
+    "publishedAt": "2026-08-30T05:14:05+00:00"
+  },
+  {
+    "title": "فید شخصی‌سازی‌شده «گوگل دریم‌بینز» حالا به‌صورت رایگان در دسترس است",
+    "summary": "گوگل دسترسی به اپلیکیشن آزمایشی دریم‌بینز را برای حساب‌های کاربری رایگان در آمریکا ممکن کرد.",
+    "url": "https://www.zoomit.ir/ai-articles/466155-google-dreambeans-free-access/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/cover-6a9280730f3957cb70f232d3?w=1920&q=75",
+    "date": "2026-08-30",
+    "publishedAt": "2026-08-30T04:00:00+00:00"
+  },
+  {
+    "title": "درآمد بی‌وای‌دی کاهش یافت، اما صادرات خودرو به بازارهای بین‌المللی رشد کرد",
+    "summary": "بی‌وای‌دی با وجود افت سود و درآمد در نیمه‌ی نخست ۲۰۲۶، جهش ۶۷ درصدی صادرات را ثبت کرد.",
+    "url": "https://www.zoomit.ir/business/466154-byd-h1-2026-financial-results/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/byd-indonesia-factory-6a48a50b4827070afcc7d3fe?w=1920&q=75",
+    "date": "2026-08-30",
+    "publishedAt": "2026-08-30T02:30:00+00:00"
+  },
+  {
+    "title": "ظهور ربات‌های آشپز؛ چین در حال استانداردسازی طعم غذاها است",
+    "summary": "مهندسان چینی در حال نزدیک‌شدن به یکی از بلندپروازانه‌ترین اهداف رباتیک کاربردی هستند: آشپزی کاملاً خودکار.",
+    "url": "https://www.zoomit.ir/robotics-smart-machines/466152-chinese-ai-cooking-robots-beijing/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/cover-6a927c2c0f3957cb70f232cf?w=1920&q=75",
+    "date": "2026-08-29",
+    "publishedAt": "2026-08-29T23:10:00+00:00"
+  },
+  {
+    "title": "همکاری استراتژیک هوندا و نیسان برای توسعه نرم‌افزار خودرو",
+    "summary": "هوندا و نیسان در آستانه‌ی توافق برای توسعه‌ی سیستم‌عامل و کامپیوتر مرکزی مشترک خودروها تا سال ۲۰۲۹ هستند.",
+    "url": "https://www.zoomit.ir/business/466151-honda-nissan-shared-os-partnership/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/honda-nissan-67692dabad66eb3784cc6ad3?w=1920&q=75",
+    "date": "2026-08-29",
+    "publishedAt": "2026-08-29T22:20:00+00:00"
+  },
+  {
+    "title": "شمارش معکوس برای پرتاب رومن؛ تلسکوپ نسل بعدی ناسا در آستانه ترک زمین است",
+    "summary": "اگر همه‌چیز طبق برنامه پیش برود، تلسکوپ فضایی رومن یکشنبه بعدازظهر ساعت ۱۴:۵۶ به وقت ایران برفراز موشک فالکون هوی پرتاب خواهد شد.",
+    "url": "https://www.zoomit.ir/space/466200-nasa-telescope-nancy-grace-roman-ready-to-launch/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/falcon-heavy-is-vertical-at-pad-39a-6a93463d0f3957cb70f2352d?w=1920&q=75",
+    "date": "2026-08-29",
+    "publishedAt": "2026-08-29T21:10:00+00:00"
+  },
+  {
+    "title": "تریلر بازی «مرد آهنی» لو رفت",
+    "summary": "الکترونیک آرتز پس از انتشار تریلر گیم‌پلی Iron Man در شبکه‌های اجتماعی، اصالت ویدیوهای لو رفته را رسما تأیید کرد.",
+    "url": "https://www.zoomit.ir/gaming/466149-ea-confirms-iron-man-leak/",
+    "source": "Zoomit",
+    "image": "https://api2.zoomit.ir/media/cover-6a9277e10f3957cb70f232c5?w=1920&q=75",
+    "date": "2026-08-29",
+    "publishedAt": "2026-08-29T21:00:00+00:00"
+  },
+  {
     "title": "شکایت میلیارد دلاری ناشران موسیقی از آنتروپیک؛ پای تورنت به هوش مصنوعی باز شد؟",
     "summary": "«سونی موزیک» و «وارنر چپل» با طرح شکایتی چند میلیارد دلاری علیه آنتروپیک، این شرکت را به نقض گسترده‌ی حق نشر متهم کردند.",
     "url": "https://www.zoomit.ir/ai-articles/466199-sony-warner-sue-anthropic/",
@@ -151,77 +223,5 @@
     "image": "https://api2.zoomit.ir/media/elon-musk-sam-altman-689b89584a11743828d5addf?w=1920&q=75",
     "date": "2026-08-29",
     "publishedAt": "2026-08-29T15:35:00+00:00"
-  },
-  {
-    "title": "شبکه اجتماعی ایکس: بات‌های چینی درحال تشدید هراس از دیتاسنترهای هوش مصنوعی در آمریکا هستند",
-    "summary": "ایکس یک شبکه بات چینی را شناسایی کرده که با انتشار محتوای ضد مراکز داده هوش مصنوعی، تلاش می‌کرد افکار عمومی را تحت‌تأثیر قرار دهد.",
-    "url": "https://digiato.com/artificial-intelligence/chinese-bot-accounts-tried-to-fuel-us-opposition-to-ai-data-centers",
-    "source": "Digiato",
-    "image": "https://static.digiato.com/digiato/2026/08/us-china-ai.jpg.webp",
-    "date": "2026-08-29",
-    "publishedAt": "2026-08-29T15:32:07+00:00"
-  },
-  {
-    "title": "مقاله آنتروپیک نشان داد: به هوش مصنوعی خودآموز نزدیک شده‌ایم",
-    "summary": "پژوهش آنتروپیک گامی به‌سوی «خودبهبوددهی بازگشتی» است؛ مفهومی که بسیاری آن را گام مهم بعدی در پیشرفت هوش مصنوعی می‌دانند.",
-    "url": "https://digiato.com/artificial-intelligence/anthropic-researcher-about-recursive-self-improvement-ai",
-    "source": "Digiato",
-    "image": "https://static.digiato.com/digiato/2026/08/anthropic-ai.jpg.webp",
-    "date": "2026-08-29",
-    "publishedAt": "2026-08-29T15:30:00+00:00"
-  },
-  {
-    "title": "بحران امنیتی؛ پژوهشگران مدعی کشف «بک‌دور» در مودم‌های چینی ZBTLink شدند",
-    "summary": "کارشناسان امنیت سایبری دو «بک‌دور» جدید را در بیش از ۱۲ مدل از روترهای چینی کشف کردند که امکان نظارت مخفیانه را فراهم می‌کند.",
-    "url": "https://www.zoomit.ir/security/466124-chinese-routers-security-backdoors-discovered/",
-    "source": "Zoomit",
-    "image": "https://api2.zoomit.ir/media/cover-6a9152910f3957cb70f23196?w=1920&q=75",
-    "date": "2026-08-29",
-    "publishedAt": "2026-08-29T15:10:00+00:00"
-  },
-  {
-    "title": "گوشی تاشو سه‌تکه هواوی با طراحی شگفت‌انگیز به‌نمایش درآمد",
-    "summary": "هواوی با انتشار ویدیویی رسمی از طراحی نوآورانه‌ی گوشی سه‌تکه‌ی میت ایکس‌تی ۲ و تاریخ رونمایی آن پرده برداشت.",
-    "url": "https://www.zoomit.ir/mobile/466187-huawei-mate-xt-2-teaser/",
-    "source": "Zoomit",
-    "image": "https://api2.zoomit.ir/media/cover-6a92f12b0f3957cb70f234a0?w=1920&q=75",
-    "date": "2026-08-29",
-    "publishedAt": "2026-08-29T14:50:17+00:00"
-  },
-  {
-    "title": "زوم خارق‌العاده برای آیفون؛ لنز سفارشی گوشی‌های اپل معرفی شد",
-    "summary": "شیفت‌کم از لنزهای سوپرزوم سری X.Series برای گوشی‌های هوشمند پرده برداشت که فاصله کانونی معادل را تا ۳۵۰ میلی‌متر افزایش می‌دهند.",
-    "url": "https://www.zoomit.ir/accessories/466122-shiftcam-launches-superzoom-x-series/",
-    "source": "Zoomit",
-    "image": "https://api2.zoomit.ir/media/cover-6a91492b0f3957cb70f23189?w=1920&q=75",
-    "date": "2026-08-29",
-    "publishedAt": "2026-08-29T14:40:00+00:00"
-  },
-  {
-    "title": "نیاز «نصر» به تحول؛ سازمانی که باید فرزند زمانه خویش باشد",
-    "summary": "نظام صنفی رایانه‌ای باید به این سوال پاسخ دهد که می‌خواهد سازمانی برای اداره امور روزمره باشد یا نهادی برای ساختن امکان‌های تازه؟",
-    "url": "https://digiato.com/iran-technology-news/tehran-ict-guild-challenges",
-    "source": "Digiato",
-    "image": "https://static.digiato.com/digiato/2026/08/NASR-1.jpg.webp",
-    "date": "2026-08-29",
-    "publishedAt": "2026-08-29T14:31:26+00:00"
-  },
-  {
-    "title": "شرکت CXMT چین به‌دلیل تحریم خود توسط دولت آمریکا از پنتاگون شکایت کرد",
-    "summary": "شرکت تولیدکننده حافظه CXMT با رد اتهام ارتباط با صنایع نظامی چین، از پنتاگون به‌دلیل قرار گرفتن نامش در فهرست سیاه شکایت کرده است.",
-    "url": "https://digiato.com/business/cxmt-denies-chinese-military-ties-and-challenges-pentagon-blacklist",
-    "source": "Digiato",
-    "image": "https://static.digiato.com/digiato/2026/08/70-1_1.jpg.webp",
-    "date": "2026-08-29",
-    "publishedAt": "2026-08-29T14:15:00+00:00"
-  },
-  {
-    "title": "فناوری DLSS 5 انویدیا پیش از عرضه لو رفت؛ نتایج عجیب عملکرد آن را ببینید",
-    "summary": "غیر واقعی بودن چهره شخصیت‌ها و کاهش فریم از جمله مشکلاتی هستند که در نسخه افشایی از DLSS 5 دیده شده‌اند.",
-    "url": "https://digiato.com/app/nvidias-dlss-5-leak-controversy",
-    "source": "Digiato",
-    "image": "https://static.digiato.com/digiato/2026/08/nvidia-dlss-5-teknolojisi-populer-oyunlarda-test-edilmeye-baslandi.webp",
-    "date": "2026-08-29",
-    "publishedAt": "2026-08-29T14:02:09+00:00"
   }
 ]
