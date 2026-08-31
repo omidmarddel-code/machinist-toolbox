@@ -1802,6 +1802,108 @@ if (notesToggle && notesCard) {
         notesCard.style.display = notesCard.style.display === "block" ? "none" : "block";
     });
 }
+// ===== اسلایدشو کادر صفحهٔ اصلی (جایگزین اخبار تکنولوژی) =====
+// تصاویر را با نام ۱.jpg ، ۲.jpg و… در پوشه images/slideshow قرار دهید.
+const SLIDESHOW_FOLDER = "images/slideshow/";
+const SLIDESHOW_INTERVAL_MS = 10000; // هر ۵ ثانیه یک بار عوض می‌شود
+const SLIDESHOW_MAX = 30;
+const SLIDESHOW_EXTS = ["jpg", "png", "jpeg", "webp"];
+
+function probeImage(src) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = src;
+    });
+}
+
+async function initSlideshow() {
+    const track = document.getElementById("slideshowTrack");
+    const dotsBox = document.getElementById("slideshowDots");
+    if (!track) return;
+
+    // کشف خودکار تصاویر: ۱.jpg، ۲.jpg، …
+    const found = [];
+    for (let i = 1; i <= SLIDESHOW_MAX; i++) {
+        let hit = null;
+        for (const ext of SLIDESHOW_EXTS) {
+            const src = `${SLIDESHOW_FOLDER}${i}.${ext}`;
+            if (await probeImage(src)) {
+                hit = src;
+                break;
+            }
+        }
+        if (!hit) break; // به اولین جای خالی رسیدیم؛ ادامه نمی‌دهیم
+        found.push(hit);
+    }
+
+    if (!found.length) {
+        const msg = document.createElement("p");
+        msg.className = "slideshow-empty";
+          track.appendChild(msg);
+        return;
+    }
+
+    // ساخت اسلایدها و دکمه‌های نشانگر
+    const slides = [];
+    const cacheBust = Date.now().toString();
+    found.forEach((src, index) => {
+        const div = document.createElement("div");
+        div.className = "slide";
+        const img = document.createElement("img");
+        img.src = `${src}?v=${cacheBust}`;
+        img.alt = `اسلاید ${index + 1}`;
+        div.appendChild(img);
+        track.appendChild(div);
+        slides.push(div);
+
+        if (dotsBox) {
+            const dot = document.createElement("span");
+            dot.className = "dot";
+            if (index === 0) dot.classList.add("active");
+            dotsBox.appendChild(dot);
+        }
+    });
+
+    // هم‌تراز کردن ارتفاع قاب با نسبتِ تصویرِ فعال:
+    // عکس دقیقاً داخل قاب می‌نشیند (بدون برش، بدون نوار خالی، بدون سرریز)
+    const slideshowEl = document.getElementById("homeSlideshow");
+    function fitActiveSlide() {
+        if (!slideshowEl) return;
+        const activeImg = slideshowEl.querySelector(".slide.active img");
+        if (!activeImg || !activeImg.naturalWidth || !activeImg.naturalHeight) return;
+        const width = slideshowEl.clientWidth || slideshowEl.offsetWidth;
+        if (!width) return;
+        const ratio = activeImg.naturalWidth / activeImg.naturalHeight;
+        const height = Math.min(Math.max(width / ratio, 200), 900);
+        slideshowEl.style.height = `${height}px`;
+    }
+    slides.forEach((slide) => {
+        const im = slide.querySelector("img");
+        if (im) im.addEventListener("load", fitActiveSlide);
+    });
+    window.addEventListener("resize", fitActiveSlide);
+
+    // ورق زدن خودکار هر ۵ ثانیه
+    let current = 0;
+    slides[0].classList.add("active");
+    fitActiveSlide();
+
+    if (slides.length < 2) return;
+
+    setInterval(() => {
+        slides[current].classList.remove("active");
+        if (dotsBox) dotsBox.children[current].classList.remove("active");
+        current = (current + 1) % slides.length;
+        slides[current].classList.add("active");
+        if (dotsBox) dotsBox.children[current].classList.add("active");
+        fitActiveSlide();
+    }, SLIDESHOW_INTERVAL_MS);
+}
+
+initSlideshow();
+
 // ===== تغییر تم دارک/روشن =====
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {

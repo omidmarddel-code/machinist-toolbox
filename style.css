@@ -1402,31 +1402,101 @@ button {
     transform:scale(1.1) rotate(10deg);
 
 }
-/* ===== جای خالی بخش اخبار در صفحه اصلی ===== */
-/* اخبار حذف شده‌اند؛ این کادر خالی فقط برای حفظ چیدمان صفحه اصلی است. */
+
 .home-spacer-card{
     position:relative;
     top:auto;
     right:auto;
     width:auto;
-    min-height:220px;
+    min-height:0;
     display:flex;
     flex-direction:column;
-    background:rgba(7,12,20,.48);
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,.08);
-    padding:20px;
+    background:transparent;
+    border:none;
+    padding:0;
 }
 
 .home-spacer-card[hidden] { display:none; }
 
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 240px;
+  border-radius: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+.slideshow-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.slideshow-empty {
+  margin: 0;
+  padding: 14px;
+  color: var(--muted);
+  font-size: .85rem;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.slideshow-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.slideshow-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: background .3s;
+}
+
+.slideshow-dots .dot.active {
+  background: #38bdf8;
+}
+
 [data-theme="light"] .home-spacer-card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: transparent;
+  border: none;
 }
 
 @media (max-width:620px) {
-  .home-spacer-card { width:100%; max-width:none; }
+  .home-spacer-card { width:100%; max-width:none; min-height:0; }
+  .slideshow { min-height: 220px; }
 }
 
 /* چیدمان اصلی خانه و منو */
@@ -1542,8 +1612,8 @@ button {
   flex: 1 1 100%;
   width: 100%;
   max-width: none;
-  padding: 18px;
-  border-radius: 18px;
+  padding: 0;
+  border-radius: 0;
 }
 
 .topbar:has(#pageTitle) > .tool-panel {
@@ -1579,8 +1649,8 @@ button {
   order: 2;
   width: 100%;
   max-width: none;
-  padding: 18px;
-  border-radius: 18px;
+  padding: 0;
+  border-radius: 0;
 }
 
 
@@ -1614,7 +1684,7 @@ button {
   .app-shell { width: min(100% - 16px, 560px); margin: 8px auto; }
   .sidebar { grid-template-columns: 1fr; padding: 12px; }
   .topbar:has(#pageTitle) { padding: 18px; gap: 14px; }
-  .topbar:has(#pageTitle) > .home-spacer-card { padding: 14px; }
+  .topbar:has(#pageTitle) > .home-spacer-card { padding: 0; }
 }
 
 /* ===== Utility Panel ===== */

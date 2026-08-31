@@ -167,8 +167,12 @@
           </div>
         </div>
       </div>
-      <!-- بخش اخبار تکنولوژی حذف شد. این کادر خالی فقط جای قبلی اخبار را نگه می‌دارد تا چیدمان صفحه اصلی به هم نریزد. -->
-      <section class="home-spacer-card" aria-hidden="true"></section>
+      <section class="home-spacer-card">
+        <div class="slideshow" id="homeSlideshow">
+          <div class="slideshow-track" id="slideshowTrack"></div>
+          <div class="slideshow-dots" id="slideshowDots"></div>
+        </div>
+      </section>
 
       <section class="calculator-panel tool-panel" data-panel="booklets" id="bookletsPanel">
 
@@ -326,7 +330,8 @@
           </div>
           <label class="search-box">
             <span aria-hidden="true">&#9906;</span>
-            <input id="materialSearch" type="search" placeholder="جستجوی متریال مثل SPK، 1.2080، D2، M2..." autocomplete="off" />
+            <input id="materialSearch" type="search" placeholder="جستجوی متریال مثل SPK، 1.2080، D2، M2..."
+              autocomplete="off" />
           </label>
         </div>
 
