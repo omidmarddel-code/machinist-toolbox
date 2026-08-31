@@ -375,9 +375,8 @@ const elements = {
   forgingMessage: document.querySelector("#forgingMessage"),
   forgingResult: document.querySelector("#forgingResult"),
   forgingDetails: document.querySelector("#forgingDetails"),
-  newsCard: document.querySelector(".news-card"),
-  refreshNews: document.querySelector("#refreshNews"),
   homeButton: document.querySelector("#homeButton"),
+  homeSpacer: document.querySelector(".home-spacer-card"),
 };
 let currentTool = null;
 let ignoreHistory = false;
@@ -520,8 +519,9 @@ function switchTool(tool, addToHistory = true) {
 
   const welcomeCard = document.getElementById("welcomeCard");
 
-  if (elements.newsCard) {
-    elements.newsCard.hidden = true;
+  // کادر خالیِ جایگزین اخبار فقط مخصوص صفحهٔ اصلی است و هنگام باز شدن ابزار مخفی می‌شود.
+  if (elements.homeSpacer) {
+    elements.homeSpacer.hidden = true;
   }
 
   if (welcomeCard && !welcomeCard.classList.contains("hide")) {
@@ -697,7 +697,7 @@ function bindEvents() {
         welcomeCard.style.display = "flex";
         welcomeCard.classList.remove("hide");
       }
-      if (elements.newsCard) elements.newsCard.hidden = false;
+      if (elements.homeSpacer) elements.homeSpacer.hidden = false;
       currentTool = null;
     });
   }
@@ -788,9 +788,6 @@ function bindEvents() {
         }
       });
     });
-  }
-  if (elements.refreshNews) {
-    elements.refreshNews.addEventListener("click", loadNews);
   }
 }
 
@@ -1385,9 +1382,10 @@ window.addEventListener("popstate", (event) => {
         welcomeCard.classList.remove("hide");
     }
 
-    if (elements.newsCard) {
-        elements.newsCard.hidden = false;
+    if (elements.homeSpacer) {
+        elements.homeSpacer.hidden = false;
     }
+
 });
 // ===== خروج خودکار در صورت عدم فعالیت =====
 
@@ -1804,192 +1802,6 @@ if (notesToggle && notesCard) {
         notesCard.style.display = notesCard.style.display === "block" ? "none" : "block";
     });
 }
-const NEWS_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
-
-function parseNewsDate(item) {
-    if (!item) return null;
-    const raw = item.publishedAt || item.date || "";
-    if (!raw) return null;
-    const parsed = new Date(raw);
-    return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
-
-function formatNewsDate(date) {
-    if (!date) return "—";
-    try {
-        return new Intl.DateTimeFormat("fa-IR", {
-            day: "numeric",
-            month: "short",
-            hour: "2-digit",
-            minute: "2-digit",
-        }).format(date);
-    } catch {
-        return date.toISOString().slice(0, 10);
-    }
-}
-
-function isNewsRecent(item, now) {
-    const date = parseNewsDate(item);
-    if (!date) return true; // no date: keep it (backend has already filtered)
-    return date.getTime() >= now.getTime() - NEWS_AGE_MS;
-}
-
-async function loadNews() {
-    const container = document.getElementById("newsList");
-    if (!container) return;
-
-    const refreshBtn = document.getElementById("refreshNews");
-    const originalBtnText = refreshBtn ? refreshBtn.textContent : "";
-    if (refreshBtn) {
-        refreshBtn.disabled = true;
-        refreshBtn.textContent = "در حال بروزرسانی…";
-    }
-
-    container.className = "";
-    container.textContent = "در حال دریافت اخبار…";
-
-    // Load local JSON first so the live site shows the corrected Persian
-    // news immediately, even before a new commit reaches GitHub.
-    // Remote is only a fallback if the local file is unavailable.
-    const remoteUrl = "https://raw.githubusercontent.com/omidmarddel-code/machinist-toolbox/main/www/data/mechanical-news.json";
-
-    let news = null;
-
-    try {
-        // Try local file first. Try the project-layout path first
-        // (www/data/...) for the web/GitHub Pages build, then the
-        // Capacitor path (data/...) where www is the web root.
-        const candidates = [
-            new URL("www/data/mechanical-news.json", document.baseURI),
-            new URL("data/mechanical-news.json", document.baseURI),
-        ];
-        let loaded = false;
-        for (const candidate of candidates) {
-            candidate.searchParams.set("v", Date.now().toString());
-            try {
-                const response = await fetch(candidate, { cache: "no-store" });
-                if (response.ok) {
-                    news = await response.json();
-                    console.log("News loaded from local file:", candidate.pathname);
-                    loaded = true;
-                    break;
-                }
-            } catch (err) {
-                console.warn("Local candidate failed:", candidate.pathname, err);
-            }
-        }
-        if (!loaded) {
-            throw new Error("All local candidates failed");
-        }
-    } catch (localError) {
-        console.warn("Failed to load local news, trying remote:", localError);
-
-        try {
-            // Fallback to remote URL with cache busting
-            const remoteNewsUrl = new URL(remoteUrl);
-            remoteNewsUrl.searchParams.set("v", Date.now().toString());
-            const response = await fetch(remoteNewsUrl, {
-                cache: "no-store",
-                headers: {
-                    "Accept": "application/json"
-                }
-            });
-
-            if (response.ok) {
-                news = await response.json();
-                console.log("News loaded from remote server");
-            } else {
-                throw new Error(`Remote request failed: ${response.status}`);
-            }
-        } catch (remoteError) {
-            console.error("Both local and remote failed:", remoteError);
-            container.className = "news-error";
-            container.textContent = "دریافت اخبار در حال حاضر ممکن نیست. لطفاً دوباره تلاش کنید.";
-            if (refreshBtn) {
-                refreshBtn.disabled = false;
-                refreshBtn.textContent = originalBtnText;
-            }
-            return;
-        }
-    }
-    
-    // Client-side safety net: only show news from the last 24 hours.
-    // If nothing is recent, fall back to the newest available items so
-    // the page is never blank (e.g. the GitHub Actions feed is stale).
-    const articles = Array.isArray(news) ? news : [];
-    const now = new Date();
-    let recentNews = articles.filter((item) => isNewsRecent(item, now));
-
-    if (!recentNews.length) {
-        recentNews = articles;
-    }
-
-    container.replaceChildren();
-
-    if (!recentNews.length) {
-        container.className = "news-error";
-        container.textContent = "هیچ خبری در حال حاضر موجود نیست.";
-        if (refreshBtn) {
-            refreshBtn.disabled = false;
-            refreshBtn.textContent = originalBtnText;
-        }
-        return;
-    }
-
-    recentNews.forEach((item) => {
-        const article = document.createElement("a");
-        article.className = item.image ? "news-item has-image" : "news-item";
-        article.href = item.url || "#";
-        article.target = "_blank";
-        article.rel = "noopener noreferrer";
-
-        // Only use the article's own real image. If the source provides no
-        // image, or the image fails to load, we render the text-only card
-        // (no fake/placeholder thumbnail from another site).
-        if (item.image) {
-            const thumb = document.createElement("img");
-            thumb.className = "news-thumb";
-            // Use CORS proxy for Digiato images to bypass CDN restrictions
-            const imageUrl = item.image.includes("digiato.com") 
-                ? `https://corsproxy.io/?${encodeURIComponent(item.image)}`
-                : item.image;
-            thumb.src = imageUrl;
-            thumb.alt = item.title || "";
-            thumb.onerror = function() {
-                console.warn("Image blocked or failed to load:", item.image);
-                this.style.display = 'none';
-                article.classList.remove("has-image");
-            };
-            thumb.onload = function() {
-                console.log("Image loaded successfully:", imageUrl);
-            };
-            article.append(thumb);
-        }
-
-        const body = document.createElement("div");
-        body.className = "news-body";
-
-        const title = document.createElement("h3");
-        title.textContent = item.title || "خبر";
-        const summary = document.createElement("p");
-        summary.textContent = item.summary || "";
-        const meta = document.createElement("small");
-        const newsDate = formatNewsDate(parseNewsDate(item));
-        meta.textContent = `${item.source || "منبع"} • ${newsDate}`;
-        
-        body.append(title, summary, meta);
-        article.append(body);
-        container.append(article);
-    });
-
-    if (refreshBtn) {
-        refreshBtn.disabled = false;
-        refreshBtn.textContent = originalBtnText;
-    }
-}
-loadNews();
-
-
 // ===== تغییر تم دارک/روشن =====
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {

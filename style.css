@@ -160,37 +160,6 @@
   transform: scale(1.1) rotate(15deg);
 }
 
-/* ===== Light Theme: News Section ===== */
-[data-theme="light"] .news-card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(0, 0, 0, 0.10);
-}
-
-[data-theme="light"] .news-item {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="light"] .news-item h3 {
-  color: #0f172a;
-}
-
-[data-theme="light"] .news-item p {
-  color: #475569;
-}
-
-[data-theme="light"] .news-item small {
-  color: #64748b;
-}
-
-[data-theme="light"] .news-thumb {
-  background: rgba(15, 23, 42, 0.06);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-}
-
-[data-theme="light"] .loading-news,
-[data-theme="light"] .news-error {
-  color: #64748b;
-}
 
 
 
@@ -1433,13 +1402,14 @@ button {
     transform:scale(1.1) rotate(10deg);
 
 }
-/* ===== اخبار صفحه اصلی ===== */
-
-.news-card{
+/* ===== جای خالی بخش اخبار در صفحه اصلی ===== */
+/* اخبار حذف شده‌اند؛ این کادر خالی فقط برای حفظ چیدمان صفحه اصلی است. */
+.home-spacer-card{
     position:relative;
     top:auto;
     right:auto;
     width:auto;
+    min-height:220px;
     display:flex;
     flex-direction:column;
     background:rgba(7,12,20,.48);
@@ -1448,98 +1418,15 @@ button {
     padding:20px;
 }
 
-.news-card h2{
-    margin:0;
-    color:var(--text);
-    font-size:clamp(1rem,2vw,1.25rem);
-    line-height:1.4;
+.home-spacer-card[hidden] { display:none; }
+
+[data-theme="light"] .home-spacer-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.10);
 }
-
-.news-card[hidden] { display:none; }
-
-.news-header {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  margin-bottom:10px;
-}
-
-#refreshNews {
-  padding:8px 12px;
-  border:1px solid rgba(56,189,248,.42);
-  border-radius:10px;
-  color:var(--text);
-  background:rgba(56,189,248,.12);
-}
-
-#refreshNews:hover,
-#refreshNews:focus-visible { background:rgba(56,189,248,.24); outline:none; }
-
-.loading-news, .news-error { padding:12px 0 4px; color:var(--muted); }
-
-.news-item{
-    display:flex;
-    align-items:flex-start;
-    gap:12px;
-    padding:14px 0;
-    border-bottom:1px solid rgba(255,255,255,.08);
-    color:inherit;
-    text-decoration:none;
-    transition:.3s;
-}
-
-.news-item:last-child{
-    border:none;
-}
-
-.news-item:hover{
-    transform:translateX(-6px);
-}
-
-.news-thumb{
-    flex:0 0 88px;
-    width:88px;
-    height:66px;
-    object-fit:cover;
-    border-radius:12px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.news-body{
-    min-width:0;
-    flex:1;
-}
-
-.news-item h3{
-    margin:0;
-    font-size:16px;
-    line-height:1.55;
-    color:#fff;
-}
-
-.news-item p{
-    margin:6px 0;
-    color:var(--muted);
-    font-size:.82rem;
-    line-height:1.65;
-    display:-webkit-box;
-      -webkit-box-orient:vertical;
-    overflow:hidden;
-}
-
-.news-item small{
-    display:block;
-    margin-top:8px;
-    color:#8ea3bd;
-    font-size:13px;
-}
-
 
 @media (max-width:620px) {
-  .news-card { width:100%; max-width:none; }
-  #newsList { max-height: calc(100vh - 280px); }
+  .home-spacer-card { width:100%; max-width:none; }
 }
 
 /* چیدمان اصلی خانه و منو */
@@ -1647,7 +1534,7 @@ button {
   text-align: right;
 }
 
-.topbar:has(#pageTitle) > .news-card {
+.topbar:has(#pageTitle) > .home-spacer-card {
   position: relative;
   top: auto;
   right: auto;
@@ -1688,7 +1575,7 @@ button {
   text-align: center;
 }
 
-.home-topbar > .news-card {
+.home-topbar > .home-spacer-card {
   order: 2;
   width: 100%;
   max-width: none;
@@ -1727,20 +1614,7 @@ button {
   .app-shell { width: min(100% - 16px, 560px); margin: 8px auto; }
   .sidebar { grid-template-columns: 1fr; padding: 12px; }
   .topbar:has(#pageTitle) { padding: 18px; gap: 14px; }
-  .topbar:has(#pageTitle) > .news-card { padding: 14px; }
-  .news-header { align-items: flex-start; }
-}
-
-/* ===== News page: only news list scrolls internally ===== */
-#newsList {
-  max-height: calc(100vh - 300px);
-  overflow-y: auto;
-}
-
-@media (max-width: 620px) {
-  #newsList {
-    max-height: calc(100vh - 280px);
-  }
+  .topbar:has(#pageTitle) > .home-spacer-card { padding: 14px; }
 }
 
 /* ===== Utility Panel ===== */
