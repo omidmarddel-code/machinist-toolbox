@@ -1402,7 +1402,8 @@ button {
     transform:scale(1.1) rotate(10deg);
 
 }
-
+/* ===== جای خالی بخش اخبار در صفحه اصلی ===== */
+/* این کادر حالا میزبان اسلایدشوی تصاویر است (پوشه images/slideshow) */
 .home-spacer-card{
     position:relative;
     top:auto;
@@ -1418,20 +1419,53 @@ button {
 
 .home-spacer-card[hidden] { display:none; }
 
+/* ===== اسلایدشو (قاب نمدی) ===== */
+/* ارتفاع قاب با نسبتِ خودِ عکس فعال هم‌تراز می‌شود (در JS)؛
+   لبه‌های قاب مثل نمدی نرم و محو شده‌اند (ماسک فلت) و تیزی ندارند.
+   شفافیت عکس‌ها هم با متغیر --slide-opacity کنترل می‌شود. */
 .slideshow {
   position: relative;
   width: 100%;
   height: auto;
   min-height: 240px;
-  border-radius: 0;
+  border-radius: 18px;
   overflow: hidden;
   background: transparent;
+  /* شفافیت عکس‌ها (همیشه ترنسپرنت): ۱ = واضح، ۰ = نامرئی */
+  --slide-opacity: .72;
+  /* هالهٔ نمدیِ لطیف دور قاب */
+  box-shadow:
+    0 0 28px rgba(203, 213, 225, 0.14),
+    0 0 85px rgba(148, 163, 184, 0.10);
+}
+
+/* لایهٔ نمدی داخل قاب: سایهٔ محو دور تا دور (حس پارچهٔ نمدی) */
+.slideshow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow:
+    inset 0 0 26px rgba(226, 232, 240, 0.10),
+    inset 0 0 60px rgba(148, 163, 184, 0.08);
 }
 
 .slideshow-track {
   position: relative;
   width: 100%;
   height: 100%;
+  /* فلت نمدی: محو شدن نرم لبه‌های عکس به‌جای برش تیز */
+  --felt-fade: 32px;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 var(--felt-fade), #000 calc(100% - var(--felt-fade)), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 var(--felt-fade), #000 calc(100% - var(--felt-fade)), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0, #000 var(--felt-fade), #000 calc(100% - var(--felt-fade)), transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 var(--felt-fade), #000 calc(100% - var(--felt-fade)), transparent 100%);
+  mask-composite: intersect;
 }
 
 .slide {
@@ -1451,9 +1485,14 @@ button {
 .slide img {
   width: 100%;
   height: 100%;
+  /* چون ارتفاع قاب دقیقاً با نسبت عکس هم‌تراز است، cover کل قاب را پر می‌کند
+     بدون نوار خالی و بدون برش قابل‌توجه (حداکثر کسری از پیکسل). */
   object-fit: cover;
   object-position: center;
   display: block;
+  /* حالت ترنسپرنت عکس‌ها */
+  opacity: var(--slide-opacity);
+  transition: opacity .8s ease;
 }
 
 .slideshow-empty {
@@ -1496,7 +1535,7 @@ button {
 
 @media (max-width:620px) {
   .home-spacer-card { width:100%; max-width:none; min-height:0; }
-  .slideshow { min-height: 220px; }
+  .slideshow { min-height: 220px; --felt-fade: 22px; }
 }
 
 /* چیدمان اصلی خانه و منو */

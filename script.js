@@ -1805,7 +1805,7 @@ if (notesToggle && notesCard) {
 // ===== اسلایدشو کادر صفحهٔ اصلی (جایگزین اخبار تکنولوژی) =====
 // تصاویر را با نام ۱.jpg ، ۲.jpg و… در پوشه images/slideshow قرار دهید.
 const SLIDESHOW_FOLDER = "images/slideshow/";
-const SLIDESHOW_INTERVAL_MS = 10000; // هر ۵ ثانیه یک بار عوض می‌شود
+const SLIDESHOW_INTERVAL_MS = 5000; // هر ۵ ثانیه یک بار عوض می‌شود
 const SLIDESHOW_MAX = 30;
 const SLIDESHOW_EXTS = ["jpg", "png", "jpeg", "webp"];
 
@@ -1818,12 +1818,8 @@ function probeImage(src) {
     });
 }
 
-async function initSlideshow() {
-    const track = document.getElementById("slideshowTrack");
-    const dotsBox = document.getElementById("slideshowDots");
-    if (!track) return;
-
-    // کشف خودکار تصاویر: ۱.jpg، ۲.jpg، …
+/* ---------- کشف خودکار عکس‌های پیش‌فرض پوشه ---------- */
+async function getDefaultSlides() {
     const found = [];
     for (let i = 1; i <= SLIDESHOW_MAX; i++) {
         let hit = null;
@@ -1837,22 +1833,40 @@ async function initSlideshow() {
         if (!hit) break; // به اولین جای خالی رسیدیم؛ ادامه نمی‌دهیم
         found.push(hit);
     }
+    return found;
+}
 
-    if (!found.length) {
+/* ---------- ساخت/بازسازی اسلایدها ---------- */
+let slideshowTimer = null;
+let slideshowResizeHandler = null;
+
+function buildSlides(srcList) {
+    const track = document.getElementById("slideshowTrack");
+    const dotsBox = document.getElementById("slideshowDots");
+    if (!track) return;
+
+    // توقف تایمر قبلی و پاک‌سازی محتوای قبلی
+    if (slideshowTimer) { clearInterval(slideshowTimer); slideshowTimer = null; }
+    if (slideshowResizeHandler) window.removeEventListener("resize", slideshowResizeHandler);
+    track.innerHTML = "";
+    if (dotsBox) dotsBox.innerHTML = "";
+
+    if (!srcList.length) {
         const msg = document.createElement("p");
         msg.className = "slideshow-empty";
-          track.appendChild(msg);
+        msg.textContent = "عکسی برای نمایش نیست؛ تصاویر را با نام ۱.jpg ، ۲.jpg و… در پوشه images/slideshow قرار دهید.";
+        track.appendChild(msg);
         return;
     }
 
     // ساخت اسلایدها و دکمه‌های نشانگر
     const slides = [];
     const cacheBust = Date.now().toString();
-    found.forEach((src, index) => {
+    srcList.forEach((src, index) => {
         const div = document.createElement("div");
         div.className = "slide";
         const img = document.createElement("img");
-        img.src = `${src}?v=${cacheBust}`;
+        img.src = src.indexOf("data:") === 0 ? src : `${src}?v=${cacheBust}`;
         img.alt = `اسلاید ${index + 1}`;
         div.appendChild(img);
         track.appendChild(div);
@@ -1883,7 +1897,7 @@ async function initSlideshow() {
         const im = slide.querySelector("img");
         if (im) im.addEventListener("load", fitActiveSlide);
     });
-    window.addEventListener("resize", fitActiveSlide);
+    window.addEventListener("resize", slideshowResizeHandler = fitActiveSlide);
 
     // ورق زدن خودکار هر ۵ ثانیه
     let current = 0;
@@ -1892,7 +1906,7 @@ async function initSlideshow() {
 
     if (slides.length < 2) return;
 
-    setInterval(() => {
+    slideshowTimer = setInterval(() => {
         slides[current].classList.remove("active");
         if (dotsBox) dotsBox.children[current].classList.remove("active");
         current = (current + 1) % slides.length;
@@ -1900,6 +1914,14 @@ async function initSlideshow() {
         if (dotsBox) dotsBox.children[current].classList.add("active");
         fitActiveSlide();
     }, SLIDESHOW_INTERVAL_MS);
+}
+
+async function refreshSlideshow() {
+    buildSlides(await getDefaultSlides());
+}
+
+async function initSlideshow() {
+    await refreshSlideshow();
 }
 
 initSlideshow();
