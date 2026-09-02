@@ -16,11 +16,6 @@
 
 <body>
   <button class="theme-toggle" id="themeToggle" type="button" aria-label="تغییر تم">🌙</button>
-  <script>
-    if (sessionStorage.getItem("loggedIn") !== "true") {
-      window.location.href = "login.html";
-    }
-  </script>
   <button id="notesToggle" class="notes-fab">📝</button>
   <section class="notes-card">
 
@@ -6147,6 +6142,18 @@
       </section>
     </main>
   </div>
+
+  <!-- پاپ‌آپ ورود برای جزوه‌های آموزشی (به‌جای صفحهٔ جداگانه) -->
+  <section class="login-modal" id="loginModal" hidden aria-modal="true" role="dialog" aria-label="ورود به جزوه‌های آموزشی">
+    <div class="login-modal-card">
+      <button class="login-modal-close" id="loginModalClose" type="button" aria-label="بستن">✕</button>
+      <h2 class="login-modal-title" id="loginModalTitle">🔒 ورود</h2>
+      <p class="login-modal-subtitle">برای مشاهده جزوه‌های آموزشی، رمز عبور را وارد کنید.</p>
+      <input class="login-modal-input" type="password" id="popupPassword" placeholder="رمز عبور" autocomplete="off">
+      <button class="login-modal-btn" id="popupLoginBtn" type="button">ورود</button>
+      <p class="login-modal-error" id="popupLoginError"></p>
+    </div>
+  </section>
 
   <script src="script.js"></script>
   </div>

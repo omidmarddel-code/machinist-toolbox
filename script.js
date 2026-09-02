@@ -505,8 +505,15 @@ function updateEdmSettings(name) {
     .join("");
 }
 
-function switchTool(tool, addToHistory = true) {
+function switchTool(tool, addToHistory = true, unlocked = false) {
   if (!tool || !PAGE_TITLES[tool]) {
+    return;
+  }
+
+  // 🔐 پنل‌های قفل‌دار (جزوه‌های آموزشی و تنظیمات وایرکات):
+  // هر بار که رویشان کلیک شود، پاپ‌آپ رمز روی همین صفحه باز می‌شود.
+  if (!unlocked && PROTECTED_TOOLS[tool]) {
+    openLoginModal(tool);
     return;
   }
 
@@ -1335,6 +1342,85 @@ function resetWeightForm() {
   updateWeightMessage("");
 }
 
+// ===== پاپ‌آپ ورود برای پنل‌های قفل‌دار =====
+// لاگین صفحهٔ جداگانه ندارد؛ هر بار که روی «جزوه‌های آموزشی» یا
+// «تنظیمات وایرکات» کلیک شود، این پاپ‌آپ روی همین صفحه باز می‌شود.
+const BOOKLETS_PASSWORD = "1370";
+const PROTECTED_TOOLS = {
+  booklets: "جزوه‌های آموزشی",
+  edm: "تنظیمات وایرکات"
+};
+const loginModal = document.getElementById("loginModal");
+let loginModalTarget = null;
+
+function openLoginModal(targetTool) {
+  if (!loginModal) return;
+  loginModalTarget = targetTool || null;
+  loginModal.hidden = false;
+
+  const title = document.getElementById("loginModalTitle");
+  if (title) title.textContent = "🔒 " + (PROTECTED_TOOLS[targetTool] || "ورود");
+
+  const err = document.getElementById("popupLoginError");
+  if (err) err.textContent = "";
+
+  const input = document.getElementById("popupPassword");
+  if (input) {
+    input.value = "";
+    setTimeout(() => input.focus(), 60);
+  }
+}
+
+function closeLoginModal() {
+  if (!loginModal) return;
+  loginModal.hidden = true;
+  loginModalTarget = null;
+}
+
+function attemptPopupLogin() {
+  const input = document.getElementById("popupPassword");
+  if (!input) return;
+  const err = document.getElementById("popupLoginError");
+
+  if (input.value === BOOKLETS_PASSWORD) {
+    const target = loginModalTarget;
+    closeLoginModal();
+    // unlocked=true تا گیتِ رمز، بلافاصله دوباره پاپ‌آپ را باز نکند
+    if (target) switchTool(target, true, true);
+  } else {
+    if (err) err.textContent = "رمز عبور اشتباه است.";
+    input.value = "";
+    input.focus();
+  }
+}
+
+(function bindLoginModal() {
+  if (!loginModal) return;
+
+  const loginBtn = document.getElementById("popupLoginBtn");
+  const closeBtn = document.getElementById("loginModalClose");
+  const passwordInput = document.getElementById("popupPassword");
+
+  if (loginBtn) loginBtn.addEventListener("click", attemptPopupLogin);
+  if (closeBtn) closeBtn.addEventListener("click", closeLoginModal);
+
+  if (passwordInput) {
+    passwordInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") attemptPopupLogin();
+    });
+  }
+
+  // کلیک روی پس‌زمینه (خارج از کارت) پاپ‌آپ را می‌بندد
+  loginModal.addEventListener("click", (event) => {
+    if (event.target === loginModal) closeLoginModal();
+  });
+
+  // کلید Esc هم پاپ‌آپ را می‌بندد
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !loginModal.hidden) closeLoginModal();
+  });
+})();
+
 bindEvents();
 renderTapOptions();
 renderEdmOptions();
@@ -1387,26 +1473,6 @@ window.addEventListener("popstate", (event) => {
     }
 
 });
-// ===== خروج خودکار در صورت عدم فعالیت =====
-
-let inactivityTimer;
-
-function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-
-    inactivityTimer = setTimeout(() => {
-        alert("به علت عدم فعالیت، از برنامه خارج شدید.");
-        sessionStorage.removeItem("loggedIn");
-        window.location.href = "login.html";
-    }, 1800000);
-}
-
-["mousemove", "mousedown", "click", "scroll", "keydown", "touchstart"].forEach((event) => {
-    document.addEventListener(event, resetInactivityTimer);
-});
-
-resetInactivityTimer();
-
 // ===== Utility Panel: Clock + Calendar + Calculator =====
 (function() {
   'use strict';
