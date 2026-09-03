@@ -30,6 +30,102 @@ const EDM_DATA = [
   { name: "قطعات آلومینیوم", spark: 80, feed: 30, water: 12, wire: 2.6 }
 ];
 
+// متادیتای SEO هر ابزار: برای تنوع عنوان و توضیحات صفحه هنگام باز شدن هر ابزار استفاده می‌شود.
+const TOOL_SEO = {
+  tap: {
+    title: "محاسبه مته قلاویز و رزوه متریک | ماشین تول باکس",
+    description: "محاسبه آنلاین سایز مته قلاویز و رزوه متریک (M2 تا M20): گام، ارتفاع رزوه، قطر داخلی و مته پیشنهادی برای ماشینکاری و قلاویزکاری."
+  },
+  booklet: {
+    title: "جزوه وایرکات ایزی پایپ | آموزش CNC | ماشین تول باکس",
+    description: "جزوه آموزش اپراتوری دستگاه وایرکات (Wire Cut) همراه با تنظیمات پیشنهادی برش و نکات کارگاهی."
+  },
+  fanuc: {
+    title: "جزوه آموزش فرز CNC Fanuc | ماشین تول باکس",
+    description: "جزوه آموزش اپراتوری دستگاه فرز CNC با کنترلر فانوک (Fanuc): کدهای G و M، تنظیمات و نکات کارگاهی."
+  },
+  heidenhain: {
+    title: "جزوه آموزش فرز CNC هایدن‌هاین | ماشین تول باکس",
+    description: "جزوه آموزش اپراتوری دستگاه فرز CNC با کنترلر هایدن‌هاین (Heidenhain) شامل مفاهیم برنامه‌نویسی و عملیات ماشینکاری."
+  },
+  edm: {
+    title: "تنظیمات وایرکات (Wire EDM) | ماشین تول باکس",
+    description: "تنظیمات پیشنهادی دستگاه وایرکات: قدرت اسپارک، نرخ پیشروی، فشار آب، سرعت وایر و موقعیت Z برای قطعات مختلف."
+  },
+  taper: {
+    title: "محاسبه زاویه مخروط (تیپر) | ماشین تول باکس",
+    description: "محاسبه آنلاین زاویه مخروط یا تیپر بر اساس قطر بزرگ، قطر کوچک و ارتفاع؛ مناسب برای تراشکاری مخروطی."
+  },
+  lathe: {
+    title: "جزوه آموزش تراش CNC GSK | ماشین تول باکس",
+    description: "جزوه آموزش اپراتوری دستگاه تراش CNC با کنترلر GSK؛ شامل برنامه‌نویسی، تنظیمات و نکات ماشینکاری تراش."
+  },
+  threadDepth: {
+    title: "محاسبه عمق دنده رزوه تراش | ماشین تول باکس",
+    description: "محاسبه آنلاین عمق دنده (عمق رزوه) برای تراشکاری رزوه بر اساس گام؛ ابزار کارگاهی مهندسی ماشینکاری."
+  },
+  hardnessConversion: {
+    title: "تبدیل سختی HB به HRC | ماشین تول باکس",
+    description: "تبدیل آنلاین سختی برینل (HB) به راکول (HRC) و بالعکس بر اساس جدول استاندارد ASTM E140 / ISO 18265."
+  },
+  forgingClearance: {
+    title: "محاسبه لقی سنبه و قالب فورج | ماشین تول باکس",
+    description: "محاسبه آنلاین لقی (Clearance) سنبه و قالب فورج بر اساس جنس قطعه، دمای فورج و قطر دهانه قالب برای قالب‌سازان."
+  },
+  weightCalculator: {
+    title: "محاسبه وزن قطعه با چگالی متریال | ماشین تول باکس",
+    description: "محاسبه آنلاین وزن قطعه (مکعب، استوانه، لوله، ورق یا حجم دلخواه) بر اساس چگالی متریال برای مهندسان ماشینکاری."
+  },
+  threadTable: {
+    title: "جدول استاندارد دنده‌ها BSPP | ماشین تول باکس",
+    description: "جدول استاندارد اندازه دنده‌های BSPP برای رزوه‌های لوله؛ مرجع سریع استانداردهای صنعتی مهندسی."
+  },
+  booklets: {
+    title: "جزوه‌های آموزشی CNC | ماشین تول باکس",
+    description: "جزوه‌های آموزش اپراتوری CNC: وایرکات، فرز فانوک (Fanuc)، هایدن‌هاین (Heidenhain) و تراش GSK."
+  },
+  calculations: {
+    title: "ابزارهای محاسبات مهندسی ماشینکاری | ماشین تول باکس",
+    description: "ابزارهای محاسباتی ماشینکاری: قلاویز و رزوه متریک، وزن قطعه، سختی HB/HRC، لقی فورج، زاویه مخروط و عمق دنده."
+  },
+  standards: {
+    title: "استانداردهای صنعتی | ماشین تول باکس",
+    description: "جداول استاندارد BSPP و AS568 (اورینگ) برای مهندسان ماشینکاری و قالب‌سازان."
+  },
+  materials: {
+    title: "بانک متریال فولاد، آلومینیوم و پلاستیک | ماشین تول باکس",
+    description: "بانک متریال ماشینکاری: فولادهای ابزاری، استنلس استیل، آلومینیوم، چدن، مس، برنج، برنز و پلاستیک‌های صنعتی با مشخصات و معادل‌ها."
+  },
+  as568: {
+    title: "استاندارد AS568 اورینگ | ماشین تول باکس",
+    description: "جدول استاندارد AS568 برای اورینگ‌ها (کاسمنت): سایزها و ابعاد استاندارد."
+  },
+  moldtotarial: {
+    title: "جزوه آشنایی با واحد قالب‌سازی | ماشین تول باکس",
+    description: "جزوه آشنایی با روند فعالیت واحد قالب‌سازی: مراحل ساخت قالب و نکات صنعتی."
+  }
+};
+
+function updateSeoForTool(tool) {
+  const meta = TOOL_SEO[tool];
+  if (!meta) return;
+  document.title = meta.title;
+
+  let desc = document.querySelector('meta[name="description"]');
+  if (desc) desc.setAttribute("content", meta.description);
+}
+
+function updateSeoForHome() {
+  document.title = "ماشین تول باکس | ابزارهای مهندسی ماشینکاری و CNC (Machinist Toolbox)";
+  const desc = document.querySelector('meta[name="description"]');
+  if (desc) {
+    desc.setAttribute(
+      "content",
+      "ماشین تول باکس؛ مجموعه ابزارهای مهندسی ماشینکاری CNC: محاسبه وزن قطعه، رزوه متریک و مته قلاویز، تبدیل سختی HRC به HB، لقی فورج، تنظیمات وایرکات و بانک متریال."
+    );
+  }
+}
+
 const HARDNESS_TABLE = [
   { HRC: 20, HB: 227 },
   { HRC: 22, HB: 246 },
@@ -531,6 +627,12 @@ function switchTool(tool, addToHistory = true, unlocked = false) {
     elements.homeSpacer.hidden = true;
   }
 
+  // بخش معرفی SEO فقط در صفحهٔ اصلی دیده می‌شود
+  const seoIntro = document.getElementById("seoIntro");
+  if (seoIntro) {
+    seoIntro.hidden = true;
+  }
+
   if (welcomeCard && !welcomeCard.classList.contains("hide")) {
     welcomeCard.classList.add("hide");
 
@@ -564,6 +666,7 @@ function switchTool(tool, addToHistory = true, unlocked = false) {
   }
 
   currentTool = tool;
+  updateSeoForTool(tool);
 
   if (addToHistory && location.hash !== `#${tool}`) {
     history.pushState({ tool }, "", `#${tool}`);
@@ -697,6 +800,15 @@ function bindEvents() {
       }
       if (elements.pageTitle) {
         elements.pageTitle.textContent = "MACHINIST TOOL BOX";
+      }
+
+      // بازگشت به خانه: عنوان و توضیحات صفحهٔ اصلی بازیابی شود
+      updateSeoForHome();
+
+      // بخش معرفی SEO دوباره دیده شود
+      const seoIntro = document.getElementById("seoIntro");
+      if (seoIntro) {
+        seoIntro.hidden = false;
       }
 
       const welcomeCard = document.getElementById("welcomeCard");
@@ -1427,21 +1539,35 @@ renderEdmOptions();
 renderWeightMaterials();
 renderWeightShapeInputs();
 setupMaterialSearch();
-// در شروع برنامه هیچ پنلی باز نباشد
-elements.panels.forEach(panel => {
-  panel.hidden = true;
-  panel.classList.remove("active");
-});
 
-// هیچ دکمه‌ای هم فعال نباشد
-elements.toolCards.forEach(card => {
-  card.classList.remove("active");
-});
+// ==== SEO: عنوان و توضیحات پیش‌فرض صفحهٔ اصلی ====
+updateSeoForHome();
 
-// عنوان صفحه
-elements.pageEyebrow.textContent = "";
-elements.pageTitle.textContent = "MACHINIST TOOL BOX";
-history.replaceState({}, "", location.pathname);
+// ==== Deep-Link: اگر کاربر با هش (مثلاً #tap) وارد شده باشد، همان ابزار باز شود ====
+(function initDeepLink() {
+  var hashTool = (location.hash || "").replace(/^#/, "");
+  if (hashTool && PAGE_TITLES[hashTool]) {
+    // بعد از باز شدن، بلافاصله با همان هش، بدون pushState اضافه
+    switchTool(hashTool, false);
+    return;
+  }
+
+  // در شروع برنامه هیچ پنلی باز نباشد
+  elements.panels.forEach(panel => {
+    panel.hidden = true;
+    panel.classList.remove("active");
+  });
+
+  // هیچ دکمه‌ای هم فعال نباشد
+  elements.toolCards.forEach(card => {
+    card.classList.remove("active");
+  });
+
+  // عنوان صفحه
+  elements.pageEyebrow.textContent = "";
+  elements.pageTitle.textContent = "MACHINIST TOOL BOX";
+  history.replaceState({}, "", location.pathname);
+})();
 
 window.addEventListener("popstate", (event) => {
 
@@ -1461,6 +1587,15 @@ window.addEventListener("popstate", (event) => {
 
     elements.pageEyebrow.textContent = "";
     elements.pageTitle.textContent = "MACHINIST TOOL BOX";
+
+    // بازگشت به خانه: عنوان و توضیحات صفحهٔ اصلی بازیابی شود
+    updateSeoForHome();
+
+    // بخش معرفی SEO دوباره دیده شود
+    const seoIntro = document.getElementById("seoIntro");
+    if (seoIntro) {
+        seoIntro.hidden = false;
+    }
 
     const welcomeCard = document.getElementById("welcomeCard");
     if (welcomeCard) {
@@ -1904,7 +2039,6 @@ async function getDefaultSlides() {
 
 /* ---------- ساخت/بازسازی اسلایدها ---------- */
 let slideshowTimer = null;
-let slideshowResizeHandler = null;
 
 function buildSlides(srcList) {
     const track = document.getElementById("slideshowTrack");
@@ -1913,7 +2047,6 @@ function buildSlides(srcList) {
 
     // توقف تایمر قبلی و پاک‌سازی محتوای قبلی
     if (slideshowTimer) { clearInterval(slideshowTimer); slideshowTimer = null; }
-    if (slideshowResizeHandler) window.removeEventListener("resize", slideshowResizeHandler);
     track.innerHTML = "";
     if (dotsBox) dotsBox.innerHTML = "";
 
@@ -1927,13 +2060,14 @@ function buildSlides(srcList) {
 
     // ساخت اسلایدها و دکمه‌های نشانگر
     const slides = [];
-    const cacheBust = Date.now().toString();
     srcList.forEach((src, index) => {
         const div = document.createElement("div");
         div.className = "slide";
         const img = document.createElement("img");
-        img.src = src.indexOf("data:") === 0 ? src : `${src}?v=${cacheBust}`;
-        img.alt = `اسلاید ${index + 1}`;
+        img.src = src;
+        img.alt = "";
+        img.loading = "lazy";
+        img.decoding = "async";
         div.appendChild(img);
         track.appendChild(div);
         slides.push(div);
@@ -1946,29 +2080,11 @@ function buildSlides(srcList) {
         }
     });
 
-    // هم‌تراز کردن ارتفاع قاب با نسبتِ تصویرِ فعال:
-    // عکس دقیقاً داخل قاب می‌نشیند (بدون برش، بدون نوار خالی، بدون سرریز)
-    const slideshowEl = document.getElementById("homeSlideshow");
-    function fitActiveSlide() {
-        if (!slideshowEl) return;
-        const activeImg = slideshowEl.querySelector(".slide.active img");
-        if (!activeImg || !activeImg.naturalWidth || !activeImg.naturalHeight) return;
-        const width = slideshowEl.clientWidth || slideshowEl.offsetWidth;
-        if (!width) return;
-        const ratio = activeImg.naturalWidth / activeImg.naturalHeight;
-        const height = Math.min(Math.max(width / ratio, 200), 900);
-        slideshowEl.style.height = `${height}px`;
-    }
-    slides.forEach((slide) => {
-        const im = slide.querySelector("img");
-        if (im) im.addEventListener("load", fitActiveSlide);
-    });
-    window.addEventListener("resize", slideshowResizeHandler = fitActiveSlide);
-
-    // ورق زدن خودکار هر ۵ ثانیه
+    // قاب اسلایدشو ارتفاع ثابت دارد (aspect-ratio: 16/9 در CSS) و هر تصویر
+    // با object-fit: cover کل قاب را پر می‌کند؛ بنابراین هنگام عوض‌شدن تصویر،
+    // کادر بزرگ یا کوچیک نمی‌شود.
     let current = 0;
     slides[0].classList.add("active");
-    fitActiveSlide();
 
     if (slides.length < 2) return;
 
@@ -1978,7 +2094,6 @@ function buildSlides(srcList) {
         current = (current + 1) % slides.length;
         slides[current].classList.add("active");
         if (dotsBox) dotsBox.children[current].classList.add("active");
-        fitActiveSlide();
     }, SLIDESHOW_INTERVAL_MS);
 }
 

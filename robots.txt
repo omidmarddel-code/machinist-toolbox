@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://omidmarddel-code.github.io/machinist-toolbox/sitemap.xml

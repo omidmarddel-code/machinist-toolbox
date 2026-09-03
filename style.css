@@ -30,9 +30,10 @@
 [data-theme="light"] body {
   background:
     linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.6)),
-    url("images/welcome.png");
+    url("images/welcome-bg.jpg");
   background-attachment: fixed;
   background-position: center;
+  background-size: cover;
 }
 
 [data-theme="light"] .tool-card {
@@ -176,9 +177,10 @@ body {
   font-family: Tahoma, "Segoe UI", system-ui, sans-serif;
   background:
         linear-gradient(rgba(8,12,20,.80), rgba(8,12,20,.90)),
-        url("images/welcome.png");
+        url("images/welcome-bg.jpg");
   background-attachment: fixed;
   background-position: center;
+  background-size: cover;
 }
 
 button,
@@ -392,6 +394,40 @@ button {
 
 .tool-panel {
   display: none;
+}
+
+/* ===== بخش معرفی SEO صفحهٔ اصلی ===== */
+.seo-intro {
+  padding: 24px;
+  border-radius: 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  max-width: 860px;
+  margin: 0 auto;
+  line-height: 2;
+}
+
+.seo-intro[hidden] {
+  display: none;
+}
+
+.seo-intro h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--text);
+}
+
+.seo-intro h3 {
+  margin: 18px 0 10px;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: var(--text);
+}
+
+.seo-intro p {
+  color: var(--muted);
+  font-size: 0.98rem;
 }
 
 .tool-panel.active {
@@ -1563,14 +1599,16 @@ button {
 .home-spacer-card[hidden] { display:none; }
 
 /* ===== اسلایدشو (قاب نمدی) ===== */
-/* ارتفاع قاب با نسبتِ خودِ عکس فعال هم‌تراز می‌شود (در JS)؛
+/* ارتفاع قاب ثابت است (نسبت ۱۶ به ۹) و با تغییر تصویر بزرگ/کوچک نمی‌شود؛
+   هر تصویر با object-fit: cover کل قاب را پر می‌کند (برشِ اضافی از اطراف).
    لبه‌های قاب مثل نمدی نرم و محو شده‌اند (ماسک فلت) و تیزی ندارند.
    شفافیت عکس‌ها هم با متغیر --slide-opacity کنترل می‌شود. */
 .slideshow {
   position: relative;
   width: 100%;
   height: auto;
-  min-height: 240px;
+  aspect-ratio: 16 / 9;
+  min-height: 220px;
   border-radius: 18px;
   overflow: hidden;
   background: transparent;
@@ -1628,8 +1666,8 @@ button {
 .slide img {
   width: 100%;
   height: 100%;
-  /* چون ارتفاع قاب دقیقاً با نسبت عکس هم‌تراز است، cover کل قاب را پر می‌کند
-     بدون نوار خالی و بدون برش قابل‌توجه (حداکثر کسری از پیکسل). */
+  /* ارتفاع قاب ثابت است (۱۶:۹) و cover مطمئن می‌شود کل قاب همیشه پر باشد؛
+     تصاویر با هر ابعادی وسط‌چین و کاور می‌شوند و با تغییر تصویر، کادر تکان نمی‌خورد. */
   object-fit: cover;
   object-position: center;
   display: block;
