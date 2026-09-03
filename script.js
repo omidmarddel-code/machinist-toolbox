@@ -116,12 +116,12 @@ function updateSeoForTool(tool) {
 }
 
 function updateSeoForHome() {
-  document.title = "ماشین تول باکس | ابزارهای مهندسی ماشینکاری و CNC (Machinist Toolbox)";
+  document.title = "ماشین تول باکس | ابزارهای مهندسی CNC و ماشین‌کاری | امید مرددل";
   const desc = document.querySelector('meta[name="description"]');
   if (desc) {
     desc.setAttribute(
       "content",
-      "ماشین تول باکس؛ مجموعه ابزارهای مهندسی ماشینکاری CNC: محاسبه وزن قطعه، رزوه متریک و مته قلاویز، تبدیل سختی HRC به HB، لقی فورج، تنظیمات وایرکات و بانک متریال."
+      "ماشین تول باکس (Machinist Toolbox)؛ ابزارهای مهندسی ماشین‌کاری و CNC توسعه‌یافته توسط امید مرددل: محاسبه وزن قطعه، رزوه متریک، تبدیل سختی، تنظیمات وایرکات و بانک متریال."
     );
   }
 }
