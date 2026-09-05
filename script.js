@@ -225,6 +225,26 @@ toolSteel: {
   eyebrow: "بانک متریال",
   title: "فولادهای ابزاری"
 },
+hotWork: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای گرمکار"
+},
+coldWork: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای سردکار"
+},
+springSteel: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای فنر"
+},
+plasticMold: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای قالب پلاستیک"
+},
+otherSteels: {
+  eyebrow: "بانک متریال",
+  title: "سایر فولادها"
+},
 H13: {
   eyebrow: "بانک متریال",
   title: "فولاد H13"
@@ -690,12 +710,29 @@ function normalizeMaterialSearchText(text) {
 
 function buildMaterialSearchIndex() {
   const index = [];
+  const visitedKeys = new Set();
 
-  const categoryKeys = Array.from(
-    document.querySelectorAll("#materialsPanel button.tool-card[data-tool]")
-  ).map((button) => button.dataset.tool);
+  const pushLeafEntry = (button, key) => {
+    const strong = button.querySelector("strong")?.textContent.trim() || "";
+    const small = button.querySelector("small")?.textContent.trim() || "";
+    const materialPanel = document.querySelector(
+      `section.calculator-panel.tool-panel[data-panel="${key}"]`
+    );
+    const title = materialPanel?.querySelector("h3")?.textContent.trim() || "";
 
-  categoryKeys.forEach((categoryKey) => {
+    index.push({
+      key,
+      source: button,
+      searchText: normalizeMaterialSearchText([key, strong, small, title].join(" "))
+    });
+  };
+
+  // بانک متریال سلسله‌مراتبی است (مثال: مواد ← فولاد ابزاری ← گرمکار ← H13)؛
+  // بنابراین پنل‌ها به‌صورت بازگشتی پیمایش می‌شوند تا همهٔ متریال‌ها ایندکس شوند.
+  const walkCategoryPanel = (categoryKey) => {
+    if (visitedKeys.has(categoryKey)) return;
+    visitedKeys.add(categoryKey);
+
     const categoryPanel = document.querySelector(
       `section.calculator-panel.tool-panel[data-panel="${categoryKey}"]`
     );
@@ -703,22 +740,26 @@ function buildMaterialSearchIndex() {
 
     categoryPanel.querySelectorAll("button.tool-card[data-tool]").forEach((button) => {
       const key = button.dataset.tool;
-      if (!key) return;
+      if (!key || visitedKeys.has(key)) return;
 
-      const strong = button.querySelector("strong")?.textContent.trim() || "";
-      const small = button.querySelector("small")?.textContent.trim() || "";
-      const materialPanel = document.querySelector(
+      const childPanel = document.querySelector(
         `section.calculator-panel.tool-panel[data-panel="${key}"]`
       );
-      const title = materialPanel?.querySelector("h3")?.textContent.trim() || "";
 
-      index.push({
-        key,
-        source: button,
-        searchText: normalizeMaterialSearchText([key, strong, small, title].join(" "))
-      });
+      if (childPanel?.querySelector("button.tool-card[data-tool]")) {
+        walkCategoryPanel(key);
+        return;
+      }
+
+      pushLeafEntry(button, key);
     });
-  });
+  };
+
+  Array.from(
+    document.querySelectorAll("#materialsPanel button.tool-card[data-tool]")
+  )
+    .map((button) => button.dataset.tool)
+    .forEach(walkCategoryPanel);
 
   return index;
 }

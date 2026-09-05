@@ -1960,58 +1960,63 @@
 
         <div class="panel-header">
           <h2>فولادهای ابزاری</h2>
-          <p>نوع فولاد را انتخاب کنید.</p>
+          <p>دسته‌بندی فولاد ابزار را انتخاب کنید.</p>
         </div>
 
         <div class="dashboard-grid">
 
-          <button class="tool-card" data-tool="P20" type="button">
-            <span class="tool-icon">🧱</span>
+          <button class="tool-card" data-tool="hotWork" type="button">
+            <span class="tool-icon">🔥</span>
             <span>
-              <strong>P20</strong>
-              <small>Pre-Hardened Mold Steel</small>
+              <strong>فولاد گرمکار</strong>
+              <small>H13، 1.2343، 1.2714</small>
             </span>
           </button>
 
-          <button class="tool-card" data-tool="2311" type="button">
+          <button class="tool-card" data-tool="coldWork" type="button">
+            <span class="tool-icon">❄️</span>
+            <span>
+              <strong>فولاد سردکار</strong>
+              <small>D2، SPK، A2، O1 ...</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="springSteel" type="button">
+            <span class="tool-icon">🌀</span>
+            <span>
+              <strong>فولاد فنر</strong>
+              <small>H7176، CK75</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="plasticMold" type="button">
             <span class="tool-icon">🧩</span>
             <span>
-              <strong>1.2311</strong>
-              <small>P20 Mold Steel</small>
+              <strong>قالب پلاستیک</strong>
+              <small>P20، 1.2311، 1.2738 ...</small>
             </span>
           </button>
 
-          <button class="tool-card" data-tool="2312" type="button">
-            <span class="tool-icon">⚙️</span>
+          <button class="tool-card" data-tool="otherSteels" type="button">
+            <span class="tool-icon">🧰</span>
             <span>
-              <strong>1.2312</strong>
-              <small>P20 + S</small>
+              <strong>سایر فولادها</strong>
+              <small>M2، MO40، CK45</small>
             </span>
           </button>
 
-          <button class="tool-card" data-tool="2738" type="button">
-            <span class="tool-icon">🏭</span>
-            <span>
-              <strong>1.2738</strong>
-              <small>P20 + Ni</small>
-            </span>
-          </button>
+        </div>
 
-          <button class="tool-card" data-tool="2083" type="button">
-            <span class="tool-icon">💎</span>
-            <span>
-              <strong>1.2083</strong>
-              <small>420 Stainless Mold Steel</small>
-            </span>
-          </button>
+      </section>
 
-          <button class="tool-card" data-tool="2316" type="button">
-            <span class="tool-icon">🧪</span>
-            <span>
-              <strong>1.2316</strong>
-              <small>Stainless Mold Steel</small>
-            </span>
-          </button>
+      <section class="calculator-panel tool-panel" data-panel="hotWork" id="hotWorkPanel">
+
+        <div class="panel-header">
+          <h2>فولاد گرمکار</h2>
+          <p>نوع فولاد گرمکار را انتخاب کنید.</p>
+        </div>
+
+        <div class="dashboard-grid">
 
           <button class="tool-card" data-tool="H13" type="button">
             <span class="tool-icon">🔥</span>
@@ -2036,6 +2041,18 @@
               <small>Forging Die Steel</small>
             </span>
           </button>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="coldWork" id="coldWorkPanel">
+
+        <div class="panel-header">
+          <h2>فولاد سردکار</h2>
+          <p>نوع فولاد سردکار را انتخاب کنید.</p>
+        </div>
+
+        <div class="dashboard-grid">
 
           <button class="tool-card" data-tool="D2" type="button">
             <span class="tool-icon">⚙️</span>
@@ -2117,19 +2134,120 @@
             </span>
           </button>
 
-          <button class="tool-card" data-tool="3343" type="button">
-            <span class="tool-icon">⚡</span>
-            <span>
-              <strong>1.3343</strong>
-              <small>M2 High Speed Steel</small>
-            </span>
-          </button>
-
           <button class="tool-card" data-tool="1545" type="button">
             <span class="tool-icon">🔨</span>
             <span>
               <strong>1.1545</strong>
               <small>W1 Water Hardening</small>
+            </span>
+          </button>
+
+        </div>
+
+      </section>
+
+      <section class="calculator-panel tool-panel" data-panel="springSteel" id="springSteelPanel">
+
+        <div class="panel-header">
+          <h2>فولاد فنر</h2>
+          <p>نوع فولاد فنر را انتخاب کنید.</p>
+        </div>
+
+        <div class="dashboard-grid">
+
+          <button class="tool-card" data-tool="H7176" type="button">
+            <span class="tool-icon">🌿</span>
+            <span>
+              <strong>H7176</strong>
+              <small>Spring Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="CK75" type="button">
+            <span class="tool-icon">📏</span>
+            <span>
+              <strong>CK75</strong>
+              <small>High Carbon Spring Steel</small>
+            </span>
+          </button>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="plasticMold" id="plasticMoldPanel">
+
+        <div class="panel-header">
+          <h2>فولاد قالب پلاستیک</h2>
+          <p>نوع فولاد قالب پلاستیک را انتخاب کنید.</p>
+        </div>
+
+        <div class="dashboard-grid">
+
+          <button class="tool-card" data-tool="P20" type="button">
+            <span class="tool-icon">🧱</span>
+            <span>
+              <strong>P20</strong>
+              <small>Pre-Hardened Mold Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2311" type="button">
+            <span class="tool-icon">🧩</span>
+            <span>
+              <strong>1.2311</strong>
+              <small>P20 Mold Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2312" type="button">
+            <span class="tool-icon">⚙️</span>
+            <span>
+              <strong>1.2312</strong>
+              <small>P20 + S</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2738" type="button">
+            <span class="tool-icon">🏭</span>
+            <span>
+              <strong>1.2738</strong>
+              <small>P20 + Ni</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2083" type="button">
+            <span class="tool-icon">💎</span>
+            <span>
+              <strong>1.2083</strong>
+              <small>420 Stainless Mold Steel</small>
+            </span>
+          </button>
+
+          <button class="tool-card" data-tool="2316" type="button">
+            <span class="tool-icon">🧪</span>
+            <span>
+              <strong>1.2316</strong>
+              <small>Stainless Mold Steel</small>
+            </span>
+          </button>
+
+        </div>
+
+      </section>
+      <section class="calculator-panel tool-panel" data-panel="otherSteels" id="otherSteelsPanel">
+
+        <div class="panel-header">
+          <h2>سایر فولادها</h2>
+          <p>نوع فولاد را انتخاب کنید.</p>
+        </div>
+
+        <div class="dashboard-grid">
+
+          <button class="tool-card" data-tool="3343" type="button">
+            <span class="tool-icon">⚡</span>
+            <span>
+              <strong>1.3343</strong>
+              <small>M2 High Speed Steel</small>
             </span>
           </button>
 
@@ -2146,22 +2264,6 @@
             <span>
               <strong>CK45</strong>
               <small>Medium Carbon Steel</small>
-            </span>
-          </button>
-
-          <button class="tool-card" data-tool="CK75" type="button">
-            <span class="tool-icon">📏</span>
-            <span>
-              <strong>CK75</strong>
-              <small>High Carbon Steel</small>
-            </span>
-          </button>
-
-          <button class="tool-card" data-tool="H7176" type="button">
-            <span class="tool-icon">🌿</span>
-            <span>
-              <strong>H7176</strong>
-              <small>Spring Steel</small>
             </span>
           </button>
 
