@@ -416,6 +416,46 @@ ABS: {
   eyebrow: "بانک متریال",
   title: "ABS - Acrylonitrile Butadiene Styrene"
 },
+HDPE: {
+  eyebrow: "بانک متریال",
+  title: "HDPE - پلی‌اتیلن سنگین"
+},
+LDPE: {
+  eyebrow: "بانک متریال",
+  title: "LDPE - پلی‌اتیلن سبک"
+},
+UHMWPE: {
+  eyebrow: "بانک متریال",
+  title: "UHMWPE / PE1000 - پلی‌اتیلن فوق‌سنگین"
+},
+PP: {
+  eyebrow: "بانک متریال",
+  title: "PP - پلی‌پروپیلن"
+},
+PVCU: {
+  eyebrow: "بانک متریال",
+  title: "PVC-U - پی‌وی‌سی سخت"
+},
+PA66: {
+  eyebrow: "بانک متریال",
+  title: "PA66 - نایلون 66"
+},
+PET: {
+  eyebrow: "بانک متریال",
+  title: "PET - پلی‌اتیلن ترفتالات"
+},
+PC: {
+  eyebrow: "بانک متریال",
+  title: "PC - پلی‌کربنات"
+},
+PMMA: {
+  eyebrow: "بانک متریال",
+  title: "PMMA - پلکسی / اکریلیک"
+},
+PVDF: {
+  eyebrow: "بانک متریال",
+  title: "PVDF - پلی‌وینیلیدن فلوراید"
+},
 copper: {
   eyebrow: "بانک متریال",
   title: "مس و برنج و برنز"
@@ -1277,7 +1317,17 @@ function renderWeightMaterials() {
     "H7176",
     "POM",
     "PEEK",
-    "PTFE"
+    "PTFE",
+    "HDPE",
+    "LDPE",
+    "UHMWPE",
+    "PP",
+    "PVCU",
+    "PA66",
+    "PET",
+    "PC",
+    "PMMA",
+    "PVDF"
   ]);
 
   const materialEntries = Object.entries(MATERIAL_DENSITY_MAP)
