@@ -689,6 +689,42 @@ function updateEdmSettings(name) {
     .join("");
 }
 
+const INDUSTRIAL_PLASTIC_IMAGES = {
+  POM: ["pom.svg", "تصویر شماتیک چرخ‌دنده و بوش POM"],
+  PEEK: ["peek.svg", "نمونه شماتیک قطعه PEEK"],
+  PTFE: ["ptfe.svg", "نمونه شماتیک واشر PTFE"],
+  PA6: ["pa6.svg", "نمونه شماتیک الیاف PA6"],
+  ABS: ["abs.svg", "نمونه شماتیک قطعه ABS"],
+  HDPE: ["hdpe.svg", "نمونه شماتیک ورق HDPE"],
+  LDPE: ["ldpe.svg", "نمونه شماتیک ورق LDPE"],
+  UHMWPE: ["uhmwpe.svg", "نمونه شماتیک بوش UHMWPE"],
+  PP: ["pp.svg", "نمونه شماتیک قطعه PP"],
+  PVCU: ["pvcu.svg", "نمونه شماتیک ورق PVC-U"],
+  PA66: ["pa66.svg", "نمونه شماتیک الیاف PA66"],
+  PET: ["pet.svg", "نمونه شماتیک قطعه PET"],
+  PC: ["pc.svg", "نمونه شماتیک ورق PC"],
+  PMMA: ["pmma.svg", "نمونه شماتیک ورق PMMA"],
+  PVDF: ["pvdf.svg", "نمونه شماتیک لوله PVDF"]
+};
+
+function injectIndustrialPlasticImages() {
+  Object.entries(INDUSTRIAL_PLASTIC_IMAGES).forEach(([materialKey, [fileName, alt]]) => {
+    const panel = document.querySelector(`section.calculator-panel.tool-panel[data-panel="${materialKey}"]`);
+    const lessonCard = panel?.querySelector(".lesson-card");
+    if (!lessonCard || lessonCard.querySelector(".material-visual")) return;
+
+    const figure = document.createElement("figure");
+    figure.className = "material-visual";
+
+    const image = document.createElement("img");
+    image.src = `images/materials/${fileName}`;
+    image.alt = alt;
+    image.loading = "lazy";
+    figure.appendChild(image);
+    lessonCard.prepend(figure);
+  });
+}
+
 function switchTool(tool, addToHistory = true, unlocked = false) {
   if (!tool || !PAGE_TITLES[tool]) {
     return;
@@ -1658,6 +1694,7 @@ renderEdmOptions();
 renderWeightMaterials();
 renderWeightShapeInputs();
 setupMaterialSearch();
+injectIndustrialPlasticImages();
 
 // ==== SEO: عنوان و توضیحات پیش‌فرض صفحهٔ اصلی ====
 updateSeoForHome();

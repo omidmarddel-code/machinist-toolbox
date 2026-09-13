@@ -642,6 +642,22 @@ button {
   animation: metricIn 260ms ease both;
 }
 
+.material-visual {
+  margin: -2px -2px 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.material-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 3;
+  object-fit: cover;
+}
+
 .lesson-card h4 {
   margin: 0 0 12px;
   padding-left: 54px;
