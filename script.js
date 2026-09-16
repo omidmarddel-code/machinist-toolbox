@@ -668,10 +668,15 @@ function switchTool(tool, addToHistory = true) {
   }
 
   if (currentTool === tool) {
-    if (addToHistory && location.hash !== `#${tool}`) {
-      history.pushState({ tool }, "", `#${tool}`);
+    const currentPanel = document.querySelector(`.tool-panel[data-panel="${tool}"]`);
+    const panelIsVisible = currentPanel && !currentPanel.hidden && currentPanel.classList.contains("active");
+
+    if (panelIsVisible) {
+      if (addToHistory && location.hash !== `#${tool}`) {
+        history.pushState({ tool }, "", `#${tool}`);
+      }
+      return;
     }
-    return;
   }
 
   const welcomeCard = document.getElementById("welcomeCard");
