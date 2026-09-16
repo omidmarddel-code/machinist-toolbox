@@ -35,6 +35,18 @@ const TOOL_SEO = {
     title: "جزوه آموزش فرز CNC Fanuc | ماشین تول باکس",
     description: "جزوه آموزش اپراتوری دستگاه فرز CNC با کنترلر فانوک (Fanuc): کدهای G و M، تنظیمات و نکات کارگاهی."
   },
+  programmingTraining: {
+    title: "آموزش برنامه نویسی CNC | ماشین تول باکس",
+    description: "آموزش برنامه نویسی CNC شامل مسیرهای پایه و پیشرفتهٔ تراش CNC فانوک."
+  },
+  fanucLatheProgrammingBasic: {
+    title: "برنامه نویسی تراش CNC فانوک (پایه) | ماشین تول باکس",
+    description: "آموزش ساده و گام‌به‌گام برنامه نویسی پایهٔ تراش CNC فانوک: مختصات X و Z، G-codeهای پایه، اولین برنامه و چک‌لیست اجرای ایمن."
+  },
+  fanucLatheProgrammingAdvanced: {
+    title: "برنامه نویسی تراش CNC فانوک (پیشرفته) | ماشین تول باکس",
+    description: "آموزش پیشرفتهٔ تراش CNC فانوک: G02/G03 قوس‌زنی، G71/G70، G76 رزوه، G96، جبران نوک ابزار، شیارزنی و روش کنترل برنامه."
+  },
   heidenhain: {
     title: "جزوه آموزش فرز CNC هایدن‌هاین | ماشین تول باکس",
     description: "جزوه آموزش اپراتوری دستگاه فرز CNC با کنترلر هایدن‌هاین (Heidenhain) شامل مفاهیم برنامه‌نویسی و عملیات ماشینکاری."
@@ -155,6 +167,18 @@ const PAGE_TITLES = {
   fanuc: {
     eyebrow: "آموزش اپراتوری دستگاه",
     title: "جزوه فانوک ایزی پایپ"
+  },
+  programmingTraining: {
+    eyebrow: "آموزش CNC",
+    title: "آموزش برنامه نویسی"
+  },
+  fanucLatheProgrammingBasic: {
+    eyebrow: "آموزش CNC تراش · Fanuc",
+    title: "برنامه نویسی تراش CNC فانوک (پایه)"
+  },
+  fanucLatheProgrammingAdvanced: {
+    eyebrow: "آموزش تخصصی CNC تراش · Fanuc",
+    title: "برنامه نویسی تراش CNC فانوک (پیشرفته)"
   },
   heidenhain: {
     eyebrow: "آموزش اپراتوری دستگاه",

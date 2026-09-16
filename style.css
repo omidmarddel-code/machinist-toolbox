@@ -657,6 +657,82 @@ button {
   line-height: 1.9;
 }
 
+.fanuc-lathe-course .panel-header {
+  align-items: flex-start;
+}
+
+.fanuc-lathe-course .panel-header h2 {
+  margin: 4px 0 8px;
+}
+
+.fanuc-code-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.fanuc-code-grid div {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.fanuc-code-grid b {
+  direction: ltr;
+  color: #7dd3fc;
+  font-family: Consolas, "Courier New", monospace;
+  white-space: nowrap;
+}
+
+.fanuc-code-grid span {
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.fanuc-program {
+  direction: ltr;
+  margin: 14px 0 0;
+  padding: 16px;
+  overflow-x: auto;
+  border: 1px solid rgba(34, 197, 94, 0.26);
+  border-radius: 14px;
+  background: #061014;
+  color: #dcfce7;
+  font: 0.9rem/1.75 Consolas, "Courier New", monospace;
+  text-align: left;
+}
+
+.fanuc-steps {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding-right: 22px;
+  color: #e2e8f0;
+  line-height: 1.9;
+}
+
+.fanuc-steps b {
+  direction: ltr;
+  color: #bbf7d0;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.fanuc-source {
+  margin: 18px 2px 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.fanuc-source a {
+  color: var(--accent-2);
+}
+
 @keyframes metricIn {
   from {
     opacity: 0;
@@ -715,6 +791,10 @@ button {
   .lesson-card h4 {
     padding-left: 0;
     padding-top: 42px;
+  }
+
+  .fanuc-code-grid {
+    grid-template-columns: 1fr;
   }
 
   .topbar,
