@@ -21,15 +21,6 @@ const TAP_DATA = [
   { size: "M20", major: 20, pitch: 2.5 }
 ];
 
-// تنظیمات پیشنهادی وایرکات بر اساس داده‌هایی که کاربر ارائه کرده است.
-const EDM_DATA = [
-  { name: "تمامی رندها", spark: 200, feed: 20, water: 12, zPosition: 125, wire: 2.2 },
-  { name: "کولت‌ها", spark: 100, feed: 20, water: 16, wire: 3 },
-  { name: "ماتریس و سنبه تریم", spark: 180, feed: 50, water: 16, wire: 2.6 },
-  { name: "برش قالب‌ها", spark: 220, feed: 50, water: 16, wire: 3 },
-  { name: "قطعات آلومینیوم", spark: 80, feed: 30, water: 12, wire: 2.6 }
-];
-
 // متادیتای SEO هر ابزار: برای تنوع عنوان و توضیحات صفحه هنگام باز شدن هر ابزار استفاده می‌شود.
 const TOOL_SEO = {
   tap: {
@@ -47,10 +38,6 @@ const TOOL_SEO = {
   heidenhain: {
     title: "جزوه آموزش فرز CNC هایدن‌هاین | ماشین تول باکس",
     description: "جزوه آموزش اپراتوری دستگاه فرز CNC با کنترلر هایدن‌هاین (Heidenhain) شامل مفاهیم برنامه‌نویسی و عملیات ماشینکاری."
-  },
-  edm: {
-    title: "تنظیمات وایرکات (Wire EDM) | ماشین تول باکس",
-    description: "تنظیمات پیشنهادی دستگاه وایرکات: قدرت اسپارک، نرخ پیشروی، فشار آب، سرعت وایر و موقعیت Z برای قطعات مختلف."
   },
   taper: {
     title: "محاسبه زاویه مخروط (تیپر) | ماشین تول باکس",
@@ -172,10 +159,6 @@ const PAGE_TITLES = {
   heidenhain: {
     eyebrow: "آموزش اپراتوری دستگاه",
     title: "جزوه هایدن هاین ایزی پایپ"
-  },
-  edm: {
-    eyebrow: "تنظیمات پیشنهادی دستگاه",
-    title: "تنظیمات وایرکات"
   },
   taper: {
   eyebrow: "ماشین حساب مهندسی",
@@ -525,8 +508,6 @@ const elements = {
   tapSelect: document.querySelector("#tapSelect"),
   drillSize: document.querySelector("#drillSize"),
   metricsGrid: document.querySelector("#metricsGrid"),
-  edmSelect: document.querySelector("#edmSelect"),
-  edmSettings: document.querySelector("#edmSettings"),
   bigDiameter: document.querySelector("#bigDiameter"),
   smallDiameter: document.querySelector("#smallDiameter"),
   heightValue: document.querySelector("#heightValue"),
@@ -647,46 +628,6 @@ function updateTapEmptyState() {
       <strong>سایز قلاویز پیدا نشد</strong>
     </article>
   `;
-}
-
-function renderEdmOptions() {
-  if (!elements.edmSelect) return;
-
-  EDM_DATA.forEach((setting) => {
-    const option = document.createElement("option");
-    option.value = setting.name;
-    option.textContent = setting.name;
-    elements.edmSelect.appendChild(option);
-  });
-
-  updateEdmSettings(EDM_DATA[0].name);
-}
-
-function updateEdmSettings(name) {
-  if (!elements.edmSettings) return;
-
-  const setting = EDM_DATA.find((item) => item.name === name);
-
-  if (!setting) {
-    return;
-  }
-
-  const rows = [
-    { label: "قدرت اسپارک", value: setting.spark },
-    { label: "نرخ پیشروی", value: setting.feed },
-    { label: "فشار آب", value: setting.water },
-    { label: "سرعت وایر", value: setting.wire },
-    { label: "موقعیت Z", value: formatValue(setting.zPosition) }
-  ];
-
-  elements.edmSettings.innerHTML = rows
-    .map((row, index) => `
-      <div class="setting-row" style="animation-delay: ${index * 35}ms">
-        <span>${row.label}</span>
-        <strong>${row.value}</strong>
-      </div>
-    `)
-    .join("");
 }
 
 const INDUSTRIAL_PLASTIC_IMAGES = {
@@ -982,12 +923,6 @@ function bindEvents() {
   if (elements.tapSelect) {
     elements.tapSelect.addEventListener("change", (event) => {
       updateTapDetails(event.target.value);
-    });
-  }
-
-  if (elements.edmSelect) {
-    elements.edmSelect.addEventListener("change", (event) => {
-      updateEdmSettings(event.target.value);
     });
   }
 
@@ -1604,7 +1539,6 @@ function resetWeightForm() {
 
 bindEvents();
 renderTapOptions();
-renderEdmOptions();
 renderWeightMaterials();
 renderWeightShapeInputs();
 setupMaterialSearch();

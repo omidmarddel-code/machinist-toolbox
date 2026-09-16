@@ -73,7 +73,7 @@
           "جعبه ابزار ماشین کاری",
           "جعبه ابزار ماشین‌کاری"
         ],
-        "description": "مجموعه ابزارهای مهندسی ماشینکاری CNC: محاسبه وزن قطعه، رزوه متریک، تبدیل سختی، تنظیمات وایرکات، بانک متریال و استانداردهای صنعتی.",
+        "description": "مجموعه ابزارهای مهندسی ماشینکاری CNC: محاسبه وزن قطعه، رزوه متریک، تبدیل سختی، بانک متریال و استانداردهای صنعتی.",
         "inLanguage": "fa-IR",
         "publisher": { "@id": "https://omidmarddel-code.github.io/machinist-toolbox/#person" },
         "creator": { "@id": "https://omidmarddel-code.github.io/machinist-toolbox/#person" }
@@ -91,7 +91,7 @@
         "inLanguage": "fa-IR",
         "isAccessibleForFree": true,
         "image": "https://omidmarddel-code.github.io/machinist-toolbox/images/og-image.jpg",
-        "description": "جعبه‌ابزار آنلاین مهندسی ماشینکاری برای ماشینکارها، اپراتورهای CNC و قالب‌سازها؛ شامل محاسبه وزن قطعه، رزوه متریک، تبدیل سختی HB/HRC، لقی فورج، زاویه مخروط، تنظیمات وایرکات، بانک متریال و جداول استاندارد.",
+        "description": "جعبه‌ابزار آنلاین مهندسی ماشینکاری برای ماشینکارها، اپراتورهای CNC و قالب‌سازها؛ شامل محاسبه وزن قطعه، رزوه متریک، تبدیل سختی HB/HRC، لقی فورج، زاویه مخروط، بانک متریال و جداول استاندارد.",
         "author": { "@id": "https://omidmarddel-code.github.io/machinist-toolbox/#person" },
         "creator": { "@id": "https://omidmarddel-code.github.io/machinist-toolbox/#person" },
         "publisher": { "@id": "https://omidmarddel-code.github.io/machinist-toolbox/#person" },
@@ -103,7 +103,6 @@
           "محاسبه لقی سنبه و قالب فورج",
           "محاسبه زاویه مخروط (تیپر)",
           "محاسبه عمق دنده تراش CNC",
-          "تنظیمات وایرکات (EDM)",
           "بانک متریال فولادها، آلومینیوم، چدن و پلاستیک‌ها",
           "جداول استاندارد BSPP و AS568",
           "جزوه‌های آموزشی Fanuc، Heidenhain و GSK"
@@ -204,15 +203,7 @@
           <small>اطلاعات فولادها و آلیاژها</small>
         </span>
       </button>
-      <nav class="dashboard-grid" id="toolMenu" aria-label="ابزارهای داشبورد">
-        <button class="tool-card" data-tool="edm" type="button">
-          <span class="tool-icon">&#8767;</span>
-          <span>
-            <strong>تنظیمات وایرکات</strong>
-            <small>داده‌های دستگاه </small>
-          </span>
-        </button>
-      </nav>
+      <nav class="dashboard-grid" id="toolMenu" aria-label="ابزارهای داشبورد"></nav>
       <div class="app-footer">
         <p>Designed & Developed by</p>
         <strong>Omid Marddel</strong>
@@ -311,7 +302,7 @@
         <p>
           از <strong>محاسبه وزن قطعه</strong> بر اساس چگالی متریال و <strong>محاسبه رزوه متریک</strong> و
           مته قلاویز گرفته تا <strong>تبدیل سختی HRC به HB</strong>، محاسبه لقی سنبه و قالب فورج، زاویه مخروط
-          (تیپر)، عمق دنده تراش، <strong>تنظیمات وایرکات</strong> و یک <strong>بانک متریال</strong> کامل از
+          (تیپر)، عمق دنده تراش و یک <strong>بانک متریال</strong> کامل از
           فولادهای ابزاری، استنلس استیل، آلومینیوم، چدن، مس و برنج و پلاستیک‌های صنعتی. جداول
           <strong>استانداردهای صنعتی</strong> مانند BSPP و AS568 و جزوه‌های آموزشی Fanuc، Heidenhain و GSK هم
           بخشی از این مجموعه‌اند.
@@ -6280,28 +6271,6 @@
           style="border:none;border-radius:20px;">
         </iframe>
 
-      </section>
-      <section class="calculator-panel tool-panel" data-panel="edm" aria-labelledby="edmTitle">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">دستگاه وایرکات ایزی پایپ</p>
-            <h3 id="edmTitle">تنظیمات وایرکات</h3>
-          </div>
-        </div>
-        <div class="selector-row">
-          <label for="edmSelect">نوع عملیات</label>
-          <select id="edmSelect" aria-describedby="edmDescription"></select>
-          <p id="edmDescription">نوع قطعه یا عملیات را انتخاب کن تا تنظیمات پیشنهادی نمایش داده شود.</p>
-        </div>
-
-        <div class="edm-settings-card" id="edmSettings" aria-live="polite"></div>
-        <P></P>
-        <div class="lesson-card lesson-note">
-          <h4>📌 نکته</h4>
-          <li>قالب های 125 تن برای کات کردن دقیق از وسط در محور y باید بعد از پیدا کردن وسط محور y به مقدار 0.15 به
-            سمت
-            بیرون یعنی y- محور را تکان بدهیم بعد صفر کنیم</li>
-        </div>
       </section>
       <section class="calculator-panel tool-panel" data-panel="booklet" aria-labelledby="bookletTitle">
         <div class="panel-header">

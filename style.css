@@ -67,11 +67,6 @@
   background: rgba(0, 0, 0, 0.03);
 }
 
-[data-theme="light"] .setting-row {
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  background: rgba(0, 0, 0, 0.03);
-}
-
 [data-theme="light"] .lesson-card {
   border: 1px solid rgba(0, 0, 0, 0.10);
   background: rgba(0, 0, 0, 0.03);
@@ -100,10 +95,6 @@
 
 [data-theme="light"] .result-hero span {
   color: #15803d;
-}
-
-[data-theme="light"] .setting-row strong {
-  color: #4d7c0f;
 }
 
 [data-theme="light"] .command-path {
@@ -594,39 +585,6 @@ button {
   overflow-wrap: anywhere;
 }
 
-.edm-settings-card {
-  display: grid;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.setting-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  min-height: 72px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.055);
-  animation: metricIn 260ms ease both;
-}
-
-.setting-row span {
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.setting-row strong {
-  min-width: 84px;
-  color: #d9f99d;
-  font-size: clamp(1.25rem, 4vw, 1.8rem);
-  line-height: 1;
-  text-align: left;
-}
-
 .booklet-grid {
   display: grid;
   gap: 14px;
@@ -752,15 +710,6 @@ button {
   .dashboard-grid,
   .metrics-grid {
     grid-template-columns: 1fr;
-  }
-
-  .setting-row {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .setting-row strong {
-    text-align: right;
   }
 
   .result-hero {
@@ -2398,16 +2347,26 @@ button {
 .avatar-circle {
   display: grid;
   place-items: center;
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
+  width: 130px;
+  height: 130px;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #fff;
   font-size: 2.4rem;
   box-shadow: 0 8px 28px rgba(34, 197, 94, 0.35);
+  overflow: hidden;
+}
+
+.avatar-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
 }
 
 .developer-name {
+  position: static;
   margin: 0;
   font-size: clamp(1.15rem, 2.5vw, 1.35rem);
   font-weight: 700;
@@ -2415,6 +2374,7 @@ button {
 }
 
 .developer-role {
+  position: static;
   margin: 0;
   font-size: 0.85rem;
   color: var(--muted);
