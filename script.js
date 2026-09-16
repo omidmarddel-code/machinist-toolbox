@@ -47,6 +47,10 @@ const TOOL_SEO = {
     title: "برنامه نویسی تراش CNC فانوک (پیشرفته) | ماشین تول باکس",
     description: "آموزش پیشرفتهٔ تراش CNC فانوک: G02/G03 قوس‌زنی، G71/G70، G76 رزوه، G96، جبران نوک ابزار، شیارزنی و روش کنترل برنامه."
   },
+  fanucLatheCodeReference: {
+    title: "کدهای G و M فانوک برای تراش CNC | ماشین تول باکس",
+    description: "مرجع فارسی کدهای G و M رایج در تراش CNC فانوک System A؛ شامل حرکت، چرخه‌ها، رزوه، سرعت، پیشروی و M-codeهای عمومی."
+  },
   heidenhain: {
     title: "جزوه آموزش فرز CNC هایدن‌هاین | ماشین تول باکس",
     description: "جزوه آموزش اپراتوری دستگاه فرز CNC با کنترلر هایدن‌هاین (Heidenhain) شامل مفاهیم برنامه‌نویسی و عملیات ماشینکاری."
@@ -179,6 +183,10 @@ const PAGE_TITLES = {
   fanucLatheProgrammingAdvanced: {
     eyebrow: "آموزش تخصصی CNC تراش · Fanuc",
     title: "برنامه نویسی تراش CNC فانوک (پیشرفته)"
+  },
+  fanucLatheCodeReference: {
+    eyebrow: "مرجع تراش CNC · Fanuc System A",
+    title: "کدهای G و M فانوک"
   },
   heidenhain: {
     eyebrow: "آموزش اپراتوری دستگاه",
