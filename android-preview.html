@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پیش‌نمایش نسخه اندروید</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Tahoma, sans-serif;
+      background: #050810;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding: 22px 14px 40px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    p.sub {
+      margin: 0;
+      color: #94a3b8;
+      font-size: .88rem;
+      text-align: center;
+      max-width: 620px;
+      line-height: 1.9;
+    }
+
+    p.sub code {
+      color: #38bdf8;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      background: rgba(15, 23, 42, .7);
+      border: 1px solid rgba(56, 189, 248, .25);
+      padding: 10px 12px;
+      border-radius: 14px;
+    }
+
+    .toolbar button {
+      font-family: inherit;
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #e2e8f0;
+      background: rgba(56, 189, 248, .1);
+      border: 1px solid rgba(56, 189, 248, .35);
+      border-radius: 10px;
+      padding: 8px 14px;
+    }
+
+    .toolbar button.active {
+      background: #38bdf8;
+      color: #06202e;
+    }
+
+    .stage {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .phone {
+      width: var(--pw, 390px);
+      height: var(--ph, 844px);
+      max-height: 82vh;
+      background: #000;
+      border-radius: 44px;
+      padding: 11px;
+      border: 1px solid rgba(148, 163, 184, .35);
+      box-shadow: 0 0 0 2px #1e293b, 0 30px 80px rgba(0, 0, 0, .7);
+      position: relative;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 24px;
+      background: #000;
+      border-radius: 0 0 15px 15px;
+      z-index: 5;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 34px;
+      overflow: hidden;
+      background: #050810;
+    }
+
+    .screen iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #050810;
+    }
+
+    .side-note {
+      max-width: 300px;
+      background: rgba(15, 23, 42, .7);
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: 14px;
+      padding: 16px;
+      font-size: .85rem;
+      line-height: 2;
+      color: #cbd5e1;
+    }
+
+    .side-note b {
+      color: #38bdf8;
+    }
+
+    .badge {
+      font-size: .75rem;
+      background: rgba(34, 197, 94, .15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, .4);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .err {
+      display: none;
+      max-width: 620px;
+      background: rgba(127, 29, 29, .35);
+      border: 1px solid rgba(248, 113, 113, .5);
+      color: #fecaca;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: .82rem;
+      line-height: 1.9;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <span class="badge">● LIVE — پیش‌نمایش زنده</span>
+  <h1>📱 پیش‌نمایش نسخه اندروید</h1>
+  <p class="sub">اپ واقعی اندروید (<code>www/index.html</code>) داخل قاب گوشی لود می‌شود. بدون سرور.</p>
+  <div class="err" id="errBox"></div>
+  <div class="toolbar">
+    <button data-w="360" data-h="780">Pixel ‏(360)</button>
+    <button data-w="390" data-h="844" class="active">پیش‌فرض ‏(390)</button>
+    <button data-w="412" data-h="900">Galaxy ‏(412)</button>
+    <button id="rotateBtn">🔄 چرخش</button>
+    <button id="reloadBtn">↻ رفرش اپ</button>
+  </div>
+  <div class="stage">
+    <div class="phone" id="phone">
+      <div class="screen"><iframe id="appFrame" title="Android preview"></iframe></div>
+    </div>
+    <div class="side-note">
+      <b>تست کن:</b><br>
+      🧠 آموزش برنامه‌نویسی از صفحه اصلی<br>
+      ⬅ Back = دکمه Back گوشی<br>
+      🧠 ابزارها و برگشت با Back<br>
+      📝 یادداشت کارگاه<br><br>
+      <b>صفحه سفید ماند؟</b> چند ثانیه صبر کن (فایل ~۳۲۰KB است) بعد ↻ بزن.
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  (function () {
+    var phone = document.getElementById('phone');
+    var frame = document.getElementById('appFrame');
+    var errBox = document.getElementById('errBox');
+    var cur = { w: 390, h: 844 }, rotated = false;
+    function targetURL() {
+      var base = location.href.split('#')[0].split('?')[0];
+      return base.substring(0, base.lastIndexOf('/') + 1) + 'www/index.html?mobile=preview';
+    }
+    frame.src = targetURL();
+    var timer = setTimeout(function () {
+      errBox.style.display = 'block';
+      errBox.innerHTML = '⚠️ اپ هنوز لود نشده — چند ثانیه صبر کن و ↻ رفرش اپ را بزن.';
+    }, 12000);
+    frame.addEventListener('load', function () {
+      clearTimeout(timer);
+      try {
+        if (frame.contentDocument.documentElement.innerHTML.length > 500) {
+          errBox.style.display = 'none';
+        }
+      } catch (e) { errBox.style.display = 'none'; }
+    });
+    function apply() {
+      phone.style.setProperty('--pw', (rotated ? cur.h : cur.w) + 'px');
+      phone.style.setProperty('--ph', (rotated ? cur.w : cur.h) + 'px');
+    }
+    var btns = document.querySelectorAll('[data-w]');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function () {
+        for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+        this.classList.add('active');
+        cur = { w: +this.getAttribute('data-w'), h: +this.getAttribute('data-h') };
+        rotated = false; apply();
+      });
+    }
+    document.getElementById('rotateBtn').addEventListener('click', function () { rotated = !rotated; apply(); });
+    document.getElementById('reloadBtn').addEventListener('click', function () {
+      errBox.style.display = 'none';
+      frame.src = targetURL() + '&_r=' + Date.now();
+    });
+    apply();
+  })();
+</script>

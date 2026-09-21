@@ -1,0 +1,2163 @@
+
+"use strict";
+
+// داده‌های رزوه متریک دنده درشت. مقدارهای محاسبه‌شده برای استفاده کارگاهی گرد می‌شوند.
+const TAP_DATA = [
+  { size: "M2", major: 2, pitch: 0.4 },
+  { size: "M2.5", major: 2.5, pitch: 0.45 },
+  { size: "M3", major: 3, pitch: 0.5 },
+  { size: "M4", major: 4, pitch: 0.7 },
+  { size: "M5", major: 5, pitch: 0.8 },
+  { size: "M6", major: 6, pitch: 1 },
+  { size: "M7", major: 7, pitch: 1 },
+  { size: "M8", major: 8, pitch: 1.25 },
+  { size: "M9", major: 9, pitch: 1.25 },
+  { size: "M10", major: 10, pitch: 1.5 },
+  { size: "M11", major: 11, pitch: 1.5 },
+  { size: "M12", major: 12, pitch: 1.75 },
+  { size: "M14", major: 14, pitch: 2 },
+  { size: "M16", major: 16, pitch: 2 },
+  { size: "M18", major: 18, pitch: 2.5 },
+  { size: "M20", major: 20, pitch: 2.5 }
+];
+
+// متادیتای SEO هر ابزار: برای تنوع عنوان و توضیحات صفحه هنگام باز شدن هر ابزار استفاده می‌شود.
+const TOOL_SEO = {
+  tap: {
+    title: "محاسبه مته قلاویز و رزوه متریک | ماشین تول باکس",
+    description: "محاسبه آنلاین سایز مته قلاویز و رزوه متریک (M2 تا M20): گام، ارتفاع رزوه، قطر داخلی و مته پیشنهادی برای ماشینکاری و قلاویزکاری."
+  },
+  booklet: {
+    title: "جزوه وایرکات ایزی پایپ | آموزش CNC | ماشین تول باکس",
+    description: "جزوه آموزش اپراتوری دستگاه وایرکات (Wire Cut) همراه با تنظیمات پیشنهادی برش و نکات کارگاهی."
+  },
+  fanuc: {
+    title: "جزوه آموزش فرز CNC Fanuc | ماشین تول باکس",
+    description: "جزوه آموزش اپراتوری دستگاه فرز CNC با کنترلر فانوک (Fanuc): کدهای G و M، تنظیمات و نکات کارگاهی."
+  },
+  programmingTraining: {
+    title: "آموزش برنامه نویسی CNC | ماشین تول باکس",
+    description: "آموزش برنامه نویسی CNC شامل مسیرهای پایه و پیشرفته تراش CNC فانوک."
+  },
+  fanucLatheProgrammingBasic: {
+    title: "برنامه نویسی تراش CNC فانوک (پایه) | ماشین تول باکس",
+    description: "آموزش پایه برنامه نویسی تراش CNC فانوک، مختصات X و Z و کدهای حرکتی پایه."
+  },
+  fanucLatheProgrammingAdvanced: {
+    title: "برنامه نویسی تراش CNC فانوک (پیشرفته) | ماشین تول باکس",
+    description: "آموزش پیشرفته تراش CNC فانوک، چرخه‌ها، رزوه و جبران ابزار."
+  },
+  fanucLatheCodeReference: {
+    title: "کدهای G و M فانوک برای تراش CNC | ماشین تول باکس",
+    description: "مرجع فارسی کدهای رایج G و M برای تراش CNC فانوک."
+  },
+  heidenhain: {
+    title: "جزوه آموزش فرز CNC هایدن‌هاین | ماشین تول باکس",
+    description: "جزوه آموزش اپراتوری دستگاه فرز CNC با کنترلر هایدن‌هاین (Heidenhain) شامل مفاهیم برنامه‌نویسی و عملیات ماشینکاری."
+  },
+  taper: {
+    title: "محاسبه زاویه مخروط (تیپر) | ماشین تول باکس",
+    description: "محاسبه آنلاین زاویه مخروط یا تیپر بر اساس قطر بزرگ، قطر کوچک و ارتفاع؛ مناسب برای تراشکاری مخروطی."
+  },
+  lathe: {
+    title: "جزوه آموزش تراش CNC GSK | ماشین تول باکس",
+    description: "جزوه آموزش اپراتوری دستگاه تراش CNC با کنترلر GSK؛ شامل برنامه‌نویسی، تنظیمات و نکات ماشینکاری تراش."
+  },
+  threadDepth: {
+    title: "محاسبه عمق دنده رزوه تراش | ماشین تول باکس",
+    description: "محاسبه آنلاین عمق دنده (عمق رزوه) برای تراشکاری رزوه بر اساس گام؛ ابزار کارگاهی مهندسی ماشینکاری."
+  },
+  hardnessConversion: {
+    title: "تبدیل سختی HB به HRC | ماشین تول باکس",
+    description: "تبدیل آنلاین سختی برینل (HB) به راکول (HRC) و بالعکس بر اساس جدول استاندارد ASTM E140 / ISO 18265."
+  },
+  forgingClearance: {
+    title: "محاسبه لقی سنبه و قالب فورج | ماشین تول باکس",
+    description: "محاسبه آنلاین لقی (Clearance) سنبه و قالب فورج بر اساس جنس قطعه، دمای فورج و قطر دهانه قالب برای قالب‌سازان."
+  },
+  weightCalculator: {
+    title: "محاسبه وزن قطعه با چگالی متریال | ماشین تول باکس",
+    description: "محاسبه آنلاین وزن قطعه (مکعب، استوانه، لوله، ورق یا حجم دلخواه) بر اساس چگالی متریال برای مهندسان ماشینکاری."
+  },
+  threadTable: {
+    title: "جدول استاندارد دنده‌ها BSPP | ماشین تول باکس",
+    description: "جدول استاندارد اندازه دنده‌های BSPP برای رزوه‌های لوله؛ مرجع سریع استانداردهای صنعتی مهندسی."
+  },
+  booklets: {
+    title: "جزوه‌های آموزشی CNC | ماشین تول باکس",
+    description: "جزوه‌های آموزش اپراتوری CNC: وایرکات، فرز فانوک (Fanuc)، هایدن‌هاین (Heidenhain) و تراش GSK."
+  },
+  calculations: {
+    title: "ابزارهای محاسبات مهندسی ماشینکاری | ماشین تول باکس",
+    description: "ابزارهای محاسباتی ماشینکاری: قلاویز و رزوه متریک، وزن قطعه، سختی HB/HRC، لقی فورج، زاویه مخروط و عمق دنده."
+  },
+  standards: {
+    title: "استانداردهای صنعتی | ماشین تول باکس",
+    description: "جداول استاندارد BSPP و AS568 (اورینگ) برای مهندسان ماشینکاری و قالب‌سازان."
+  },
+  materials: {
+    title: "بانک متریال فولاد، آلومینیوم و پلاستیک | ماشین تول باکس",
+    description: "بانک متریال ماشینکاری: فولادهای ابزاری، استنلس استیل، آلومینیوم، چدن، مس، برنج، برنز و پلاستیک‌های صنعتی با مشخصات و معادل‌ها."
+  },
+  as568: {
+    title: "استاندارد AS568 اورینگ | ماشین تول باکس",
+    description: "جدول استاندارد AS568 برای اورینگ‌ها (کاسمنت): سایزها و ابعاد استاندارد."
+  },
+  moldtotarial: {
+    title: "جزوه آشنایی با واحد قالب‌سازی | ماشین تول باکس",
+    description: "جزوه آشنایی با روند فعالیت واحد قالب‌سازی: مراحل ساخت قالب و نکات صنعتی."
+  }
+};
+
+function updateSeoForTool(tool) {
+  const meta = TOOL_SEO[tool];
+  if (!meta) return;
+  document.title = meta.title;
+
+  let desc = document.querySelector('meta[name="description"]');
+  if (desc) desc.setAttribute("content", meta.description);
+}
+
+function updateSeoForHome() {
+  document.title = "ماشین تول باکس | ابزارهای مهندسی CNC و ماشین‌کاری | امید مرددل";
+  const desc = document.querySelector('meta[name="description"]');
+  if (desc) {
+    desc.setAttribute(
+      "content",
+      "ماشین تول باکس (Machinist Toolbox)؛ ابزارهای مهندسی ماشین‌کاری و CNC توسعه‌یافته توسط امید مرددل: محاسبه وزن قطعه، رزوه متریک، تبدیل سختی و بانک متریال."
+    );
+  }
+}
+
+const HARDNESS_TABLE = [
+  { HRC: 20, HB: 227 },
+  { HRC: 22, HB: 246 },
+  { HRC: 24, HB: 266 },
+  { HRC: 26, HB: 286 },
+  { HRC: 28, HB: 306 },
+  { HRC: 30, HB: 325 },
+  { HRC: 32, HB: 344 },
+  { HRC: 34, HB: 363 },
+  { HRC: 36, HB: 381 },
+  { HRC: 38, HB: 400 },
+  { HRC: 40, HB: 419 },
+  { HRC: 42, HB: 437 },
+  { HRC: 44, HB: 456 },
+  { HRC: 46, HB: 474 },
+  { HRC: 48, HB: 492 },
+  { HRC: 50, HB: 511 },
+  { HRC: 52, HB: 529 },
+  { HRC: 54, HB: 546 },
+  { HRC: 56, HB: 563 },
+  { HRC: 58, HB: 580 },
+  { HRC: 60, HB: 598 },
+  { HRC: 62, HB: 615 },
+  { HRC: 64, HB: 632 },
+  { HRC: 66, HB: 649 },
+  { HRC: 68, HB: 666 },
+  { HRC: 70, HB: 683 }
+];
+
+const PAGE_TITLES = {
+
+  tap: {
+    eyebrow: "رزوه‌های متریک دنده درشت",
+    title: "محاسبه‌گر قلاویز"
+  },
+  booklet: {
+    eyebrow: "آموزش اپراتوری دستگاه",
+    title: "جزوه وایرکات ایزی پایپ"
+  },
+  fanuc: {
+    eyebrow: "آموزش اپراتوری دستگاه",
+    title: "جزوه فانوک ایزی پایپ"
+  },
+  programmingTraining: {
+    eyebrow: "آموزش CNC",
+    title: "آموزش برنامه نویسی"
+  },
+  fanucLatheProgrammingBasic: {
+    eyebrow: "آموزش گام‌به‌گام CNC فانوک",
+    title: "برنامه نویسی تراش CNC فانوک (پایه)"
+  },
+  fanucLatheProgrammingAdvanced: {
+    eyebrow: "آموزش تخصصی CNC فانوک",
+    title: "برنامه نویسی تراش CNC فانوک (پیشرفته)"
+  },
+  fanucLatheCodeReference: {
+    eyebrow: "مرجع تراش CNC فانوک",
+    title: "کدهای G و M فانوک"
+  },
+  heidenhain: {
+    eyebrow: "آموزش اپراتوری دستگاه",
+    title: "جزوه هایدن هاین ایزی پایپ"
+  },
+  taper: {
+  eyebrow: "ماشین حساب مهندسی",
+  title: "محاسبه زاویه مخروط"
+},
+  lathe: {
+  eyebrow: "جزوه آموزشی",
+  title: "آموزش اپراتوری دستگاه تراش CNC GSK"
+},
+threadDepth: {
+  eyebrow: "ماشین حساب تراش",
+  title: "محاسبه عمق دنده"
+},
+hardnessConversion: {
+  eyebrow: "محاسبات مهندسی",
+  title: "تبدیل سختی HB ↔ HRC"
+},
+forgingClearance: {
+  eyebrow: "محاسبات مهندسی",
+  title: "محاسبه لقی سنبه و قالب فورج"
+},
+weightCalculator: {
+  eyebrow: "محاسبات مهندسی",
+  title: "محاسبه وزن قطعه"
+},
+threadTable: {
+  eyebrow: "استانداردها",
+  title: "اندازه استاندارد دنده‌ها"
+},
+booklets: {
+  eyebrow: "جزوه‌های آموزشی",
+  title: "انتخاب جزوه آموزشی"
+},
+calculations: {
+  eyebrow: "محاسبات مهندسی",
+  title: "ابزارهای محاسباتی"
+},
+standards: {
+  eyebrow: "استانداردهای مهندسی",
+  title: "جداول استاندارد"
+},
+materials: {
+  eyebrow: "مرجع مهندسی",
+  title: "بانک متریال"
+},
+toolSteel: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای ابزاری"
+},
+hotWork: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای گرمکار"
+},
+coldWork: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای سردکار"
+},
+springSteel: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای فنر"
+},
+plasticMold: {
+  eyebrow: "بانک متریال",
+  title: "فولادهای قالب پلاستیک"
+},
+otherSteels: {
+  eyebrow: "بانک متریال",
+  title: "سایر فولادها"
+},
+2365: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2365 (H10)"
+},
+2581: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2581 (H21)"
+},
+2542: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2542 (S1)"
+},
+8159: {
+  eyebrow: "بانک متریال",
+  title: "فولاد فنر 51CrV4"
+},
+2085: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2085"
+},
+3247: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.3247 (M42)"
+},
+7225: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 42CrMo4 (4140)"
+},
+3505: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 100Cr6 (52100)"
+},
+H13: {
+  eyebrow: "بانک متریال",
+  title: "فولاد H13"
+},
+D2: {
+  eyebrow: "بانک متریال",
+  title: "فولاد D2"
+},
+O1: {
+  eyebrow: "بانک متریال",
+  title: "فولاد O1"
+},
+2083: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2083"
+},
+2312: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2312"
+},
+2738: {
+    eyebrow: "بانک متریال",
+    title: "فولاد 1.2738"
+},VCN150: {
+    eyebrow: "بانک متریال",
+    title: "VCN 150"
+},
+VCN200: {
+    eyebrow: "بانک متریال",
+    title: "VCN 200"
+},
+MO40: {
+    eyebrow: "بانک متریال",
+    title: "MO40"
+},
+CK45: {
+    eyebrow: "بانک متریال",
+    title: "CK45"
+},
+CK75: {
+    eyebrow: "بانک متریال",
+    title: "CK75"
+},
+H7176: {
+    eyebrow: "بانک متریال",
+    title: "H7176"
+},
+P20: {
+  eyebrow: "بانک متریال",
+  title: "فولاد P20"
+},
+A2: {
+  eyebrow: "بانک متریال",
+  title: "فولاد A2"
+},
+S7: {
+  eyebrow: "بانک متریال",
+  title: "فولاد S7"
+},
+2080: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2080 (SPK)"
+},
+2316: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2316"
+},
+2343: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2343 (H11)"
+},
+2714: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2714"
+},
+2436: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2436 (D6)"
+},
+2842: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2842 (O2)"
+},
+2767: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.2767"
+},
+3343: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.3343 (M2)"
+},
+1545: {
+  eyebrow: "بانک متریال",
+  title: "فولاد 1.1545 (W1)"
+},
+castIron: {
+  eyebrow: "بانک متریال",
+  title: "چدن‌های ریخته‌گری"
+},
+GG25: {
+  eyebrow: "بانک متریال",
+  title: "GG25 - چدن خاکستری"
+},
+GG200: {
+  eyebrow: "بانک متریال",
+  title: "GG200 - چدن خاکستری قوی"
+},
+GGG40: {
+  eyebrow: "بانک متریال",
+  title: "GGG40 - چدن داکتیل"
+},
+GGG50: {
+  eyebrow: "بانک متریال",
+  title: "GGG50 - چدن داکتیل قوی"
+},
+plastic: {
+  eyebrow: "بانک متریال",
+  title: "پلاستیک‌های صنعتی"
+},
+POM: {
+  eyebrow: "بانک متریال",
+  title: "POM - Delrin (استال)"
+},
+PEEK: {
+  eyebrow: "بانک متریال",
+  title: "PEEK - پلاستیک پیشرفته"
+},
+PTFE: {
+  eyebrow: "بانک متریال",
+  title: "PTFE - Teflon (تفلون)"
+},
+PA6: {
+  eyebrow: "بانک متریال",
+  title: "PA6 - Nylon 6 (نایلون)"
+},
+ABS: {
+  eyebrow: "بانک متریال",
+  title: "ABS - Acrylonitrile Butadiene Styrene"
+},
+HDPE: {
+  eyebrow: "بانک متریال",
+  title: "HDPE - پلی‌اتیلن سنگین"
+},
+LDPE: {
+  eyebrow: "بانک متریال",
+  title: "LDPE - پلی‌اتیلن سبک"
+},
+UHMWPE: {
+  eyebrow: "بانک متریال",
+  title: "UHMWPE / PE1000 - پلی‌اتیلن فوق‌سنگین"
+},
+PP: {
+  eyebrow: "بانک متریال",
+  title: "PP - پلی‌پروپیلن"
+},
+PVCU: {
+  eyebrow: "بانک متریال",
+  title: "PVC-U - پی‌وی‌سی سخت"
+},
+PA66: {
+  eyebrow: "بانک متریال",
+  title: "PA66 - نایلون 66"
+},
+PET: {
+  eyebrow: "بانک متریال",
+  title: "PET - پلی‌اتیلن ترفتالات"
+},
+PC: {
+  eyebrow: "بانک متریال",
+  title: "PC - پلی‌کربنات"
+},
+PMMA: {
+  eyebrow: "بانک متریال",
+  title: "PMMA - پلکسی / اکریلیک"
+},
+PVDF: {
+  eyebrow: "بانک متریال",
+  title: "PVDF - پلی‌وینیلیدن فلوراید"
+},
+copper: {
+  eyebrow: "بانک متریال",
+  title: "مس و برنج و برنز"
+},
+Copper: {
+  eyebrow: "بانک متریال",
+  title: "مس خالص - Copper (Cu 99.9)"
+},
+Brass: {
+  eyebrow: "بانک متریال",
+  title: "برنج - Brass (Cu + Zn)"
+},
+Bronze: {
+  eyebrow: "بانک متریال",
+  title: "برنز - Bronze (Cu + Sn)"
+},
+stainlessSteel: {
+  eyebrow: "بانک متریال",
+  title: "استنلس استیل - فولاد ضد زنگ"
+},
+SS304: {
+  eyebrow: "بانک متریال",
+  title: "Stainless Steel 304 (18/8)"
+},
+SS316: {
+  eyebrow: "بانک متریال",
+  title: "Stainless Steel 316 / 316L"
+},
+SS420: {
+  eyebrow: "بانک متریال",
+  title: "Stainless Steel 420 - Cutlery Grade"
+},
+aluminum: {
+  eyebrow: "بانک متریال",
+  title: "آلومینیوم و آلیاژهای آن"
+},
+AL6061: {
+  eyebrow: "بانک متریال",
+  title: "Aluminum 6061 - سایز‌کاری عمومی"
+},
+AL7075: {
+  eyebrow: "بانک متریال",
+  title: "Aluminum 7075 - قوی و سبک"
+},
+AL5083: {
+  eyebrow: "بانک متریال",
+  title: "Aluminum 5083 - دریایی و دریانوردی"
+},
+as568: {
+  eyebrow: "استانداردهای مهندسی",
+  title: "جدول استاندارد AS568"
+},
+moldtotarial: {
+  eyebrow: "جزوه اشنایی با واحد قالب سازی",
+  title: "روند فعالیت قالب سازی"
+},
+};
+
+const elements = {
+  pageEyebrow: document.querySelector("#pageEyebrow"),
+  pageTitle: document.querySelector("#pageTitle"),
+  toolCards: document.querySelectorAll(".tool-card"),
+  panels: document.querySelectorAll(".tool-panel"),
+  tapSearch: document.querySelector("#tapSearch"),
+  materialSearch: document.querySelector("#materialSearch"),
+  materialSearchResults: document.querySelector("#materialSearchResults"),
+  tapSelect: document.querySelector("#tapSelect"),
+  drillSize: document.querySelector("#drillSize"),
+  metricsGrid: document.querySelector("#metricsGrid"),
+  bigDiameter: document.querySelector("#bigDiameter"),
+  smallDiameter: document.querySelector("#smallDiameter"),
+  heightValue: document.querySelector("#heightValue"),
+  calcTaper: document.querySelector("#calcTaper"),
+  taperResult: document.querySelector("#taperResult"),
+  hardnessType: document.querySelector("#hardnessType"),
+  hardnessValue: document.querySelector("#hardnessValue"),
+  convertHardness: document.querySelector("#convertHardness"),
+  resetHardness: document.querySelector("#resetHardness"),
+  hardnessResult: document.querySelector("#hardnessResult"),
+  hardnessMessage: document.querySelector("#hardnessMessage"),
+  threadPitch: document.querySelector("#threadPitch"),
+  threadDepthResult: document.querySelector("#threadDepthResult"),
+  shapeSelect: document.querySelector("#shapeSelect"),
+  shapeInputs: document.querySelector("#shapeInputs"),
+  weightMaterial: document.querySelector("#weightMaterial"),
+  weightDensity: document.querySelector("#weightDensity"),
+  calculateWeight: document.querySelector("#calculateWeight"),
+  resetWeight: document.querySelector("#resetWeight"),
+  weightMessage: document.querySelector("#weightMessage"),
+  weightResult: document.querySelector("#weightResult"),
+  weightDetails: document.querySelector("#weightDetails"),
+  weightDensityNote: document.querySelector("#weightDensityNote"),
+  forgingPanel: document.querySelector("#forgingClearancePanel"),
+  forgingWorkpieceMaterial: document.querySelector("#forgingWorkpieceMaterial"),
+  forgingDieHoleDiameter: document.querySelector("#forgingDieHoleDiameter"),
+  forgingTemperature: document.querySelector("#forgingTemperature"),
+  calculateForgingClearance: document.querySelector("#calculateForgingClearance"),
+  resetForgingClearance: document.querySelector("#resetForgingClearance"),
+  forgingMessage: document.querySelector("#forgingMessage"),
+  forgingResult: document.querySelector("#forgingResult"),
+  forgingDetails: document.querySelector("#forgingDetails"),
+  homeButton: document.querySelector("#homeButton"),
+  homeSpacer: document.querySelector(".home-spacer-card"),
+};
+let currentTool = null;
+let ignoreHistory = false;
+
+const trimNumber = (value, digits = 2) => Number(value.toFixed(digits)).toString();
+const formatMm = (value, digits = 2) => `${trimNumber(value, digits)} میلی‌متر`;
+const formatInch = (value) => `${value.toFixed(4)} اینچ`;
+const formatValue = (value) => value ?? "-";
+
+function getTapCalculations(tap) {
+  const drill = tap.major - tap.pitch;
+  const pitchInch = tap.pitch / 25.4;
+  const threadHeight = tap.pitch * 0.8660254;
+  const minor = tap.major - (1.226869 * tap.pitch);
+
+  return {
+    drill,
+    metrics: [
+      { label: "گام (میلی‌متر)", value: formatMm(tap.pitch) },
+      { label: "گام (اینچ)", value: formatInch(pitchInch) },
+      { label: "ارتفاع رزوه", value: formatMm(threadHeight) },
+      { label: "قطر اسمی", value: formatMm(tap.major) },
+      { label: "قطر داخلی", value: formatMm(minor) }
+    ]
+  };
+}
+
+function renderTapOptions(filter = "") {
+  if (!elements.tapSelect) return;
+
+  const query = filter.trim().toLowerCase();
+  const filteredTaps = TAP_DATA.filter((tap) => tap.size.toLowerCase().includes(query));
+
+  elements.tapSelect.innerHTML = "";
+
+  filteredTaps.forEach((tap) => {
+    const option = document.createElement("option");
+    option.value = tap.size;
+    option.textContent = `${tap.size} - گام ${trimNumber(tap.pitch)} میلی‌متر`;
+    elements.tapSelect.appendChild(option);
+  });
+
+  if (filteredTaps.length === 0) {
+    const option = document.createElement("option");
+    option.textContent = "قلاویز مطابق پیدا نشد";
+    option.disabled = true;
+    elements.tapSelect.appendChild(option);
+    updateTapEmptyState();
+    return;
+  }
+
+  updateTapDetails(filteredTaps[0].size);
+}
+
+function updateTapDetails(size) {
+  if (!elements.drillSize || !elements.metricsGrid) return;
+
+  const tap = TAP_DATA.find((item) => item.size === size);
+
+  if (!tap) {
+    updateTapEmptyState();
+    return;
+  }
+
+  const details = getTapCalculations(tap);
+  elements.drillSize.textContent = formatMm(details.drill);
+  elements.metricsGrid.innerHTML = details.metrics
+    .map((metric, index) => `
+      <article class="metric-card" style="animation-delay: ${index * 35}ms">
+        <span>${metric.label}</span>
+        <strong>${metric.value}</strong>
+      </article>
+    `)
+    .join("");
+}
+
+function updateTapEmptyState() {
+  if (!elements.drillSize || !elements.metricsGrid) return;
+
+  elements.drillSize.textContent = "--";
+  elements.metricsGrid.innerHTML = `
+    <article class="metric-card">
+      <span>نتیجه جستجو</span>
+      <strong>سایز قلاویز پیدا نشد</strong>
+    </article>
+  `;
+}
+
+function switchTool(tool, addToHistory = true, unlocked = false) {
+  if (!tool || !PAGE_TITLES[tool]) {
+    return;
+  }
+
+  if (currentTool === tool) {
+    const currentPanel = document.querySelector(`.tool-panel[data-panel="${tool}"]`);
+    const panelIsVisible = currentPanel && !currentPanel.hidden && currentPanel.classList.contains("active");
+
+    if (panelIsVisible) {
+      if (addToHistory && location.hash !== `#${tool}`) {
+        history.pushState({ tool }, "", `#${tool}`);
+      }
+      return;
+    }
+  }
+
+  const welcomeCard = document.getElementById("welcomeCard");
+
+  // کادر خالیِ جایگزین اخبار فقط مخصوص صفحهٔ اصلی است و هنگام باز شدن ابزار مخفی می‌شود.
+  if (elements.homeSpacer) {
+    elements.homeSpacer.hidden = true;
+  }
+
+  // بخش معرفی SEO فقط در صفحهٔ اصلی دیده می‌شود
+  const seoIntro = document.getElementById("seoIntro");
+  if (seoIntro) {
+    seoIntro.hidden = true;
+  }
+
+  if (welcomeCard && !welcomeCard.classList.contains("hide")) {
+    welcomeCard.classList.add("hide");
+
+    setTimeout(() => {
+      if (welcomeCard) {
+        welcomeCard.style.display = "none";
+      }
+    }, 500);
+  }
+
+  if (elements.toolCards) {
+    elements.toolCards.forEach((card) => {
+      card.classList.toggle("active", card.dataset.tool === tool);
+    });
+  }
+
+  if (elements.panels) {
+    elements.panels.forEach((panel) => {
+      const active = panel.dataset.panel === tool || panel.id === tool + "Panel";
+
+      panel.classList.toggle("active", active);
+      panel.hidden = !active;
+    });
+  }
+
+  if (elements.pageEyebrow) {
+    elements.pageEyebrow.textContent = PAGE_TITLES[tool].eyebrow;
+  }
+  if (elements.pageTitle) {
+    elements.pageTitle.textContent = PAGE_TITLES[tool].title;
+  }
+
+  currentTool = tool;
+  updateSeoForTool(tool);
+
+  if (addToHistory && location.hash !== `#${tool}`) {
+    history.pushState({ tool }, "", `#${tool}`);
+  }
+}
+
+function normalizeMaterialSearchText(text) {
+  if (!text) return "";
+
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/[۰-۹]/g, (digit) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(digit)))
+    .replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit)))
+    .replace(/ي/g, "ی")
+    .replace(/ك/g, "ک")
+    .replace(/\u200c/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function buildMaterialSearchIndex() {
+  const index = [];
+  const visitedKeys = new Set();
+
+  const pushLeafEntry = (button, key) => {
+    const strong = button.querySelector("strong")?.textContent.trim() || "";
+    const small = button.querySelector("small")?.textContent.trim() || "";
+    const materialPanel = document.querySelector(
+      `section.calculator-panel.tool-panel[data-panel="${key}"]`
+    );
+    const title = materialPanel?.querySelector("h3")?.textContent.trim() || "";
+
+    index.push({
+      key,
+      source: button,
+      searchText: normalizeMaterialSearchText([key, strong, small, title].join(" "))
+    });
+  };
+
+  // بانک متریال سلسله‌مراتبی است (مثال: مواد ← فولاد ابزاری ← گرمکار ← H13)؛
+  // بنابراین پنل‌ها به‌صورت بازگشتی پیمایش می‌شوند تا همهٔ متریال‌ها ایندکس شوند.
+  const walkCategoryPanel = (categoryKey) => {
+    if (visitedKeys.has(categoryKey)) return;
+    visitedKeys.add(categoryKey);
+
+    const categoryPanel = document.querySelector(
+      `section.calculator-panel.tool-panel[data-panel="${categoryKey}"]`
+    );
+    if (!categoryPanel) return;
+
+    categoryPanel.querySelectorAll("button.tool-card[data-tool]").forEach((button) => {
+      const key = button.dataset.tool;
+      if (!key || visitedKeys.has(key)) return;
+
+      const childPanel = document.querySelector(
+        `section.calculator-panel.tool-panel[data-panel="${key}"]`
+      );
+
+      if (childPanel?.querySelector("button.tool-card[data-tool]")) {
+        walkCategoryPanel(key);
+        return;
+      }
+
+      pushLeafEntry(button, key);
+    });
+  };
+
+  Array.from(
+    document.querySelectorAll("#materialsPanel button.tool-card[data-tool]")
+  )
+    .map((button) => button.dataset.tool)
+    .forEach(walkCategoryPanel);
+
+  return index;
+}
+
+function renderMaterialSearchResults(entries, query) {
+  const container = elements.materialSearchResults;
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (!query) {
+    container.hidden = true;
+    return;
+  }
+
+  if (entries.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "material-search-empty";
+    empty.textContent = "متریالی با این نام در بانک متریال پیدا نشد.";
+    container.appendChild(empty);
+    container.hidden = false;
+    return;
+  }
+
+  entries.forEach(({ source }) => {
+    const clone = source.cloneNode(true);
+    clone.classList.remove("active");
+    container.appendChild(clone);
+  });
+  container.hidden = false;
+}
+
+function setupMaterialSearch() {
+  if (!elements.materialSearch || !elements.materialSearchResults) return;
+
+  const searchIndex = buildMaterialSearchIndex();
+
+  const handleMaterialSearch = () => {
+    const query = normalizeMaterialSearchText(elements.materialSearch.value);
+
+    if (!query) {
+      renderMaterialSearchResults([], "");
+      return;
+    }
+
+    const matches = searchIndex.filter((entry) => entry.searchText.includes(query));
+    renderMaterialSearchResults(matches, query);
+  };
+
+  elements.materialSearch.addEventListener("input", handleMaterialSearch);
+
+  elements.materialSearchResults.addEventListener("click", (event) => {
+    const card = event.target.closest("button.tool-card[data-tool]");
+    if (!card) return;
+
+    elements.materialSearch.value = "";
+    renderMaterialSearchResults([], "");
+    switchTool(card.dataset.tool);
+  });
+}
+
+function bindEvents() {
+  if (elements.homeButton) {
+    elements.homeButton.addEventListener("click", () => {
+      history.replaceState({}, "", location.pathname);
+
+      if (elements.panels) {
+        elements.panels.forEach((panel) => {
+          panel.hidden = true;
+          panel.classList.remove("active");
+        });
+      }
+      if (elements.toolCards) {
+        elements.toolCards.forEach((card) => card.classList.remove("active"));
+      }
+
+      if (elements.pageEyebrow) {
+        elements.pageEyebrow.textContent = "";
+      }
+      if (elements.pageTitle) {
+        elements.pageTitle.textContent = "MACHINIST TOOL BOX";
+      }
+
+      // بازگشت به خانه: عنوان و توضیحات صفحهٔ اصلی بازیابی شود
+      updateSeoForHome();
+
+      // بخش معرفی SEO دوباره دیده شود
+      const seoIntro = document.getElementById("seoIntro");
+      if (seoIntro) {
+        seoIntro.hidden = false;
+      }
+
+      const welcomeCard = document.getElementById("welcomeCard");
+      if (welcomeCard) {
+        welcomeCard.style.display = "flex";
+        welcomeCard.classList.remove("hide");
+      }
+      if (elements.homeSpacer) elements.homeSpacer.hidden = false;
+      currentTool = null;
+    });
+  }
+
+  if (elements.toolCards) {
+    elements.toolCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        if (card.classList.contains("locked")) return;
+
+        const tool = card.dataset.tool;
+
+        if (tool) {
+          switchTool(tool);
+        }
+      });
+    });
+  }
+
+  if (elements.tapSearch) {
+    elements.tapSearch.addEventListener("input", (event) => {
+      renderTapOptions(event.target.value);
+    });
+  }
+
+  if (elements.tapSelect) {
+    elements.tapSelect.addEventListener("change", (event) => {
+      updateTapDetails(event.target.value);
+    });
+  }
+
+  if (elements.threadPitch) {
+    elements.threadPitch.addEventListener("change", () => {
+      updateThreadDepth();
+    });
+  }
+
+  if (elements.calcTaper) {
+    elements.calcTaper.addEventListener("click", calculateTaper);
+  }
+  if (elements.convertHardness) {
+    elements.convertHardness.addEventListener("click", updateHardnessResult);
+  }
+  if (elements.resetHardness) {
+    elements.resetHardness.addEventListener("click", resetHardnessForm);
+  }
+  if (elements.hardnessValue) {
+    elements.hardnessValue.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        updateHardnessResult();
+      }
+    });
+  }
+  if (elements.shapeSelect) {
+    elements.shapeSelect.addEventListener("change", () => {
+      renderWeightShapeInputs();
+    });
+  }
+  if (elements.weightMaterial) {
+    elements.weightMaterial.addEventListener("change", () => {
+      updateWeightDensityFromMaterial();
+    });
+  }
+  if (elements.calculateWeight) {
+    elements.calculateWeight.addEventListener("click", calculateWeight);
+  }
+  if (elements.resetWeight) {
+    elements.resetWeight.addEventListener("click", resetWeightForm);
+  }
+  if (elements.calculateForgingClearance) {
+    elements.calculateForgingClearance.addEventListener("click", calculateForgingClearance);
+  }
+  if (elements.resetForgingClearance) {
+    elements.resetForgingClearance.addEventListener("click", resetForgingClearanceForm);
+  }
+  if (elements.forgingPanel) {
+    elements.forgingPanel.querySelectorAll("input, select").forEach((field) => {
+      field.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          calculateForgingClearance();
+        }
+      });
+    });
+  }
+}
+
+function updateThreadDepth() {
+  if (!elements.threadPitch || !elements.threadDepthResult) return;
+
+  const pitch = Number(elements.threadPitch.value);
+  if (Number.isNaN(pitch) || pitch <= 0) {
+    elements.threadDepthResult.innerHTML = "مقدار گام معتبر نیست.";
+    return;
+  }
+
+  const pitchInch = pitch / 25.4;
+  const tpi = 25.4 / pitch;
+
+  const radial = pitch * 0.61;
+  const diameter = pitch * 1.22;
+
+  elements.threadDepthResult.innerHTML = `
+گام اینچی: ${pitchInch.toFixed(4)}"<br>
+تعداد دندانه در اینچ: ${tpi.toFixed(2)}<br>
+عمق شعاعی دندانه: ${radial.toFixed(3)} mm<br>
+عمق قطری دندانه: ${diameter.toFixed(3)} mm
+`;
+}
+function calculateTaper() {
+
+  const D = parseFloat(elements.bigDiameter.value);
+  const d = parseFloat(elements.smallDiameter.value);
+  const H = parseFloat(elements.heightValue.value);
+
+  if (isNaN(D) || isNaN(d) || isNaN(H) || H <= 0) {
+    elements.taperResult.textContent = "--";
+    return;
+  }
+
+  const halfAngle = Math.atan((D - d) / (2 * H)) * 180 / Math.PI;
+  const totalAngle = halfAngle * 2;
+  const diff = D - d;
+
+  elements.taperResult.innerHTML =
+    `زاویه از مرکز قطعه: ${halfAngle.toFixed(3)}°<br>
+     زاویه کل قطعه: ${totalAngle.toFixed(3)}°<br>
+     اختلاف قطر: ${diff.toFixed(3)} mm`;
+
+}
+
+function interpolate(x, x0, y0, x1, y1) {
+  return y0 + ((x - x0) * (y1 - y0)) / (x1 - x0);
+}
+
+function convertHardnessLookup(type, value) {
+  const sorted = HARDNESS_TABLE.slice().sort((a, b) => a.HB - b.HB);
+
+  if (type === "HB") {
+    const exact = sorted.find((item) => item.HB === value);
+    if (exact) {
+      return { value: exact.HRC, exact: true };
+    }
+
+    const lower = sorted.filter((item) => item.HB < value).pop();
+    const upper = sorted.find((item) => item.HB > value);
+    if (!lower || !upper) return null;
+    return {
+      value: interpolate(value, lower.HB, lower.HRC, upper.HB, upper.HRC),
+      exact: false
+    };
+  }
+
+  if (type === "HRC") {
+    const exact = HARDNESS_TABLE.find((item) => item.HRC === value);
+    if (exact) {
+      return { value: exact.HB, exact: true };
+    }
+
+    const lower = HARDNESS_TABLE.filter((item) => item.HRC < value).pop();
+    const upper = HARDNESS_TABLE.find((item) => item.HRC > value);
+    if (!lower || !upper) return null;
+    return {
+      value: interpolate(value, lower.HRC, lower.HB, upper.HRC, upper.HB),
+      exact: false
+    };
+  }
+
+  return null;
+}
+
+function updateHardnessResult() {
+  const type = elements.hardnessType.value;
+  const value = Number(elements.hardnessValue.value);
+  elements.hardnessResult.textContent = "--";
+  elements.hardnessMessage.textContent = "";
+  elements.hardnessMessage.style.color = "#38bdf8";
+
+  if (isNaN(value) || value <= 0) {
+    elements.hardnessMessage.textContent = "لطفاً مقدار سختی معتبر وارد کنید.";
+    elements.hardnessMessage.style.color = "#f87171";
+    return;
+  }
+
+  const conversion = convertHardnessLookup(type, value);
+  if (!conversion) {
+    elements.hardnessMessage.textContent = "مقدار خارج از محدوده جدول تبدیل است.";
+    elements.hardnessMessage.style.color = "#f87171";
+    return;
+  }
+
+  if (type === "HB") {
+    elements.hardnessResult.textContent = `${trimNumber(conversion.value, 2)} HRC`;
+    elements.hardnessMessage.textContent = conversion.exact ? "تبدیل دقیق" : "تبدیل تقریبی";
+  } else {
+    elements.hardnessResult.textContent = `${trimNumber(conversion.value, 2)} HB`;
+    elements.hardnessMessage.textContent = conversion.exact ? "تبدیل دقیق" : "تبدیل تقریبی";
+  }
+}
+
+function resetHardnessForm() {
+  elements.hardnessType.value = "HB";
+  elements.hardnessValue.value = "";
+  elements.hardnessResult.textContent = "--";
+  elements.hardnessMessage.textContent = "";
+}
+
+function parseDensityValue(text) {
+  if (!text) return null;
+  const normalized = text.replace(/[،٬]/g, ".").replace(/\u2212/g, "-");
+  const rangeMatch = normalized.match(/(\d+(?:\.\d+)?)[–-](\d+(?:\.\d+)?)/);
+  if (rangeMatch) {
+    return (Number(rangeMatch[1]) + Number(rangeMatch[2])) / 2;
+  }
+  const valueMatch = normalized.match(/(\d+(?:\.\d+)?)/);
+  if (!valueMatch) return null;
+  return Number(valueMatch[1]);
+}
+
+function getMaterialKeysFromBankSections() {
+  const materialKeys = new Set();
+
+  document.querySelectorAll("section.calculator-panel.tool-panel").forEach((panel) => {
+    panel.querySelectorAll("button.tool-card[data-tool]").forEach((button) => {
+      const key = button.dataset.tool;
+      if (key) materialKeys.add(key);
+    });
+  });
+
+  return Array.from(materialKeys);
+}
+
+function buildMaterialDensityMapFromPanels() {
+  const materials = {};
+  getMaterialKeysFromBankSections().forEach((materialKey) => {
+    const panel = document.querySelector(`section.calculator-panel.tool-panel[data-panel="${materialKey}"]`);
+    if (!panel) return;
+
+    const title = panel.querySelector("h3");
+    const label = title ? title.textContent.trim() : materialKey;
+
+    const densityCard = Array.from(panel.querySelectorAll(".metric-card")).find((card) => {
+      const labelText = card.querySelector("span")?.textContent.trim();
+      return labelText === "چگالی";
+    });
+
+    const density = densityCard ? parseDensityValue(densityCard.querySelector("strong")?.textContent) : null;
+    materials[materialKey] = { label, density };
+  });
+
+  return materials;
+}
+
+const MATERIAL_DENSITY_MAP = buildMaterialDensityMapFromPanels();
+
+function formatWeight(grams) {
+  if (grams < 1000) {
+    return `${trimNumber(grams, 2)} گرم`;
+  }
+  return `${trimNumber(grams / 1000, 3)} کیلوگرم`;
+}
+
+function getShapeVolumeCm3() {
+  const shape = elements.shapeSelect.value;
+
+  switch (shape) {
+    case "rectangular": {
+      const length = Number(document.querySelector("#rectLength").value);
+      const width = Number(document.querySelector("#rectWidth").value);
+      const height = Number(document.querySelector("#rectHeight").value);
+      if ([length, width, height].some((v) => isNaN(v) || v <= 0)) return null;
+      return (length * width * height) / 1000;
+    }
+    case "cylinder": {
+      const diameter = Number(document.querySelector("#cylDiameter").value);
+      const length = Number(document.querySelector("#cylLength").value);
+      if ([diameter, length].some((v) => isNaN(v) || v <= 0)) return null;
+      return Math.PI * Math.pow(diameter / 2, 2) * length / 1000;
+    }
+    case "tube": {
+      const outer = Number(document.querySelector("#tubeOuterDiameter").value);
+      const inner = Number(document.querySelector("#tubeInnerDiameter").value);
+      const length = Number(document.querySelector("#tubeLength").value);
+      if ([outer, inner, length].some((v) => isNaN(v) || v <= 0) || inner >= outer) return null;
+      return (Math.PI / 4) * (Math.pow(outer, 2) - Math.pow(inner, 2)) * length / 1000;
+    }
+    case "plate": {
+      const length = Number(document.querySelector("#plateLength").value);
+      const width = Number(document.querySelector("#plateWidth").value);
+      const thickness = Number(document.querySelector("#plateThickness").value);
+      if ([length, width, thickness].some((v) => isNaN(v) || v <= 0)) return null;
+      return (length * width * thickness) / 1000;
+    }
+    case "custom": {
+      const volume = Number(document.querySelector("#customVolume").value);
+      if (isNaN(volume) || volume <= 0) return null;
+      return volume;
+    }
+    default:
+      return null;
+  }
+}
+
+function renderWeightShapeInputs() {
+  if (!elements.shapeSelect || !elements.shapeInputs) return;
+
+  const shape = elements.shapeSelect.value;
+  const inputSections = {
+    rectangular: `
+      <div class="selector-row">
+        <label for="rectLength">طول (mm)</label>
+        <input type="number" id="rectLength" placeholder="مثلاً 100" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="rectWidth">عرض (mm)</label>
+        <input type="number" id="rectWidth" placeholder="مثلاً 50" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="rectHeight">ارتفاع (mm)</label>
+        <input type="number" id="rectHeight" placeholder="مثلاً 20" step="1" min="0" />
+      </div>
+    `,
+    cylinder: `
+      <div class="selector-row">
+        <label for="cylDiameter">قطر استوانه (mm)</label>
+        <input type="number" id="cylDiameter" placeholder="مثلاً 50" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="cylLength">طول (mm)</label>
+        <input type="number" id="cylLength" placeholder="مثلاً 100" step="1" min="0" />
+      </div>
+    `,
+    tube: `
+      <div class="selector-row">
+        <label for="tubeOuterDiameter">قطر خارجی (mm)</label>
+        <input type="number" id="tubeOuterDiameter" placeholder="مثلاً 60" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="tubeInnerDiameter">قطر داخلی (mm)</label>
+        <input type="number" id="tubeInnerDiameter" placeholder="مثلاً 40" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="tubeLength">طول (mm)</label>
+        <input type="number" id="tubeLength" placeholder="مثلاً 120" step="1" min="0" />
+      </div>
+    `,
+    plate: `
+      <div class="selector-row">
+        <label for="plateLength">طول (mm)</label>
+        <input type="number" id="plateLength" placeholder="مثلاً 200" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="plateWidth">عرض (mm)</label>
+        <input type="number" id="plateWidth" placeholder="مثلاً 100" step="1" min="0" />
+      </div>
+      <div class="selector-row">
+        <label for="plateThickness">ضخامت (mm)</label>
+        <input type="number" id="plateThickness" placeholder="مثلاً 10" step="1" min="0" />
+      </div>
+    `,
+    custom: `
+      <div class="selector-row">
+        <label for="customVolume">حجم قطعه (cm³)</label>
+        <input type="number" id="customVolume" placeholder="مثلاً 500" step="0.1" min="0" />
+      </div>
+    `
+  };
+
+  elements.shapeInputs.innerHTML = inputSections[shape] || "";
+}
+
+function renderWeightMaterials() {
+  if (!elements.weightMaterial) return;
+
+  elements.weightMaterial.innerHTML = "";
+  const allowedMaterials = new Set([
+    "MO40",
+    "VCN150",
+    "VCN200",
+    "CK75",
+    "CK45",
+    "H13",
+    "H7176",
+    "POM",
+    "PEEK",
+    "PTFE",
+    "HDPE",
+    "LDPE",
+    "UHMWPE",
+    "PP",
+    "PVCU",
+    "PA66",
+    "PET",
+    "PC",
+    "PMMA",
+    "PVDF"
+  ]);
+
+  const materialEntries = Object.entries(MATERIAL_DENSITY_MAP)
+    .filter(([key]) => allowedMaterials.has(key))
+    .sort(([aKey, aValue], [bKey, bValue]) => {
+      const aName = aValue.label.toLowerCase();
+      const bName = bValue.label.toLowerCase();
+      return aName.localeCompare(bName, "fa", { sensitivity: "base" });
+    });
+
+  materialEntries.forEach(([key, item]) => {
+    const option = document.createElement("option");
+    option.value = key;
+    option.textContent = item.label;
+    elements.weightMaterial.appendChild(option);
+  });
+
+  if (materialEntries.length > 0) {
+    elements.weightMaterial.selectedIndex = 0;
+  }
+  updateWeightDensityFromMaterial();
+}
+
+function updateWeightDensityFromMaterial() {
+  if (!elements.weightMaterial || !elements.weightDensity || !elements.weightDensityNote) return;
+
+  const materialKey = elements.weightMaterial.value;
+  const material = MATERIAL_DENSITY_MAP[materialKey];
+  const materialLabel = material?.label || materialKey || "متریال";
+  const density = material?.density ?? null;
+
+  if (density != null && !Number.isNaN(density)) {
+    elements.weightDensity.value = density;
+    elements.weightDensityNote.textContent = `چگالی متریال «${materialLabel}» از بانک اطلاعاتی خوانده شد.`;
+  } else {
+    elements.weightDensity.value = "";
+    elements.weightDensityNote.textContent = `چگالی متریال «${materialLabel}» در بانک اطلاعاتی ثبت نشده است. لطفاً دستی وارد کنید.`;
+  }
+}
+
+function updateForgingMessage(text, isError = false) {
+  elements.forgingMessage.textContent = text;
+  elements.forgingMessage.style.color = isError ? "#f87171" : "#38bdf8";
+}
+
+function getForgingSizeCategory(sizeMm) {
+  if (sizeMm <= 20) return "small";
+  if (sizeMm <= 50) return "medium";
+  return "large";
+}
+
+function getForgingMaterialGroup(materialKey) {
+  switch (materialKey) {
+    case "copper":
+      return "copper";
+    case "brass":
+      return "brass";
+    case "bronze":
+      return "bronze";
+    default:
+      return "copper";
+  }
+}
+
+function getForgingProcessType(temperature) {
+  if (temperature == null || Number.isNaN(temperature)) {
+    return "hot";
+  }
+
+  if (temperature >= 900) {
+    return "hot";
+  }
+
+  if (temperature >= 650) {
+    return "warm";
+  }
+
+  return "cold";
+}
+
+function getForgingTemperatureFactor(processType, temperature) {
+  if (temperature == null || Number.isNaN(temperature)) {
+    return 0;
+  }
+
+  switch (processType) {
+    case "hot":
+      return temperature >= 1000 ? 0.12 : temperature >= 900 ? 0.06 : 0.02;
+    case "warm":
+      return temperature >= 800 ? 0.10 : temperature >= 700 ? 0.05 : 0.02;
+    case "cold":
+      return 0.0;
+    default:
+      return 0;
+  }
+}
+
+function getForgingClearanceRange(processType, materialGroup, sizeCategory) {
+  const table = {
+    hot: {
+      copper: { small: [0.06, 0.12], medium: [0.07, 0.14], large: [0.08, 0.16] },
+      brass: { small: [0.07, 0.14], medium: [0.08, 0.16], large: [0.09, 0.18] },
+      bronze: { small: [0.06, 0.13], medium: [0.07, 0.15], large: [0.08, 0.17] }
+    },
+    warm: {
+      copper: { small: [0.04, 0.10], medium: [0.05, 0.12], large: [0.06, 0.14] },
+      brass: { small: [0.05, 0.11], medium: [0.06, 0.13], large: [0.07, 0.15] },
+      bronze: { small: [0.04, 0.10], medium: [0.05, 0.12], large: [0.06, 0.14] }
+    },
+    cold: {
+      copper: { small: [0.03, 0.07], medium: [0.04, 0.09], large: [0.05, 0.11] },
+      brass: { small: [0.04, 0.09], medium: [0.05, 0.11], large: [0.06, 0.13] },
+      bronze: { small: [0.03, 0.08], medium: [0.04, 0.10], large: [0.05, 0.12] }
+    }
+  };
+
+  return table[processType]?.[materialGroup]?.[sizeCategory] || null;
+}
+
+function getForgingToolToleranceFactor() {
+  return 0.35;
+}
+
+function calculateForgingClearance() {
+  const materialGroup = getForgingMaterialGroup(elements.forgingWorkpieceMaterial.value);
+  const dieHoleDiameter = Number(elements.forgingDieHoleDiameter.value);
+  const temperatureInput = elements.forgingTemperature.value.trim();
+  const temperature = temperatureInput === "" ? null : Number(temperatureInput);
+  const processType = getForgingProcessType(temperature);
+  const punchMaterialLabel = "H13";
+  const dieMaterialLabel = "H13";
+
+  elements.forgingResult.textContent = "--";
+  elements.forgingDetails.textContent = "";
+  updateForgingMessage("");
+
+  if (isNaN(dieHoleDiameter) || dieHoleDiameter <= 0) {
+    updateForgingMessage("لطفاً قطر دهانه قالب معتبر وارد کنید.", true);
+    return;
+  }
+
+  const sizeCategory = getForgingSizeCategory(dieHoleDiameter);
+  const range = getForgingClearanceRange(processType, materialGroup, sizeCategory);
+
+  if (!range) {
+    updateForgingMessage("برای ترکیب انتخاب شده، محدوده لقی تعریف نشده است.", true);
+    return;
+  }
+
+  const [minPerSide, maxPerSide] = range;
+  const toolFactor = getForgingToolToleranceFactor();
+  const temperatureFactor = getForgingTemperatureFactor(processType, temperature);
+  const selectionFactor = Math.min(0.75, Math.max(0.25, toolFactor + temperatureFactor));
+  const referencePerSide = minPerSide + (maxPerSide - minPerSide) * selectionFactor;
+  const referenceLabel = selectionFactor <= 0.3 ? "محدوده دقیق‌تر" : selectionFactor >= 0.6 ? "محدوده محافظه‌کارانه" : "محدوده میانی";
+
+  const totalMin = minPerSide * 2;
+  const totalMax = maxPerSide * 2;
+  const referenceTotal = referencePerSide * 2;
+  const recommendedPunchDiameter = dieHoleDiameter - referenceTotal;
+
+  if (recommendedPunchDiameter <= 0) {
+    updateForgingMessage("قطر دهانه قالب کمتر از مجموع لقی پیشنهادی است.", true);
+    return;
+  }
+
+  const materialLabel = elements.forgingWorkpieceMaterial.options[elements.forgingWorkpieceMaterial.selectedIndex].textContent;
+  const temperatureLabel = temperature == null ? "بدون ورود دما" : `${temperature.toFixed(0)} °C`;
+
+  elements.forgingResult.textContent = `قطر سنبه پیشنهادی: ${trimNumber(recommendedPunchDiameter, 3)} mm`;
+  elements.forgingDetails.innerHTML = `
+    <strong>قطر سنبه پیشنهادی:</strong> ${recommendedPunchDiameter.toFixed(3)} mm<br>
+    <strong>لقی هر سمت:</strong> ${referencePerSide.toFixed(3)} mm<br>
+    <strong>لقی کل:</strong> ${referenceTotal.toFixed(3)} mm<br>
+    <strong>حداقل محدوده:</strong> ${minPerSide.toFixed(3)} mm / سمت<br>
+    <strong>حداکثر محدوده:</strong> ${maxPerSide.toFixed(3)} mm / سمت<br>
+    <strong>قطر دهانه قالب:</strong> ${dieHoleDiameter.toFixed(3)} mm<br>
+    <strong>جنس قطعه:</strong> ${materialLabel}<br>
+    <strong>دمای فورج:</strong> ${temperatureLabel}<br>
+    <strong>جنس سنبه:</strong> ${punchMaterialLabel}<br>
+    <strong>جنس قالب:</strong> ${dieMaterialLabel}<br>
+    <br>
+    پایه انتخاب مقدار: ${referenceLabel} برای فورج ${processType === "hot" ? "گرم" : processType === "warm" ? "نیمه‌گرم" : "سرد"} بر اساس ${materialLabel}.
+  `;
+
+  updateForgingMessage(`مقدار مرجع بر اساس محدوده‌های مهندسی انتخاب شد.`);
+}
+
+function resetForgingClearanceForm() {
+  if (elements.forgingWorkpieceMaterial) {
+    elements.forgingWorkpieceMaterial.value = "copper";
+  }
+  if (elements.forgingDieHoleDiameter) {
+    elements.forgingDieHoleDiameter.value = "";
+  }
+  if (elements.forgingTemperature) {
+    elements.forgingTemperature.value = "";
+  }
+  if (elements.forgingResult) {
+    elements.forgingResult.textContent = "--";
+  }
+  if (elements.forgingDetails) {
+    elements.forgingDetails.textContent = "";
+  }
+  updateForgingMessage("");
+}
+
+function updateWeightMessage(text, isError = false) {
+  elements.weightMessage.textContent = text;
+  elements.weightMessage.style.color = isError ? "#f87171" : "#38bdf8";
+}
+
+function calculateWeight() {
+  const volumeCm3 = getShapeVolumeCm3();
+  const density = Number(elements.weightDensity.value);
+  elements.weightResult.textContent = "--";
+  elements.weightDetails.textContent = "";
+  updateWeightMessage("");
+
+  if (volumeCm3 === null || isNaN(volumeCm3) || volumeCm3 <= 0) {
+    updateWeightMessage("لطفاً ابعاد یا حجم معتبر وارد کنید.", true);
+    return;
+  }
+
+  if (isNaN(density) || density <= 0) {
+    updateWeightMessage("لطفاً چگالی معتبر وارد کنید.", true);
+    return;
+  }
+
+  const massGrams = volumeCm3 * density;
+  elements.weightResult.textContent = formatWeight(massGrams);
+  elements.weightDetails.innerHTML = `حجم: ${trimNumber(volumeCm3, 2)} cm³<br>چگالی: ${trimNumber(density, 2)} g/cm³`;
+  updateWeightMessage("وزن قطعه محاسبه شد.");
+}
+
+function resetWeightForm() {
+  elements.shapeSelect.value = "rectangular";
+  renderWeightShapeInputs();
+  elements.weightMaterial.selectedIndex = 0;
+  updateWeightDensityFromMaterial();
+  elements.weightResult.textContent = "--";
+  elements.weightDetails.textContent = "";
+  updateWeightMessage("");
+}
+
+bindEvents();
+renderTapOptions();
+renderWeightMaterials();
+renderWeightShapeInputs();
+setupMaterialSearch();
+
+// ==== SEO: عنوان و توضیحات پیش‌فرض صفحهٔ اصلی ====
+updateSeoForHome();
+
+// ==== Deep-Link: اگر کاربر با هش (مثلاً #tap) وارد شده باشد، همان ابزار باز شود ====
+(function initDeepLink() {
+  var hashTool = (location.hash || "").replace(/^#/, "");
+  if (hashTool && PAGE_TITLES[hashTool]) {
+    // بعد از باز شدن، بلافاصله با همان هش، بدون pushState اضافه
+    switchTool(hashTool, false);
+    return;
+  }
+
+  // در شروع برنامه هیچ پنلی باز نباشد
+  elements.panels.forEach(panel => {
+    panel.hidden = true;
+    panel.classList.remove("active");
+  });
+
+  // هیچ دکمه‌ای هم فعال نباشد
+  elements.toolCards.forEach(card => {
+    card.classList.remove("active");
+  });
+
+  // عنوان صفحه
+  elements.pageEyebrow.textContent = "";
+  elements.pageTitle.textContent = "MACHINIST TOOL BOX";
+  history.replaceState({}, "", location.pathname);
+})();
+
+window.addEventListener("popstate", (event) => {
+
+    if (event.state && event.state.tool) {
+        switchTool(event.state.tool, false);
+        return;
+    }
+
+    elements.panels.forEach(panel => {
+        panel.hidden = true;
+        panel.classList.remove("active");
+    });
+
+    elements.toolCards.forEach(card => {
+        card.classList.remove("active");
+    });
+
+    elements.pageEyebrow.textContent = "";
+    elements.pageTitle.textContent = "MACHINIST TOOL BOX";
+
+    // بازگشت به خانه: عنوان و توضیحات صفحهٔ اصلی بازیابی شود
+    updateSeoForHome();
+
+    // بخش معرفی SEO دوباره دیده شود
+    const seoIntro = document.getElementById("seoIntro");
+    if (seoIntro) {
+        seoIntro.hidden = false;
+    }
+
+    const welcomeCard = document.getElementById("welcomeCard");
+    if (welcomeCard) {
+        welcomeCard.style.display = "flex";
+        welcomeCard.classList.remove("hide");
+    }
+
+    if (elements.homeSpacer) {
+        elements.homeSpacer.hidden = false;
+    }
+
+});
+// ===== Utility Panel: Clock + Calendar + Calculator =====
+(function() {
+  'use strict';
+
+  // ===== Analog Clock =====
+  const hourHand = document.getElementById('hourHand');
+  const minuteHand = document.getElementById('minuteHand');
+  const secondHand = document.getElementById('secondHand');
+  const clockMarkers = document.getElementById('clockMarkers');
+
+  // Create clock markers
+  if (clockMarkers) {
+    for (let i = 0; i < 12; i++) {
+      const marker = document.createElement('div');
+      marker.className = 'clock-marker' + (i % 3 === 0 ? ' major' : '');
+      marker.style.transform = `rotate(${i * 30}deg)`;
+      clockMarkers.appendChild(marker);
+    }
+  }
+
+  function updateClock() {
+    const now = new Date();
+    const hours = now.getHours() % 12;
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+    const milliseconds = now.getMilliseconds();
+
+    // Smooth second hand movement
+    const secondAngle = (seconds + milliseconds / 1000) * 6;
+    const minuteAngle = (minutes + seconds / 60) * 6;
+    const hourAngle = (hours + minutes / 60) * 30;
+
+    if (secondHand) {
+      secondHand.style.transform = `rotate(${secondAngle}deg)`;
+    }
+    if (minuteHand) {
+      minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+    }
+    if (hourHand) {
+      hourHand.style.transform = `rotate(${hourAngle}deg)`;
+    }
+
+    requestAnimationFrame(updateClock);
+  }
+
+  if (hourHand || minuteHand || secondHand) {
+    requestAnimationFrame(updateClock);
+  }
+
+  // ===== Scientific Calculator =====
+  const calculatorToggle = document.getElementById('calculatorToggle');
+  const scientificCalculator = document.getElementById('scientificCalculator');
+  const calcExpression = document.getElementById('calcExpression');
+  const calcResult = document.getElementById('calcResult');
+  const calcHistory = document.getElementById('calcHistory');
+  const degRadToggle = document.getElementById('degRadToggle');
+
+  let isCalculatorOpen = false;
+  let currentExpression = '';
+  let currentResult = '0';
+  let lastAnswer = 0;
+  let memory = 0;
+  let isDegree = true;
+  let openParentheses = 0;
+
+  if (calculatorToggle && scientificCalculator) {
+    calculatorToggle.addEventListener('click', () => {
+      isCalculatorOpen = !isCalculatorOpen;
+      scientificCalculator.classList.toggle('active', isCalculatorOpen);
+      calculatorToggle.classList.toggle('active', isCalculatorOpen);
+    });
+  }
+
+  if (degRadToggle) {
+    degRadToggle.addEventListener('click', () => {
+      isDegree = !isDegree;
+      degRadToggle.textContent = isDegree ? 'DEG' : 'RAD';
+      degRadToggle.classList.toggle('active', !isDegree);
+    });
+  }
+
+  function toRadians(angle) {
+    return isDegree ? (angle * Math.PI / 180) : angle;
+  }
+
+  function fromRadians(angle) {
+    return isDegree ? (angle * 180 / Math.PI) : angle;
+  }
+
+  function updateDisplay() {
+    if (calcExpression) {
+      calcExpression.textContent = currentExpression || '0';
+    }
+    if (calcResult) {
+      calcResult.textContent = currentResult;
+    }
+  }
+
+  function appendToExpression(value) {
+    currentExpression += value;
+    updateDisplay();
+  }
+
+  function clearCalculator() {
+    currentExpression = '';
+    currentResult = '0';
+    openParentheses = 0;
+    updateDisplay();
+  }
+
+  function calculateResult() {
+    try {
+      let expr = currentExpression;
+
+      // Replace constants
+      expr = expr.replace(/π/g, Math.PI.toString());
+      expr = expr.replace(/e(?![a-z])/g, Math.E.toString());
+
+      // Handle functions
+      expr = expr.replace(/sin\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.sin(toRadians(val));
+      });
+
+      expr = expr.replace(/cos\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.cos(toRadians(val));
+      });
+
+      expr = expr.replace(/tan\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.tan(toRadians(val));
+      });
+
+      expr = expr.replace(/sin⁻¹\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return fromRadians(Math.asin(val));
+      });
+
+      expr = expr.replace(/cos⁻¹\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return fromRadians(Math.acos(val));
+      });
+
+      expr = expr.replace(/tan⁻¹\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return fromRadians(Math.atan(val));
+      });
+
+      expr = expr.replace(/√\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.sqrt(val);
+      });
+
+      expr = expr.replace(/log\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.log10(val);
+      });
+
+      expr = expr.replace(/ln\(([^)]+)\)/g, (match, p1) => {
+        const val = evaluateExpression(p1);
+        return Math.log(val);
+      });
+
+      // Handle power operator
+      expr = expr.replace(/\^/g, '**');
+
+      // Evaluate the expression
+      const result = evaluateExpression(expr);
+
+      if (isFinite(result)) {
+        if (calcHistory) {
+          calcHistory.textContent = currentExpression + ' =';
+        }
+        lastAnswer = result;
+        currentResult = formatNumber(result);
+        currentExpression = '';
+        updateDisplay();
+      } else {
+        currentResult = 'خطا';
+        updateDisplay();
+      }
+    } catch (e) {
+      currentResult = 'خطا';
+      updateDisplay();
+    }
+  }
+
+  function evaluateExpression(expr) {
+    // Safe evaluation using Function constructor
+    const sanitized = expr.replace(/[^0-9+\-*/().%e\s]/g, '');
+    return new Function('return ' + sanitized)();
+  }
+
+  function formatNumber(num) {
+    if (Number.isInteger(num)) return num.toString();
+    return parseFloat(num.toFixed(8)).toString();
+  }
+
+  function handleParenthesis() {
+    if (openParentheses === 0 || currentExpression.slice(-1) === '(') {
+      appendToExpression('(');
+      openParentheses++;
+    } else {
+      appendToExpression(')');
+      openParentheses--;
+    }
+  }
+
+  // Calculator button events
+  document.querySelectorAll('.calc-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const action = button.dataset.action;
+      const value = button.dataset.value;
+
+      if (value !== undefined) {
+        appendToExpression(value);
+      } else if (action) {
+        switch (action) {
+          case 'clear':
+            clearCalculator();
+            break;
+          case 'parenthesis':
+            handleParenthesis();
+            break;
+          case 'percent':
+            appendToExpression('%');
+            break;
+          case 'add':
+            appendToExpression('+');
+            break;
+          case 'subtract':
+            appendToExpression('-');
+            break;
+          case 'multiply':
+            appendToExpression('×');
+            break;
+          case 'divide':
+            appendToExpression('÷');
+            break;
+          case 'equals':
+            calculateResult();
+            break;
+          case 'sqrt':
+            appendToExpression('√(');
+            openParentheses++;
+            break;
+          case 'power':
+            appendToExpression('^');
+            break;
+          case 'sin':
+            appendToExpression('sin(');
+            openParentheses++;
+            break;
+          case 'cos':
+            appendToExpression('cos(');
+            openParentheses++;
+            break;
+          case 'tan':
+            appendToExpression('tan(');
+            openParentheses++;
+            break;
+          case 'asin':
+            appendToExpression('sin⁻¹(');
+            openParentheses++;
+            break;
+          case 'acos':
+            appendToExpression('cos⁻¹(');
+            openParentheses++;
+            break;
+          case 'atan':
+            appendToExpression('tan⁻¹(');
+            openParentheses++;
+            break;
+          case 'log':
+            appendToExpression('log(');
+            openParentheses++;
+            break;
+          case 'ln':
+            appendToExpression('ln(');
+            openParentheses++;
+            break;
+          case 'pi':
+            appendToExpression('π');
+            break;
+          case 'e':
+            appendToExpression('e');
+            break;
+          case 'memory':
+            memory = parseFloat(currentResult) || 0;
+            if (calcHistory) {
+              calcHistory.textContent = `M = ${memory}`;
+            }
+            break;
+          case 'memory-recall':
+            appendToExpression(formatNumber(memory));
+            break;
+          case 'ans':
+            appendToExpression(formatNumber(lastAnswer));
+            break;
+        }
+      }
+    });
+  });
+
+  // Keyboard support for calculator
+  document.addEventListener('keydown', (e) => {
+    if (!isCalculatorOpen) return;
+
+    const key = e.key;
+    if (/[0-9]/.test(key)) {
+      appendToExpression(key);
+    } else if (key === '+' || key === '-' || key === '*' || key === '/') {
+      const opMap = { '*': '×', '/': '÷' };
+      appendToExpression(opMap[key] || key);
+    } else if (key === '(' || key === ')') {
+      handleParenthesis();
+    } else if (key === '%') {
+      appendToExpression('%');
+    } else if (key === '^') {
+      appendToExpression('^');
+    } else if (key === 'Enter' || key === '=') {
+      e.preventDefault();
+      calculateResult();
+    } else if (key === 'Escape' || key === 'c' || key === 'C') {
+      clearCalculator();
+    } else if (key === 'Backspace') {
+      currentExpression = currentExpression.slice(0, -1);
+      updateDisplay();
+    }
+  });
+
+})();
+
+const notes = document.getElementById("workshopNotes");
+const saveBtn = document.getElementById("saveNotes");
+const clearBtn = document.getElementById("clearNotes");
+const status = document.getElementById("saveStatus");
+const counter = document.getElementById("charCount");
+
+function updateCounter() {
+    if (counter && notes) {
+        counter.textContent = `${notes.value.length} / 5000`;
+    }
+}
+
+if (notes) {
+    notes.value = localStorage.getItem("easyPipeNotes") || "";
+    updateCounter();
+
+    notes.addEventListener("input", () => {
+        updateCounter();
+        localStorage.setItem("easyPipeNotes", notes.value);
+        if (status) {
+            status.textContent = "Saved";
+        }
+    });
+}
+
+if (saveBtn) {
+    saveBtn.addEventListener("click", () => {
+        if (notes) {
+            localStorage.setItem("easyPipeNotes", notes.value);
+        }
+        if (status) {
+            status.textContent = "Saved";
+        }
+        saveBtn.classList.add("saved");
+        setTimeout(() => {
+            saveBtn.classList.remove("saved");
+        }, 500);
+    });
+}
+
+if (clearBtn && notes) {
+    clearBtn.addEventListener("click", () => {
+        if (confirm("همه یادداشت‌ها پاک شوند؟")) {
+            notes.value = "";
+            localStorage.removeItem("easyPipeNotes");
+            updateCounter();
+            if (status) {
+                status.textContent = "Cleared";
+            }
+        }
+    });
+}
+
+const notesToggle = document.getElementById("notesToggle");
+const notesCard = document.querySelector(".notes-card");
+const notesClose = document.getElementById("notesClose");
+
+function setNotesVisible(visible) {
+  if (!notesCard) return;
+  notesCard.classList.toggle("active", visible);
+  notesCard.style.display = visible ? "block" : "none";
+}
+
+if (notesToggle) {
+  notesToggle.addEventListener("click", () => {
+    setNotesVisible(!notesCard || !notesCard.classList.contains("active"));
+  });
+}
+
+if (notesClose) {
+  notesClose.addEventListener("click", () => setNotesVisible(false));
+}
+// ===== اسلایدشو کادر صفحهٔ اصلی (جایگزین اخبار تکنولوژی) =====
+// تصاویر را با نام ۱.jpg ، ۲.jpg و… در پوشه images/slideshow قرار دهید.
+const SLIDESHOW_FOLDER = "images/slideshow/";
+const SLIDESHOW_INTERVAL_MS = 5000; // هر ۵ ثانیه یک بار عوض می‌شود
+const SLIDESHOW_MAX = 30;
+const SLIDESHOW_EXTS = ["jpg", "png", "jpeg", "webp"];
+
+function probeImage(src) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = src;
+    });
+}
+
+/* ---------- کشف خودکار عکس‌های پیش‌فرض پوشه ---------- */
+async function getDefaultSlides() {
+    const found = [];
+    for (let i = 1; i <= SLIDESHOW_MAX; i++) {
+        let hit = null;
+        for (const ext of SLIDESHOW_EXTS) {
+            const src = `${SLIDESHOW_FOLDER}${i}.${ext}`;
+            if (await probeImage(src)) {
+                hit = src;
+                break;
+            }
+        }
+        if (!hit) break; // به اولین جای خالی رسیدیم؛ ادامه نمی‌دهیم
+        found.push(hit);
+    }
+    return found;
+}
+
+/* ---------- ساخت/بازسازی اسلایدها ---------- */
+let slideshowTimer = null;
+
+function buildSlides(srcList) {
+    const track = document.getElementById("slideshowTrack");
+    const dotsBox = document.getElementById("slideshowDots");
+    if (!track) return;
+
+    // توقف تایمر قبلی و پاک‌سازی محتوای قبلی
+    if (slideshowTimer) { clearInterval(slideshowTimer); slideshowTimer = null; }
+    track.innerHTML = "";
+    if (dotsBox) dotsBox.innerHTML = "";
+
+    if (!srcList.length) {
+        const msg = document.createElement("p");
+        msg.className = "slideshow-empty";
+        msg.textContent = "عکسی برای نمایش نیست؛ تصاویر را با نام ۱.jpg ، ۲.jpg و… در پوشه images/slideshow قرار دهید.";
+        track.appendChild(msg);
+        return;
+    }
+
+    // ساخت اسلایدها و دکمه‌های نشانگر
+    const slides = [];
+    srcList.forEach((src, index) => {
+        const div = document.createElement("div");
+        div.className = "slide";
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "";
+        img.loading = "lazy";
+        img.decoding = "async";
+        div.appendChild(img);
+        track.appendChild(div);
+        slides.push(div);
+
+        if (dotsBox) {
+            const dot = document.createElement("span");
+            dot.className = "dot";
+            if (index === 0) dot.classList.add("active");
+            dotsBox.appendChild(dot);
+        }
+    });
+
+    // قاب اسلایدشو ارتفاع ثابت دارد (aspect-ratio: 16/9 در CSS) و هر تصویر
+    // با object-fit: cover کل قاب را پر می‌کند؛ بنابراین هنگام عوض‌شدن تصویر،
+    // کادر بزرگ یا کوچیک نمی‌شود.
+    let current = 0;
+    slides[0].classList.add("active");
+
+    if (slides.length < 2) return;
+
+    slideshowTimer = setInterval(() => {
+        slides[current].classList.remove("active");
+        if (dotsBox) dotsBox.children[current].classList.remove("active");
+        current = (current + 1) % slides.length;
+        slides[current].classList.add("active");
+        if (dotsBox) dotsBox.children[current].classList.add("active");
+    }, SLIDESHOW_INTERVAL_MS);
+}
+
+async function refreshSlideshow() {
+    buildSlides(await getDefaultSlides());
+}
+
+async function initSlideshow() {
+    await refreshSlideshow();
+}
+
+initSlideshow();
+
+// ===== تغییر تم دارک/روشن =====
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  const savedTheme = localStorage.getItem('theme');
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  const currentTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+
+  if (currentTheme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  themeToggle.textContent = currentTheme === 'light' ? '☀️' : '🌙';
+
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    if (isLight) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+      themeToggle.textContent = '🌙';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+      themeToggle.textContent = '☀️';
+    }
+  });
+}
+
+// ===== Developer & Contact Button =====
+(function () {
+  const devContactBtn = document.getElementById("devContactBtn");
+  if (devContactBtn) {
+    devContactBtn.addEventListener("click", () => {
+      window.location.href = "contact.html";
+    });
+  }
+})();
+
+

@@ -17,6 +17,9 @@ android/.externalNativeBuild/
 www/*
 !www/data/
 !www/data/mechanical-news.json
+# Keep the Android web bundle versioned so a clone can reproduce the APK UI.
+!www/
+!www/**
 
 # Python
 __pycache__/
