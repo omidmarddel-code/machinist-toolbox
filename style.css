@@ -997,6 +997,9 @@ button {
 .footer-links a.dev-contact-btn{
   color:#fff;
 }
+[data-theme="light"] .footer-links a.dev-contact-btn{
+  color:var(--text);
+}
 .footer-links .dev-contact-btn:hover,
 .footer-links .dev-contact-btn:focus-visible{
   border-color:var(--accent);

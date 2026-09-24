@@ -45,6 +45,8 @@ public class MainActivity extends BridgeActivity {
 
 	private void configurePdfOpening() {
 		WebView webView = getBridge().getWebView();
+		// Match the mobile boot background so the desktop page cannot flash white.
+		webView.setBackgroundColor(android.graphics.Color.rgb(241, 245, 249));
 		webView.addJavascriptInterface(new PdfBridge(), "AndroidPdf");
 	}
 

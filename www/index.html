@@ -103,12 +103,46 @@
   }
   </script>
 
+  <style id="android-boot-style">
+    /* Android WebView must never paint the desktop page before mobile.js runs. */
+    html.android-boot,
+    html.android-boot body {
+      background: #f1f5f9 !important;
+    }
+    html.android-boot body {
+      min-height: 100vh;
+      margin: 0 !important;
+    }
+    html.android-boot body > * { display: none !important; }
+  </style>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var isAndroid = /Android/i.test(navigator.userAgent || '');
+      try {
+        isAndroid = isAndroid || !!(
+          window.Capacitor &&
+          typeof window.Capacitor.getPlatform === 'function' &&
+          window.Capacitor.getPlatform() === 'android'
+        );
+      } catch (e) { /* noop */ }
+      var isPreview = /[?&]mobile=preview(?:&|$)/.test(location.search || '');
+      try { isPreview = isPreview || window.self !== window.top; } catch (e) { isPreview = true; }
+      if (isAndroid || isPreview) root.classList.add('android-boot');
+      try {
+        var savedTheme = localStorage.getItem('theme');
+        if (savedTheme) root.setAttribute('data-theme', savedTheme);
+      } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="mobile.css" />
   <script>
     (function () {
-      var t = localStorage.getItem('theme') || 'dark';
-      if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      try {
+        var t = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
     })();
   </script>
 </head>
@@ -204,7 +238,7 @@
         <small>© 2026 All Rights Reserved</small>
         <div class="footer-links">
           <button class="dev-contact-btn" id="devContactBtn" type="button">👨‍💻 contact</button>
-          <a class="dev-contact-btn" href="about.html">درباره امید مرددل</a>
+          <a class="dev-contact-btn" href="../about.html">درباره امید مرددل</a>
         </div>
       </div>
     </aside>
