@@ -33,6 +33,10 @@
   var contactCard = null; // پنل «تماس با ما» به‌صورت درون‌برنامه‌ای (بدون ترک صفحه/لود مجدد)
   var quizCard = null;    // صفحه «آزمون برنامه‌نویسی» (فقط نسخه اندروید)
   var quizState = null;   // وضعیت جاری آزمون: ترتیب سؤال‌ها، امتیاز و پاسخ‌های ثبت‌شده
+  var iqCard = null;      // صفحه «تست هوش مهندسی مکانیک» (فقط نسخه اندروید، زیر آزمون برنامه‌نویسی)
+  var iqState = null;     // وضعیت جاری تست هوش: ترتیب سؤال‌ها، تایمر، امتیاز و تحلیل خرده‌مقیاس
+  var giqCard = null;     // صفحه «تست هوش عمومی استاندارد» (زیر تست مهندسی، برای همه افراد)
+  var giqState = null;    // وضعیت جاری تست هوش عمومی
   var capacitorApp = null;
   var lastBackAt = 0;
 
@@ -186,9 +190,330 @@
       title: 'روشن‌کردن خنک‌کننده (Coolant On)',
       desc: 'پمپ مایع خنک‌کننده (آب‌صابون) را روشن می‌کند؛ معمولاً پیش از شروع برش داخل برنامه قرار می‌گیرد.',
       code: ['T0101;', 'G97 S900 M03;', 'G00 X62.0 Z2.0;', 'M08;', 'G01 X55.0 Z-30.0 F0.25;'],
-      hint: 'این کد خنک‌کننده را روشن و M09 آن را خاموش می‌کند؛ در بعضی ماشین‌ها M07 برای مه‌پاش (mist) به کار می‌رود.'
+      hint: 'این کد خنک‌کننده را روشن و M09 آن را خاموش می‌کند.'
     }
   ];
+
+  // ---------- تست هوش مهندسی مکانیک (فقط اندروید، زیر آزمون برنامه‌نویسی) ----------
+  // 20 سؤال چهارگزینه‌ای، 4 خرده‌مقیاس + وزن دشواری؛ نمره وزنی به IQ نگاشت می‌شود.
+  // domain: mech=مکانیکی | num=عددی | logic=منطقی | applied=کاربردی | weight: 1 آسان، 2 متوسط، 3 دشوار
+  var IQ_BANK = [
+    { domain: 'mech', weight: 2, tag: 'استدلال مکانیکی',
+      q: 'چرخ‌دنده A با 20 دندانه ساعت‌گرد می‌چرخد و با چرخ‌دنده B با 40 دندانه درگیر است. چرخ‌دنده B چگونه می‌چرخد؟',
+      options: ['ساعت‌گرد با همان سرعت A', 'پادساعت‌گرد با نصف سرعت A', 'پادساعت‌گرد با دو برابر سرعت A', 'ساعت‌گرد با نصف سرعت A'],
+      correct: 1,
+      why: 'چرخ‌دنده‌های درگیر خلاف جهت هم می‌چرخند و نسبت سرعت عکس نسبت دندانه‌هاست: 20/40 یعنی B با نصف سرعت A.' },
+    { domain: 'mech', weight: 1, tag: 'استدلال مکانیکی',
+      q: 'یک پیچ راست‌گرد را از روبه‌رو ساعت‌گرد می‌چرخانیم تا وارد مهره ثابتی شود. پیچ به کدام سمت می‌رود؟',
+      options: ['به سمت بیننده (بیرون می‌آید)', 'از بیننده دور می‌شود (داخل مهره فرو می‌رود)', 'فقط می‌چرخد و جابه‌جا نمی‌شود', 'خلاف جهت چرخش حرکت می‌کند'],
+      correct: 1,
+      why: 'قانون پیچ راست‌گرد: چرخش ساعت‌گرد از روبه‌رو یعنی پیشروی به جلو (دور شدن از بیننده).' },
+    { domain: 'mech', weight: 2, tag: 'استدلال مکانیکی',
+      q: 'در یک سیستم قرقره مرکب، طناب بار را با 4 رشته موازی نگه داشته است. برای بالا بردن بار 400 نیوتونی (بدون اصطکاک) چه نیرویی لازم است؟',
+      options: ['400 نیوتن', '200 نیوتن', '100 نیوتن', '50 نیوتن'],
+      correct: 2,
+      why: 'مزیت مکانیکی برابر تعداد رشته‌هاست: 400 تقسیم بر 4 = 100 نیوتن (در عوض 4 برابر طناب کشیده می‌شود).' },
+    { domain: 'mech', weight: 2, tag: 'استدلال مکانیکی',
+      q: 'دو پولی با تسمه «باز» (نه ضربدری) به هم وصل‌اند. اگر پولی محرک ساعت‌گرد بچرخد، پولی متحرک چه جهتی دارد؟',
+      options: ['پادساعت‌گرد', 'ساعت‌گرد', 'بسته به قطر پولی فرق می‌کند', 'اول ساعت‌گرد بعد برعکس می‌شود'],
+      correct: 1,
+      why: 'تسمه باز جهت چرخش را حفظ می‌کند (هر دو هم‌جهت)؛ تسمه ضربدری جهت را برعکس می‌کند.' },
+    { domain: 'mech', weight: 3, tag: 'استدلال مکانیکی',
+      q: 'با آچار 30 سانتی‌متری و نیروی 100 نیوتن عمود بر دسته پیچی را سفت می‌کنیم. اگر طول دسته نصف شود، برای همان گشتاور چه نیرویی لازم است؟',
+      options: ['50 نیوتن', '100 نیوتن', '200 نیوتن', '300 نیوتن'],
+      correct: 2,
+      why: 'گشتاور = نیرو × بازو (30 نیوتن‌متر). با نصف شدن بازو (0.15 متر) نیرو باید دو برابر شود: 200 نیوتن.' },
+    { domain: 'num', weight: 1, tag: 'هوش عددی مهندسی',
+      q: 'دنباله 2، 6، 12، 20، 30، … عدد بعدی چیست؟',
+      options: ['36', '40', '42', '44'],
+      correct: 2,
+      why: 'اختلاف‌ها 4، 6، 8، 10 است (هر بار 2 واحد بیشتر)؛ اختلاف بعدی 12 است: 30 + 12 = 42.' },
+    { domain: 'num', weight: 2, tag: 'هوش عددی مهندسی',
+      q: 'می‌خواهیم با سرعت برش 120 متر بر دقیقه روی قطعه‌ای به قطر 60 میلی‌متر تراشکاری کنیم. دور اسپیندل حدودا چند است؟',
+      options: ['318', '477', '637', '1274'],
+      correct: 2,
+      why: 'n = 1000×Vc ÷ (π×D) = 120000 ÷ 188.4 ≈ 637 دور بر دقیقه.' },
+    { domain: 'num', weight: 2, tag: 'هوش عددی مهندسی',
+      q: 'سوراخی به قطر 25.10 با رواداری ±0.03 و میله‌ای به قطر 25 با رواداری ±0.05 داریم. بیشترین لقی چقدر است؟',
+      options: ['0.08 میلی‌متر', '0.13 میلی‌متر', '0.18 میلی‌متر', '0.23 میلی‌متر'],
+      correct: 2,
+      why: 'بیشترین لقی = بزرگ‌ترین سوراخ − کوچک‌ترین میله = 25.13 − 24.95 = 0.18 میلی‌متر.' },
+    { domain: 'num', weight: 2, tag: 'هوش عددی مهندسی',
+      q: 'موتوری با 1440 دور بر دقیقه با چرخ‌دنده 20 (روی موتور) و 60 دندانه به اسپیندل وصل است. دور اسپیندل؟',
+      options: ['480 دور بر دقیقه', '720 دور بر دقیقه', '1440 دور بر دقیقه', '4320 دور بر دقیقه'],
+      correct: 0,
+      why: 'نسبت کاهش 60/20 = 3 است؛ پس 1440 ÷ 3 = 480 دور بر دقیقه.' },
+    { domain: 'num', weight: 3, tag: 'هوش عددی مهندسی',
+      q: 'پیچ M12×1.75 یعنی گام 1.75 میلی‌متر. اگر مهره روی 5 گام کامل درگیر باشد، طول درگیری چقدر است؟',
+      options: ['6 میلی‌متر', '8.75 میلی‌متر', '12 میلی‌متر', '17.5 میلی‌متر'],
+      correct: 1,
+      why: 'طول درگیری = تعداد گام × گام = 5 × 1.75 = 8.75 میلی‌متر.' },
+    { domain: 'logic', weight: 1, tag: 'استدلال منطقی',
+      q: 'فرض کنید: «همه ابزارهای HSS قابل تیزکاری مجددند» و «تیغچه X از جنس HSS است». کدام نتیجه قطعی است؟',
+      options: ['تیغچه X قابل تیزکاری مجدد است', 'هر ابزار قابل تیزکاری HSS است', 'تیغچه X سرامیکی است', 'هیچ نتیجه قطعی نمی‌توان گرفت'],
+      correct: 0,
+      why: 'قیاس کلاسیک: عضو مجموعه، خاصیت مجموعه را دارد. (گزینه دوم مغالطه عکس است.)' },
+    { domain: 'logic', weight: 2, tag: 'استدلال منطقی',
+      q: 'روی اهرم تعادل، وزنه 20 کیلوگرمی در فاصله 3 متری از تکیه‌گاه است. چه وزنه‌ای در فاصله 2 متری سمت دیگر آن را متعادل می‌کند؟',
+      options: ['13.3 کیلوگرم', '20 کیلوگرم', '30 کیلوگرم', '60 کیلوگرم'],
+      correct: 2,
+      why: 'تعادل گشتاور: 20 × 3 = W × 2 پس W = 30 کیلوگرم.' },
+    { domain: 'logic', weight: 2, tag: 'استدلال منطقی',
+      q: 'قاعده کارگاه: «اگر خنک‌کاری قطع شود، سطح قطعه خراب می‌شود». سطح قطعه سالم مانده است. چه نتیجه‌ای قطعی است؟',
+      options: ['خنک‌کاری قطع شده بود', 'خنک‌کاری قطع نشده بود', 'ابزار حتما نو بوده است', 'هیچ نتیجه‌ای نمی‌توان گرفت'],
+      correct: 1,
+      why: 'نفی تالی یعنی نفی مقدم: سالم بودن سطح یعنی شرط خرابی (قطع خنک‌کاری) رخ نداده است.' },
+    { domain: 'logic', weight: 3, tag: 'استدلال منطقی',
+      q: 'در برنامه CNC آمده: G90 G01 X50 Z-20 F0.2 و بعد X40. کدام جمله درست است؟',
+      options: ['دستگاه در مختصات نسبی است', 'هر دو حرکت مطلق‌اند و X دوم به قطر 40 می‌رود', 'پیشروی فقط برای بلوک اول است', 'برنامه خطا دارد و اجرا نمی‌شود'],
+      correct: 1,
+      why: 'G90 و F مدال‌اند و تا لغو شدن می‌مانند؛ پس بلوک X40 همان پیشروی را با مختصات مطلق X=40 اجرا می‌کند.' },
+    { domain: 'logic', weight: 3, tag: 'استدلال منطقی',
+      q: 'سه چرخ‌دنده A و B و C پشت سر هم درگیرند (A با B و B با C). اگر A ساعت‌گرد بچرخد، C چه جهتی دارد؟',
+      options: ['ساعت‌گرد', 'پادساعت‌گرد', 'ثابت می‌ماند', 'بسته به تعداد دندانه‌هاست'],
+      correct: 0,
+      why: 'چرخ‌دنده میانی جهت را دو بار برعکس می‌کند؛ پس اولی و سومی هم‌جهت‌اند: ساعت‌گرد.' },
+    { domain: 'applied', weight: 1, tag: 'دانش کاربردی مکانیک',
+      q: 'برای قالب دایکست آلومینیوم (کار گرم با شوک حرارتی) کدام فولاد ابزار مناسب‌تر است؟',
+      options: ['H13 (فولاد گرم‌کار)', 'D2 (فولاد سردکار پرکروم)', 'St37 (فولاد ساختمانی)', 'برنج'],
+      correct: 0,
+      why: 'H13 فولاد گرم‌کار با مقاومت به شوک حرارتی و خستگی گرم است؛ انتخاب استاندارد قالب دایکست.' },
+    { domain: 'applied', weight: 1, tag: 'دانش کاربردی مکانیک',
+      q: 'میکرومتری با دقت 0.01 میلی‌متر عدد 12.34 را نشان می‌دهد. کدام خوانش درست است؟',
+      options: ['12.340', 'حدود 12.34 با خطای ±0.01', 'دقیقا 12.3400', '12.4'],
+      correct: 1,
+      why: 'دقت وسیله 0.01 است؛ رقم بعدی معنا ندارد و نتیجه همیشه با همان عدم‌قطعیت گزارش می‌شود.' },
+    { domain: 'applied', weight: 2, tag: 'دانش کاربردی مکانیک',
+      q: 'در فرزکاری، شایع‌ترین علت «چتر» (لرزش و خط موجی روی سطح) کدام است؟',
+      options: ['زیاد بودن خنک‌کاری', 'لقی و عدم صلبیت نگهدارنده/فیکسچر یا پارامتر نامناسب', 'نو بودن ابزار', 'پایین بودن دور به‌تنهایی'],
+      correct: 1,
+      why: 'چتر معمولا از صلبیت کم سیستم (ابزار بلند، فیکسچر شل، لقی اسپیندل) یا پارامتر نامناسب برش می‌آید.' },
+    { domain: 'applied', weight: 2, tag: 'دانش کاربردی مکانیک',
+      q: 'قطعه‌ای فولادی هم‌زمان به سطح سخت و مغز نرم نیاز دارد. کدام عملیات مناسب است؟',
+      options: ['آنیل کامل', 'سمانتاسیون (کربوره + کوئنچ)', 'نرماله کردن تنها', 'تمپر بدون کوئنچ'],
+      correct: 1,
+      why: 'سمانتاسیون سطح را سخت و مغز را چقرمه نگه می‌دارد؛ مخصوص چرخ‌دنده و میل‌لنگ.' },
+    { domain: 'applied', weight: 3, tag: 'دانش کاربردی مکانیک',
+      q: 'پیستون هیدرولیکی به قطر 100 میلی‌متر با فشار 6 بار نیرو وارد می‌کند. نیرو حدودا چقدر است؟',
+      options: ['حدود 470 نیوتن', 'حدود 4710 نیوتن', 'حدود 47100 نیوتن', 'حدود 471000 نیوتن'],
+      correct: 1,
+      why: 'مساحت ≈ 7854 میلی‌متر مربع؛ فشار 6 بار = 0.6 نیوتن/میلی‌متر مربع؛ نیرو ≈ 4710 نیوتن.' }
+  ];
+  var IQ_TOTAL_SECONDS = 20 * 60;
+  var IQ_DOMAIN_NAMES = { mech: 'تجسم فضایی و مکانیکی', num: 'هوش عددی مهندسی', logic: 'استدلال منطقی', applied: 'دانش کاربردی مکانیک' };
+
+  // ---------- تست هوش عمومی استاندارد (زیر تست مهندسی؛ برای همه افراد) ----------
+  // الگو: مقیاس‌های استاندارد (کلامی، عددی، فضایی/ماتریسی، منطقی، حافظه کاری).
+  // 40 سؤال چهارگزینه‌ای، وزن 1 تا 3، تایمر 40 دقیقه، نمره به IQ با میانگین 100 و انحراف 15.
+  var GIQ_BANK = [
+    // --- هوش کلامی (8 سؤال) ---
+    { domain: 'verb', weight: 1, tag: 'هوش کلامی',
+      q: 'کدام کلمه با بقیه فرق دارد؟',
+      options: ['کتاب', 'دفتر', 'خودکار', 'میز'],
+      correct: 3,
+      why: 'کتاب، دفتر و خودکار ابزار نوشتن و مطالعه‌اند؛ میز وسیله‌ای از جنس مبلمان و دسته دیگری است.' },
+    { domain: 'verb', weight: 1, tag: 'هوش کلامی',
+      q: 'مترادف «دقیق» کدام است؟',
+      options: ['سریع', 'صحیح و موشکافانه', 'بلند', 'تاریک'],
+      correct: 1,
+      why: 'دقیق یعنی بدون خطا و موشکافانه؛ نزدیک‌ترین مترادف همین گزینه است.' },
+    { domain: 'verb', weight: 2, tag: 'هوش کلامی',
+      q: 'متضاد «آشکار» کدام است؟',
+      options: ['روشن', 'پنهان', 'بزرگ', 'نزدیک'],
+      correct: 1,
+      why: 'آشکار یعنی واضح و نمایان؛ متضاد آن پنهان است.' },
+    { domain: 'verb', weight: 2, tag: 'هوش کلامی',
+      q: 'کتاب به خواندن است، مانند قلم به …؟',
+      options: ['نوشتن', 'کشیدن', 'خواندن', 'شکستن'],
+      correct: 0,
+      why: 'رابطه کاربرد است: کاربرد کتاب خواندن و کاربرد قلم نوشتن است.' },
+    { domain: 'verb', weight: 2, tag: 'هوش کلامی',
+      q: 'پرنده به آشیانه است، مانند زنبور به …؟',
+      options: ['گل', 'کندو', 'عسل', 'بال'],
+      correct: 1,
+      why: 'رابطه محل زندگی است: آشیانه خانه پرنده و کندو خانه زنبور است.' },
+    { domain: 'verb', weight: 3, tag: 'هوش کلامی',
+      q: 'کدام جمله از نظر منطقی درست است؟',
+      options: ['همه پزشکان مهندس‌اند', 'بعضی پرندگان پرواز نمی‌کنند', 'هیچ آبی مایع نیست', 'همه سنگ‌ها زنده‌اند'],
+      correct: 1,
+      why: 'شترمرغ و پنگوئن پرندگانی‌اند که پرواز نمی‌کنند؛ پس این جمله واقعا درست است و بقیه نادرست‌اند.' },
+    { domain: 'verb', weight: 3, tag: 'هوش کلامی',
+      q: 'اگر «همه گل‌ها گیاه‌اند» و «رز یک گل است»، کدام نتیجه قطعی است؟',
+      options: ['رز یک گیاه است', 'همه گیاهان رز هستند', 'رز گل نیست', 'هیچ نتیجه‌ای نمی‌توان گرفت'],
+      correct: 0,
+      why: 'قیاس منطقی معتبر: عضو مجموعه، ویژگی مجموعه را دارد.' },
+    { domain: 'verb', weight: 1, tag: 'هوش کلامی',
+      q: 'کدام کلمه جمع است؟',
+      options: ['درخت', 'کتاب‌ها', 'مدرسه', 'میز'],
+      correct: 1,
+      why: 'پسوند «ها» نشانه جمع در فارسی است.' },
+    // --- هوش عددی (8 سؤال) ---
+    { domain: 'num', weight: 1, tag: 'هوش عددی',
+      q: 'دنباله 3، 6، 9، 12، … عدد بعدی چیست؟',
+      options: ['13', '14', '15', '18'],
+      correct: 2,
+      why: 'الگو جمع 3 است: 12 + 3 = 15.' },
+    { domain: 'num', weight: 1, tag: 'هوش عددی',
+      q: 'نصف 50 به‌علاوه 10 چقدر است؟',
+      options: ['30', '35', '45', '60'],
+      correct: 1,
+      why: 'نصف 50 برابر 25 است؛ 25 + 10 = 35.' },
+    { domain: 'num', weight: 2, tag: 'هوش عددی',
+      q: 'دنباله 2، 4، 8، 16، … عدد بعدی چیست؟',
+      options: ['20', '24', '32', '64'],
+      correct: 2,
+      why: 'الگو دو برابر شدن است: 16 × 2 = 32.' },
+    { domain: 'num', weight: 2, tag: 'هوش عددی',
+      q: 'اگر 3 مداد 12 هزار تومان باشد، 5 مداد چقدر است؟',
+      options: ['15 هزار', '18 هزار', '20 هزار', '25 هزار'],
+      correct: 2,
+      why: 'هر مداد 4 هزار تومان است؛ 5 × 4 = 20 هزار تومان.' },
+    { domain: 'num', weight: 2, tag: 'هوش عددی',
+      q: 'دنباله 5، 9، 13، 17، … عدد بعدی چیست؟',
+      options: ['20', '21', '22', '25'],
+      correct: 1,
+      why: 'الگو جمع 4 است: 17 + 4 = 21.' },
+    { domain: 'num', weight: 3, tag: 'هوش عددی',
+      q: 'دنباله 1، 1، 2، 3، 5، 8، … عدد بعدی چیست؟',
+      options: ['11', '12', '13', '15'],
+      correct: 2,
+      why: 'دنباله فیبوناچی است: هر عدد جمع دو عدد قبلی است؛ 5 + 8 = 13.' },
+    { domain: 'num', weight: 3, tag: 'هوش عددی',
+      q: '20 درصد 200 چقدر است؟',
+      options: ['20', '30', '40', '50'],
+      correct: 2,
+      why: '20 درصد یعنی یک‌پنجم؛ 200 ÷ 5 = 40.' },
+    { domain: 'num', weight: 3, tag: 'هوش عددی',
+      q: 'دنباله 81، 27، 9، 3، … عدد بعدی چیست؟',
+      options: ['1', '0', '2', '4'],
+      correct: 0,
+      why: 'الگو تقسیم بر 3 است: 3 ÷ 3 = 1.' },
+    // --- هوش فضایی و تصویری (8 سؤال) ---
+    { domain: 'spat', weight: 1, tag: 'هوش فضایی و تصویری',
+      q: 'کدام شکل با بقیه فرق دارد؟ (سه مربع و یک مثلث)',
+      options: ['مربع اول', 'مربع دوم', 'مربع سوم', 'مثلث'],
+      correct: 3,
+      why: 'سه شکل چهارضلعی‌اند و فقط مثلث سه‌ضلعی است؛ پس مثلث متفاوت است.' },
+    { domain: 'spat', weight: 1, tag: 'هوش فضایی و تصویری',
+      q: 'مکعب را از روبه‌رو می‌بینیم؛ کدام نما دیده می‌شود؟',
+      options: ['مربع', 'مثلث', 'دایره', 'ذوزنقه'],
+      correct: 0,
+      why: 'نمای روبه‌روی مکعب یک مربع است.' },
+    { domain: 'spat', weight: 2, tag: 'هوش فضایی و تصویری',
+      q: 'الگو: دایره، مربع، مثلث، دایره، مربع، … شکل بعدی چیست؟',
+      options: ['دایره', 'مربع', 'مثلث', 'ستاره'],
+      correct: 2,
+      why: 'الگو سه‌تایی تکرار می‌شود؛ بعد از دایره و مربع، مثلث می‌آید.' },
+    { domain: 'spat', weight: 2, tag: 'هوش فضایی و تصویری',
+      q: 'کدام گزینه ادامه الگوی ○ ◇ ○ ◇ ○ … است؟',
+      options: ['○', '◇', '□', '△'],
+      correct: 1,
+      why: 'الگو یکی‌درمیان است؛ بعد از دایره، لوزی می‌آید.' },
+    { domain: 'spat', weight: 2, tag: 'هوش فضایی و تصویری',
+      q: 'اگر یک کاغذ را از وسط تا کنیم و یک گوشه آن را ببریم، بعد از باز کردن چند سوراخ دیده می‌شود؟',
+      options: ['1', '2', '3', '4'],
+      correct: 1,
+      why: 'برش روی دولایه تا خورده می‌افتد؛ پس بعد از باز شدن دو سوراخ متقارن دیده می‌شود.' },
+    { domain: 'spat', weight: 3, tag: 'هوش فضایی و تصویری',
+      q: 'الگوی تعداد خط‌ها: 3، 4، 5، 6، … شکل بعدی با چند خط کشیده می‌شود؟ (مثلث، مربع، پنج‌ضلعی، …)',
+      options: ['6', '7', '8', '9'],
+      correct: 1,
+      why: 'هر بار یک ضلع اضافه می‌شود؛ بعد از شش‌ضلعی، هفت‌ضلعی با 7 خط می‌آید.' },
+    { domain: 'spat', weight: 3, tag: 'هوش فضایی و تصویری',
+      q: 'در ماتریس 2×2 داریم: بالا-چپ دایره، بالا-راست مربع، پایین-چپ مربع. خانه پایین-راست چیست تا هر سطر و ستون هر دو شکل را داشته باشد؟',
+      options: ['دایره', 'مربع', 'مثلث', 'ستاره'],
+      correct: 0,
+      why: 'قاعده لاتین است: هر سطر و ستون باید هر دو شکل را داشته باشد؛ پس خانه خالی دایره است.' },
+    { domain: 'spat', weight: 3, tag: 'هوش فضایی و تصویری',
+      q: 'عقربه ساعت‌شمار روی 3 و دقیقه‌شمار روی 12 است. زاویه کوچک‌تر بین آن‌ها چند درجه است؟',
+      options: ['60 درجه', '75 درجه', '90 درجه', '120 درجه'],
+      correct: 2,
+      why: 'هر ساعت 30 درجه است؛ فاصله 3 تا 12 برابر سه ساعت یعنی 90 درجه.' },
+    // --- استدلال منطقی (8 سؤال) ---
+    { domain: 'logic', weight: 1, tag: 'استدلال منطقی',
+      q: 'اگر امروز دوشنبه باشد، دو روز بعد چه روزی است؟',
+      options: ['سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'],
+      correct: 1,
+      why: 'دوشنبه + 2 روز = چهارشنبه.' },
+    { domain: 'logic', weight: 1, tag: 'استدلال منطقی',
+      q: 'علی از رضا بلندتر و رضا از سارا بلندتر است. چه کسی بلندترین است؟',
+      options: ['رضا', 'سارا', 'علی', 'مشخص نیست'],
+      correct: 2,
+      why: 'رابطه ترتیبی است: علی > رضا > سارا؛ پس علی بلندترین است.' },
+    { domain: 'logic', weight: 2, tag: 'استدلال منطقی',
+      q: 'همه Aها B هستند و همه Bها C هستند. کدام نتیجه قطعی است؟',
+      options: ['همه Aها C هستند', 'همه Cها A هستند', 'هیچ Aای C نیست', 'بعضی Cها B نیستند'],
+      correct: 0,
+      why: 'خاصیت تعدی مجموعه‌هاست: اگر A زیرمجموعه B و B زیرمجموعه C باشد، A زیرمجموعه C است.' },
+    { domain: 'logic', weight: 2, tag: 'استدلال منطقی',
+      q: 'اگر باران ببارد زمین خیس می‌شود. زمین خیس نیست. چه نتیجه‌ای قطعی است؟',
+      options: ['باران باریده است', 'باران نباریده است', 'حتما برف باریده است', 'هیچ نتیجه‌ای نمی‌توان گرفت'],
+      correct: 1,
+      why: 'نفی تالی یعنی نفی مقدم (Modus Tollens).' },
+    { domain: 'logic', weight: 2, tag: 'استدلال منطقی',
+      q: 'در یک مسابقه، مریم بعد از سارا و قبل از لیلا تمام کرد. چه کسی اول شد؟',
+      options: ['مریم', 'سارا', 'لیلا', 'مشخص نیست'],
+      correct: 1,
+      why: 'ترتیب: سارا، مریم، لیلا؛ پس سارا اول است.' },
+    { domain: 'logic', weight: 3, tag: 'استدلال منطقی',
+      q: 'بعضی Aها B نیستند و همه Bها C هستند. کدام نتیجه قطعی است؟',
+      options: ['همه Aها C هستند', 'بعضی Aها C نیستند', 'هیچ Aای C نیست', 'همه Cها A هستند'],
+      correct: 1,
+      why: 'عضوی از A که B نیست، چون Bها C هستند، آن عضو C هم نیست؛ پس بعضی Aها C نیستند.' },
+    { domain: 'logic', weight: 3, tag: 'استدلال منطقی',
+      q: 'جعبه‌ای 3 توپ قرمز و 2 توپ آبی دارد. بدون نگاه کردن، حداقل چند توپ برداریم تا حتما 2 توپ هم‌رنگ داشته باشیم؟',
+      options: ['2', '3', '4', '5'],
+      correct: 1,
+      why: 'اصل لانه کبوتری: با 3 برداشت، حتما دو توپ هم‌رنگ خواهیم داشت (بدترین حالت: قرمز، آبی، سپس سومی یکی را جفت می‌کند).' },
+    { domain: 'logic', weight: 3, tag: 'استدلال منطقی',
+      q: 'پنج نفر در صف‌اند. نفر سوم کیست اگر نفر اول و آخر مشخص باشند؟ (سؤال کنترل دقت)',
+      options: ['نفر وسط', 'نفر اول', 'نفر آخر', 'قابل تعیین نیست'],
+      correct: 0,
+      why: 'در صف پنج‌نفره، نفر سوم همان نفر وسط است.' },
+    // --- حافظه کاری (8 سؤال) ---
+    { domain: 'mem', weight: 1, tag: 'حافظه کاری',
+      q: 'این رشته را به خاطر بسپار: 7 - 2 - 9. کدام گزینه همان رشته است؟',
+      options: ['7 - 2 - 9', '7 - 9 - 2', '2 - 7 - 9', '9 - 2 - 7'],
+      correct: 0,
+      why: 'حافظه کوتاه‌مدت: ترتیب دقیق اعداد همان گزینه اول است.' },
+    { domain: 'mem', weight: 1, tag: 'حافظه کاری',
+      q: 'کلمات «سیب، مداد، آسمان» را به خاطر بسپار. کدام کلمه در لیست نبود؟',
+      options: ['سیب', 'مداد', 'آسمان', 'کتاب'],
+      correct: 3,
+      why: 'کتاب در لیست سه‌تایی نبود.' },
+    { domain: 'mem', weight: 2, tag: 'حافظه کاری',
+      q: 'رشته 4 - 8 - 1 - 6 را به خاطر بسپار. معکوس آن کدام است؟',
+      options: ['4 - 8 - 1 - 6', '6 - 1 - 8 - 4', '1 - 6 - 4 - 8', '8 - 4 - 6 - 1'],
+      correct: 1,
+      why: 'معکوس رشته یعنی خواندن از آخر به اول: 6 - 1 - 8 - 4.' },
+    { domain: 'mem', weight: 2, tag: 'حافظه کاری',
+      q: 'اعداد 3، 9، 4، 7 را به خاطر بسپار. مجموع بزرگ‌ترین و کوچک‌ترین کدام است؟',
+      options: ['10', '11', '12', '16'],
+      correct: 2,
+      why: 'بزرگ‌ترین 9 و کوچک‌ترین 3 است؛ 9 + 3 = 12.' },
+    { domain: 'mem', weight: 2, tag: 'حافظه کاری',
+      q: 'حروف «د، ا، ر، م» را به خاطر بسپار. با مرتب کردن آن‌ها کدام کلمه معنادار ساخته می‌شود؟',
+      options: ['مادر', 'مارد', 'دامر', 'رامد'],
+      correct: 0,
+      why: 'با مرتب‌سازی این چهار حرف، کلمه «مادر» ساخته می‌شود.' },
+    { domain: 'mem', weight: 3, tag: 'حافظه کاری',
+      q: 'رشته 5 - 2 - 8 - 1 - 9 را به خاطر بسپار. عدد وسطی کدام است؟',
+      options: ['2', '8', '1', '5'],
+      correct: 1,
+      why: 'عدد وسطی در رشته پنج‌تایی، سومی است: 8.' },
+    { domain: 'mem', weight: 3, tag: 'حافظه کاری',
+      q: 'سه رنگ «قرمز، آبی، سبز» را به خاطر بسپار. دومین رنگ کدام بود؟',
+      options: ['قرمز', 'آبی', 'سبز', 'زرد'],
+      correct: 1,
+      why: 'ترتیب: اول قرمز، دوم آبی، سوم سبز.' },
+    { domain: 'mem', weight: 3, tag: 'حافظه کاری',
+      q: 'اعداد 6 - 3 - 9 - 2 را به خاطر بسپار. اگر عدد 3 را حذف کنیم، مجموع بقیه چقدر است؟',
+      options: ['15', '17', '18', '20'],
+      correct: 1,
+      why: '6 + 9 + 2 = 17.' }
+  ];
+  var GIQ_TOTAL_SECONDS = 40 * 60;
+  var GIQ_DOMAIN_NAMES = { verb: 'هوش کلامی', num: 'هوش عددی', spat: 'هوش فضایی و تصویری', logic: 'استدلال منطقی', mem: 'حافظه کاری' };
 
   function el(tag, cls, html) {
     var n = document.createElement(tag);
@@ -366,7 +691,9 @@
         mCard('booklets', 'c-orange', '📖', 'CNC Books', 'کتاب‌های CNC') +
         mCard('materials', 'c-purple', '📚', 'Materials', 'متریال') +
         mCard('programmingTraining', 'c-yellow', '🧠', 'Programming', 'آموزش برنامه‌نویسی') +
-        mCardWide('programmingQuiz', 'c-teal', '🎯', 'Programming Quiz', 'آزمون برنامه‌نویسی') +
+        mCard('programmingQuiz', 'c-teal', '🎯', 'Programming Quiz', 'آزمون برنامه‌نویسی') +
+        mCard('mechIq', 'c-violet', '🧩', 'Mech IQ Test', 'تست هوش مهندسی مکانیک') +
+        mCard('generalIq', 'c-sky', '🌍', 'General IQ Test', 'تست هوش عمومی استاندارد') +
         mCard('calculator', 'c-blue', '🧮', 'Calculator', 'ماشین‌حساب مهندسی') +
         mCard('contact', 'c-gray', '👨‍💻', 'Contact', 'تماس با ما') +
       '</div>';
@@ -381,14 +708,6 @@
       '<span class="m-icon">' + icon + '</span>' +
       '<span class="m-en">' + en + '</span>' +
       '<span class="m-fa">' + fa + '</span></button>';
-  }
-
-  // کارت تمام‌عرض (مثل «آزمون برنامه‌نویسی»)
-  function mCardWide(action, color, icon, en, fa) {
-    return '<button class="m-card m-wide ' + color + '" data-action="' + action + '" type="button">' +
-      '<span class="m-icon">' + icon + '</span>' +
-      '<span class="m-texts"><span class="m-en">' + en + '</span>' +
-      '<span class="m-fa">' + fa + '</span></span></button>';
   }
 
   // ---------- contact screen (in-app, full screen — no page reload, Android only) ----------
@@ -490,6 +809,19 @@
     }).join('\n');
   }
 
+  // ---------- موتور تست هوش مهندسی مکانیک ----------
+  function iqMaxScore() {
+    var s = 0;
+    for (var i = 0; i < IQ_BANK.length; i++) s += IQ_BANK[i].weight;
+    return s;
+  }
+  function iqLevel(iq) {
+    if (iq >= 130) return 'استثنایی — ذهن تحلیلی در سطح نخبگان مهندسی';
+    if (iq >= 115) return 'بالاتر از میانگین — مناسب طراحی و حل مسئله پیچیده';
+    if (iq >= 100) return 'میانگین مهندسی — پایه محکم، با تمرین قوی‌تر می‌شوی';
+    if (iq >= 85) return 'کمی پایین‌تر از میانگین — مرور مفاهیم پایه توصیه می‌شود';
+    return 'نیاز به تمرین پایه — از سؤال‌های آسان شروع کن';
+  }
   function buildQuiz() {
     if (quizCard || document.querySelector('.mobile-quiz')) {
       quizCard = quizCard || document.querySelector('.mobile-quiz');
@@ -525,6 +857,427 @@
     quizState = null;
     if (!quizCard || !quizCard.classList.contains('active')) return;
     quizCard.classList.remove('active');
+  }
+
+  // ----- تست هوش مهندسی مکانیک: ساخت صفحه و تایمر -----
+  function buildIq() {
+    if (iqCard || document.querySelector('.mobile-iq')) {
+      iqCard = iqCard || document.querySelector('.mobile-iq');
+      return;
+    }
+    var ws = document.querySelector('.workspace');
+    if (!ws) return;
+    var card = el('div', 'mobile-quiz mobile-iq');
+    card.setAttribute('aria-label', 'تست هوش مهندسی مکانیک');
+    card.innerHTML =
+      '<div class="mq-top">' +
+        '<button class="mq-close" type="button" aria-label="بستن تست هوش">✕</button>' +
+        '<div class="mq-progress"><span class="mq-progress-fill"></span></div>' +
+        '<span class="mq-counter">1 / ' + IQ_BANK.length + '</span>' +
+      '</div>' +
+      '<h2 class="mq-title">تست هوش مهندسی مکانیک</h2>' +
+      '<p class="mq-lead">۲۰ سؤال چهارگزینه‌ای در ۴ حوزه (مکانیکی، عددی، منطقی، کاربردی) و ۲۰ دقیقه وقت. ' +
+        'در پایان <b>ضریب هوشی (IQ)</b>، سطح، تحلیل هر حوزه و پاسخ تشریحی غلط‌ها را می‌بینی.</p>' +
+      '<div class="mq-timer" aria-live="polite"></div>' +
+      '<div class="mq-question"></div>' +
+      '<div class="mq-feedback" aria-live="polite"></div>' +
+      '<div class="mq-result" hidden></div>';
+    ws.insertBefore(card, ws.firstChild);
+    iqCard = card;
+    card.querySelector('.mq-close').addEventListener('click', function () {
+      closeIq();
+      showHome();
+    });
+  }
+
+  function closeIq() {
+    if (iqState && iqState.tick) { clearInterval(iqState.tick); }
+    iqState = null;
+    if (!iqCard || !iqCard.classList.contains('active')) return;
+    iqCard.classList.remove('active');
+  }
+
+  function giqMaxScore() {
+    var s = 0;
+    for (var i = 0; i < GIQ_BANK.length; i++) s += GIQ_BANK[i].weight;
+    return s;
+  }
+
+  function showIq() {
+    trackPanelChange();
+    closeMobileCalculator();
+    closeContact();
+    closeNotes();
+    closeQuiz();
+    document.querySelectorAll('.tool-panel').forEach(function (p) {
+      p.hidden = true; p.classList.remove('active');
+    });
+    hideHomePanels();
+    buildIq();
+    if (iqCard) { iqCard.classList.add('active'); animateMobilePage(iqCard); }
+    setActiveTab('mechIq');
+    startIq();
+    window.scrollTo(0, 0);
+    trackPanelChange();
+  }
+
+  function startIq() {
+    iqState = {
+      order: shuffleList(IQ_BANK.map(function (item, index) { return index; })),
+      index: 0,
+      answers: [],
+      endsAt: Date.now() + IQ_TOTAL_SECONDS * 1000,
+      tick: null
+    };
+    iqState.tick = setInterval(iqTick, 1000);
+    renderIqQuestion();
+    iqTick();
+  }
+
+  function iqTick() {
+    if (!iqState || !iqCard) return;
+    var left = iqState.endsAt - Date.now();
+    if (left <= 0) { finishIq(true); return; }
+    var bar = iqCard.querySelector('.mq-timer');
+    if (bar) {
+      var m = Math.floor(left / 60000);
+      var s = Math.floor((left % 60000) / 1000);
+      bar.textContent = 'زمان باقی‌مانده: ' + m + ':' + (s < 10 ? '0' + s : s);
+      bar.classList.toggle('late', left < 3 * 60000);
+    }
+  }
+
+  function renderIqQuestion() {
+    if (!iqCard || !iqState) return;
+    var st = iqState;
+    if (st.index >= st.order.length) { finishIq(false); return; }
+    var item = IQ_BANK[st.order[st.index]];
+    var box = iqCard.querySelector('.mq-question');
+    var fb = iqCard.querySelector('.mq-feedback');
+    var res = iqCard.querySelector('.mq-result');
+    if (res) { res.hidden = true; res.innerHTML = ''; }
+    if (fb) { fb.className = 'mq-feedback'; fb.innerHTML = ''; }
+    var opts = shuffleList(item.options.map(function (t, i) { return i; }));
+    var labels = ['الف', 'ب', 'ج', 'د'];
+    var html = '<span class="mq-tag">' + escapeHtml(item.tag) + ' • وزن ' + item.weight + '</span>' +
+      '<p class="mq-q-title">سؤال ' + (st.index + 1) + ' از ' + st.order.length + '</p>' +
+      '<p class="mq-q-desc">' + escapeHtml(item.q) + '</p><div class="mq-opts">';
+    for (var k = 0; k < opts.length; k++) {
+      html += '<button class="mq-opt" type="button" data-pick="' + opts[k] + '">' +
+        '<span class="mq-opt-key">' + labels[k] + '</span>' +
+        '<span class="mq-opt-txt">' + escapeHtml(item.options[opts[k]]) + '</span></button>';
+    }
+    html += '</div>';
+    box.innerHTML = html;
+    var counter = iqCard.querySelector('.mq-counter');
+    if (counter) counter.textContent = (st.index + 1) + ' / ' + st.order.length;
+    var fill = iqCard.querySelector('.mq-progress-fill');
+    if (fill) fill.style.width = Math.round((st.index / st.order.length) * 100) + '%';
+    var btns = box.querySelectorAll('.mq-opt');
+    for (var b = 0; b < btns.length; b++) {
+      (function (btn) {
+        btn.addEventListener('click', function () {
+          answerIq(parseInt(btn.getAttribute('data-pick'), 10));
+        });
+      })(btns[b]);
+    }
+  }
+
+  function answerIq(picked) {
+    if (!iqCard || !iqState) return;
+    var st = iqState;
+    if (st.index >= st.order.length) return;
+    var item = IQ_BANK[st.order[st.index]];
+    var ok = picked === item.correct;
+    st.answers.push({ item: item, picked: picked, ok: ok });
+    var fb = iqCard.querySelector('.mq-feedback');
+    if (fb) {
+      fb.className = 'mq-feedback show ' + (ok ? 'ok' : 'bad');
+      fb.innerHTML = '<p class="mq-verdict">' + (ok ? 'درست! +' + item.weight + ' امتیاز' : 'غلط — پاسخ درست: ' + escapeHtml(item.options[item.correct])) + '</p>' +
+        '<p class="mq-hint">' + escapeHtml(item.why) + '</p>' +
+        '<button class="mq-next" type="button">سؤال بعد</button>';
+      var next = fb.querySelector('.mq-next');
+      if (next) next.addEventListener('click', function () {
+        st.index += 1;
+        renderIqQuestion();
+        window.scrollTo(0, 0);
+      });
+    }
+    var fill = iqCard.querySelector('.mq-progress-fill');
+    if (fill) fill.style.width = Math.round(((st.index + 1) / st.order.length) * 100) + '%';
+  }
+
+  function finishIq(timeUp) {
+    if (!iqCard || !iqState) return;
+    var st = iqState;
+    if (st.tick) { clearInterval(st.tick); st.tick = null; }
+    var max = iqMaxScore();
+    var got = 0;
+    var domGot = { mech: 0, num: 0, logic: 0, applied: 0 };
+    var domMax = { mech: 0, num: 0, logic: 0, applied: 0 };
+    for (var i = 0; i < IQ_BANK.length; i++) domMax[IQ_BANK[i].domain] += IQ_BANK[i].weight;
+    for (var j = 0; j < st.answers.length; j++) {
+      if (st.answers[j].ok) { got += st.answers[j].item.weight; domGot[st.answers[j].item.domain] += st.answers[j].item.weight; }
+    }
+    var ratio = max ? got / max : 0;
+    var iq = Math.round(70 + ratio * 75);
+    var msg = timeUp ? 'وقت تمام شد! نتیجه بر اساس پاسخ‌های ثبت‌شده محاسبه شد.' : 'آزمون تمام شد!';
+    try { localStorage.setItem('mechIqLast', JSON.stringify({ iq: iq, got: got, max: max, at: Date.now() })); } catch (e) {}
+    var box = iqCard.querySelector('.mq-question');
+    var fb = iqCard.querySelector('.mq-feedback');
+    if (box) box.innerHTML = '';
+    if (fb) { fb.className = 'mq-feedback'; fb.innerHTML = ''; }
+    var res = iqCard.querySelector('.mq-result');
+    if (!res) return;
+    res.hidden = false;
+    var keys = ['mech', 'num', 'logic', 'applied'];
+    var bars = '';
+    for (var d = 0; d < keys.length; d++) {
+      var k = keys[d];
+      var p = domMax[k] ? Math.round((domGot[k] / domMax[k]) * 100) : 0;
+      bars += '<div class="mq-dom"><div class="mq-dom-head"><span>' + escapeHtml(IQ_DOMAIN_NAMES[k]) + '</span><span>' + domGot[k] + ' / ' + domMax[k] + '</span></div>' +
+        '<div class="mq-dom-bar"><span style="width:' + p + '%"></span></div></div>';
+    }
+    var wrongHtml = '';
+    var wrongCount = 0;
+    for (var w = 0; w < st.answers.length; w++) if (!st.answers[w].ok) wrongCount++;
+    if (wrongCount) {
+      wrongHtml = '<h3 class="mq-wrong-title">سؤال‌هایی که غلط زدی (' + wrongCount + '):</h3><ul class="mq-wrong-list">';
+      for (var v = 0; v < st.answers.length; v++) {
+        var a = st.answers[v];
+        if (a.ok) continue;
+        wrongHtml += '<li class="mq-wrong-item"><p class="mq-wrong-q">' + escapeHtml(a.item.q) + '</p>' +
+          '<p class="mq-wrong-ans">پاسخ تو: <b class="mq-bad">' + escapeHtml(a.item.options[a.picked]) + '</b><br>پاسخ درست: <b>' + escapeHtml(a.item.options[a.item.correct]) + '</b><br>' + escapeHtml(a.item.why) + '</p></li>';
+      }
+      wrongHtml += '</ul>';
+    } else {
+      wrongHtml = '<p class="mq-perfect">بدون غلط! همه را درست زدی — ذهن مهندسی‌ات عالیه.</p>';
+    }
+    res.innerHTML =
+      '<p class="mq-msg">' + escapeHtml(msg) + '</p>' +
+      '<div class="mq-score"><p class="mq-score-num">IQ ' + iq + '</p>' +
+      '<p class="mq-score-label">نمره خام: ' + got + ' از ' + max + ' • ' + escapeHtml(iqLevel(iq)) + '</p></div>' +
+      '<div class="mq-doms">' + bars + '</div>' + wrongHtml +
+      '<div class="mq-actions"><button class="mq-again" type="button">تلاش دوباره</button>' +
+      '<button class="mq-home" type="button">خانه</button></div>';
+    var again = res.querySelector('.mq-again');
+    if (again) again.addEventListener('click', function () { startIq(); window.scrollTo(0, 0); });
+    var home = res.querySelector('.mq-home');
+    if (home) home.addEventListener('click', function () { closeIq(); showHome(); });
+    var counter = iqCard.querySelector('.mq-counter');
+    if (counter) counter.textContent = st.answers.length + ' / ' + st.order.length;
+    var fill = iqCard.querySelector('.mq-progress-fill');
+    if (fill) fill.style.width = '100%';
+    window.scrollTo(0, 0);
+  }
+
+  function buildGiq() {
+    if (giqCard || document.querySelector('.mobile-giq')) {
+      giqCard = giqCard || document.querySelector('.mobile-giq');
+      return;
+    }
+    var ws = document.querySelector('.workspace');
+    if (!ws) return;
+    var card = el('div', 'mobile-quiz mobile-iq mobile-giq');
+    card.setAttribute('aria-label', 'تست هوش عمومی استاندارد');
+    card.innerHTML =
+      '<div class="mq-top">' +
+        '<button class="mq-close" type="button" aria-label="بستن تست هوش عمومی">✕</button>' +
+        '<div class="mq-progress"><span class="mq-progress-fill"></span></div>' +
+        '<span class="mq-counter">1 / ' + GIQ_BANK.length + '</span>' +
+      '</div>' +
+      '<h2 class="mq-title">تست هوش عمومی استاندارد</h2>' +
+      '<p class="mq-lead">۴۰ سؤال استاندارد در ۵ مقیاس (کلامی، عددی، فضایی، منطقی، حافظه) و ۴۰ دقیقه وقت. برای همه افراد، بدون نیاز به دانش مهندسی.</p>' +
+      '<div class="mq-timer" aria-live="polite"></div>' +
+      '<div class="mq-question"></div>' +
+      '<div class="mq-feedback" aria-live="polite"></div>' +
+      '<div class="mq-result" hidden></div>';
+    ws.insertBefore(card, ws.firstChild);
+    giqCard = card;
+    card.querySelector('.mq-close').addEventListener('click', function () {
+      closeGiq();
+      showHome();
+    });
+  }
+
+  function closeGiq() {
+    if (giqState && giqState.tick) { clearInterval(giqState.tick); }
+    giqState = null;
+    if (!giqCard || !giqCard.classList.contains('active')) return;
+    giqCard.classList.remove('active');
+  }
+
+  function showGiq() {
+    trackPanelChange();
+    closeMobileCalculator();
+    closeContact();
+    closeNotes();
+    closeQuiz();
+    closeIq();
+    document.querySelectorAll('.tool-panel').forEach(function (p) {
+      p.hidden = true; p.classList.remove('active');
+    });
+    hideHomePanels();
+    buildGiq();
+    if (giqCard) { giqCard.classList.add('active'); animateMobilePage(giqCard); }
+    setActiveTab('generalIq');
+    startGiq();
+    window.scrollTo(0, 0);
+    trackPanelChange();
+  }
+
+  function startGiq() {
+    giqState = {
+      order: shuffleList(GIQ_BANK.map(function (item, index) { return index; })),
+      index: 0,
+      answers: [],
+      endsAt: Date.now() + GIQ_TOTAL_SECONDS * 1000,
+      tick: null
+    };
+    giqState.tick = setInterval(giqTick, 1000);
+    renderGiqQuestion();
+    giqTick();
+  }
+
+  function giqTick() {
+    if (!giqState || !giqCard) return;
+    var left = giqState.endsAt - Date.now();
+    if (left <= 0) { finishGiq(true); return; }
+    var bar = giqCard.querySelector('.mq-timer');
+    if (bar) {
+      var m = Math.floor(left / 60000);
+      var s = Math.floor((left % 60000) / 1000);
+      bar.textContent = 'زمان باقی‌مانده: ' + m + ':' + (s < 10 ? '0' + s : s);
+      bar.classList.toggle('late', left < 3 * 60000);
+    }
+  }
+
+  function renderGiqQuestion() {
+    if (!giqCard || !giqState) return;
+    var st = giqState;
+    if (st.index >= st.order.length) { finishGiq(false); return; }
+    var item = GIQ_BANK[st.order[st.index]];
+    var box = giqCard.querySelector('.mq-question');
+    var fb = giqCard.querySelector('.mq-feedback');
+    var res = giqCard.querySelector('.mq-result');
+    if (res) { res.hidden = true; res.innerHTML = ''; }
+    if (fb) { fb.className = 'mq-feedback'; fb.innerHTML = ''; }
+    var opts = shuffleList(item.options.map(function (t, i) { return i; }));
+    var labels = ['الف', 'ب', 'ج', 'د'];
+    var html = '<span class="mq-tag">' + escapeHtml(item.tag) + ' • وزن ' + item.weight + '</span>' +
+      '<p class="mq-q-title">سؤال ' + (st.index + 1) + ' از ' + st.order.length + '</p>' +
+      '<p class="mq-q-desc">' + escapeHtml(item.q) + '</p><div class="mq-opts">';
+    for (var k = 0; k < opts.length; k++) {
+      html += '<button class="mq-opt" type="button" data-pick="' + opts[k] + '">' +
+        '<span class="mq-opt-key">' + labels[k] + '</span>' +
+        '<span class="mq-opt-txt">' + escapeHtml(item.options[opts[k]]) + '</span></button>';
+    }
+    html += '</div>';
+    box.innerHTML = html;
+    var counter = giqCard.querySelector('.mq-counter');
+    if (counter) counter.textContent = (st.index + 1) + ' / ' + st.order.length;
+    var fill = giqCard.querySelector('.mq-progress-fill');
+    if (fill) fill.style.width = Math.round((st.index / st.order.length) * 100) + '%';
+    var btns = box.querySelectorAll('.mq-opt');
+    for (var b = 0; b < btns.length; b++) {
+      (function (btn) {
+        btn.addEventListener('click', function () {
+          answerGiq(parseInt(btn.getAttribute('data-pick'), 10));
+        });
+      })(btns[b]);
+    }
+  }
+
+  function answerGiq(picked) {
+    if (!giqCard || !giqState) return;
+    var st = giqState;
+    if (st.index >= st.order.length) return;
+    var item = GIQ_BANK[st.order[st.index]];
+    var ok = picked === item.correct;
+    st.answers.push({ item: item, picked: picked, ok: ok });
+    var fb = giqCard.querySelector('.mq-feedback');
+    if (fb) {
+      fb.className = 'mq-feedback show ' + (ok ? 'ok' : 'bad');
+      fb.innerHTML = '<p class="mq-verdict">' + (ok ? 'درست! +' + item.weight + ' امتیاز' : 'غلط — پاسخ درست: ' + escapeHtml(item.options[item.correct])) + '</p>' +
+        '<p class="mq-hint">' + escapeHtml(item.why) + '</p>' +
+        '<button class="mq-next" type="button">سؤال بعد</button>';
+      var next = fb.querySelector('.mq-next');
+      if (next) next.addEventListener('click', function () {
+        st.index += 1;
+        renderGiqQuestion();
+        window.scrollTo(0, 0);
+      });
+    }
+    var fill = giqCard.querySelector('.mq-progress-fill');
+    if (fill) fill.style.width = Math.round(((st.index + 1) / st.order.length) * 100) + '%';
+  }
+
+  function finishGiq(timeUp) {
+    if (!giqCard || !giqState) return;
+    var st = giqState;
+    if (st.tick) { clearInterval(st.tick); st.tick = null; }
+    var max = giqMaxScore();
+    var got = 0;
+    var keys = ['verb', 'num', 'spat', 'logic', 'mem'];
+    var domGot = { verb: 0, num: 0, spat: 0, logic: 0, mem: 0 };
+    var domMax = { verb: 0, num: 0, spat: 0, logic: 0, mem: 0 };
+    for (var i = 0; i < GIQ_BANK.length; i++) domMax[GIQ_BANK[i].domain] += GIQ_BANK[i].weight;
+    for (var j = 0; j < st.answers.length; j++) {
+      if (st.answers[j].ok) { got += st.answers[j].item.weight; domGot[st.answers[j].item.domain] += st.answers[j].item.weight; }
+    }
+    var ratio = max ? got / max : 0;
+    finishGiqRender(st, got, max, domGot, domMax, keys, ratio, timeUp);
+  }
+
+  function finishGiqRender(st, got, max, domGot, domMax, keys, ratio, timeUp) {
+    var iq = Math.round(70 + ratio * 75);
+    var msg = timeUp ? 'وقت تمام شد! نتیجه بر اساس پاسخ‌های ثبت‌شده محاسبه شد.' : 'آزمون تمام شد!';
+    try { localStorage.setItem('generalIqLast', JSON.stringify({ iq: iq, got: got, max: max, at: Date.now() })); } catch (e) {}
+    var box = giqCard.querySelector('.mq-question');
+    var fb = giqCard.querySelector('.mq-feedback');
+    if (box) box.innerHTML = '';
+    if (fb) { fb.className = 'mq-feedback'; fb.innerHTML = ''; }
+    var res = giqCard.querySelector('.mq-result');
+    if (!res) return;
+    res.hidden = false;
+    var bars = '';
+    for (var d = 0; d < keys.length; d++) {
+      var k = keys[d];
+      var p = domMax[k] ? Math.round((domGot[k] / domMax[k]) * 100) : 0;
+      bars += '<div class="mq-dom"><div class="mq-dom-head"><span>' + escapeHtml(GIQ_DOMAIN_NAMES[k]) + '</span><span>' + domGot[k] + ' / ' + domMax[k] + '</span></div>' +
+        '<div class="mq-dom-bar"><span style="width:' + p + '%"></span></div></div>';
+    }
+    var wrongCount = 0;
+    for (var w = 0; w < st.answers.length; w++) if (!st.answers[w].ok) wrongCount++;
+    var wrongHtml;
+    if (wrongCount) {
+      wrongHtml = '<h3 class="mq-wrong-title">سؤال‌هایی که غلط زدی (' + wrongCount + '):</h3><ul class="mq-wrong-list">';
+      for (var v = 0; v < st.answers.length; v++) {
+        var a = st.answers[v];
+        if (a.ok) continue;
+        wrongHtml += '<li class="mq-wrong-item"><p class="mq-wrong-q">' + escapeHtml(a.item.q) + '</p>' +
+          '<p class="mq-wrong-ans">پاسخ تو: <b class="mq-bad">' + escapeHtml(a.item.options[a.picked]) + '</b><br>پاسخ درست: <b>' + escapeHtml(a.item.options[a.item.correct]) + '</b><br>' + escapeHtml(a.item.why) + '</p></li>';
+      }
+      wrongHtml += '</ul>';
+    } else {
+      wrongHtml = '<p class="mq-perfect">بدون غلط! همه را درست زدی — عالیه.</p>';
+    }
+    res.innerHTML =
+      '<p class="mq-msg">' + escapeHtml(msg) + '</p>' +
+      '<div class="mq-score"><p class="mq-score-num">IQ ' + iq + '</p>' +
+      '<p class="mq-score-label">نمره خام: ' + got + ' از ' + max + ' • ' + escapeHtml(iqLevel(iq)) + '</p></div>' +
+      '<div class="mq-doms">' + bars + '</div>' + wrongHtml +
+      '<div class="mq-actions"><button class="mq-again" type="button">تلاش دوباره</button>' +
+      '<button class="mq-home" type="button">خانه</button></div>';
+    var again = res.querySelector('.mq-again');
+    if (again) again.addEventListener('click', function () { startGiq(); window.scrollTo(0, 0); });
+    var home = res.querySelector('.mq-home');
+    if (home) home.addEventListener('click', function () { closeGiq(); showHome(); });
+    var counter = giqCard.querySelector('.mq-counter');
+    if (counter) counter.textContent = st.answers.length + ' / ' + st.order.length;
+    var fill2 = giqCard.querySelector('.mq-progress-fill');
+    if (fill2) fill2.style.width = '100%';
+    window.scrollTo(0, 0);
   }
 
   function showQuiz() {
@@ -726,6 +1479,8 @@
     return 'home';
   }
   function activePanelKey() {
+    if (giqCard && giqCard.classList.contains('active')) return '__giq__';
+    if (iqCard && iqCard.classList.contains('active')) return '__iq__';
     if (quizCard && quizCard.classList.contains('active')) return '__quiz__';
     if (contactCard && contactCard.classList.contains('active')) return '__contact__';
     if (notesCard && notesCard.classList.contains('active')) return '__notes__';
@@ -796,6 +1551,8 @@
         // برگشت به آزمونِ نیمه‌کاره (بدون شروع مجدد)
         closeContact();
         closeNotes();
+        closeIq();
+        closeGiq();
         document.querySelectorAll('.tool-panel').forEach(function (p) {
           p.hidden = true; p.classList.remove('active');
         });
@@ -803,9 +1560,23 @@
         buildQuiz();
         if (quizCard) { quizCard.classList.add('active'); animateMobilePage(quizCard); }
         setActiveTab('programmingQuiz');
+      } else if (key === '__iq__') {
+        closeContact();
+        closeNotes();
+        closeQuiz();
+        closeGiq();
+        document.querySelectorAll('.tool-panel').forEach(function (p) {
+          p.hidden = true; p.classList.remove('active');
+        });
+        hideHomePanels();
+        buildIq();
+        if (iqCard) { iqCard.classList.add('active'); animateMobilePage(iqCard); }
+        setActiveTab('mechIq');
       } else if (key === '__contact__') {
         closeNotes();
         closeQuiz();
+        closeIq();
+        closeGiq();
         document.querySelectorAll('.tool-panel').forEach(function (p) {
           p.hidden = true; p.classList.remove('active');
         });
@@ -818,6 +1589,8 @@
       } else {
         closeNotes();
         closeQuiz();
+        closeIq();
+        closeGiq();
         hideHomePanels();
         forceShowPanel(key);
         setActiveTab(key === 'materials' ? 'materials' : (key === 'calculations' ? 'calculations' : 'none'));
@@ -832,6 +1605,8 @@
     closeContact();
     closeNotes();
     closeQuiz();
+    closeIq();
+    closeGiq();
     hideHomePanels();
     if (!tool || tool === 'home') { showHome(); return; }
     // مقصد نامعتبر (بدون پنل) را قبول نکن — همان صفحه قبلی می‌ماند
@@ -878,9 +1653,13 @@
     closeMobileCalculator();
     closeContact(); // خروج از صفحه «تماس با ما» = یک قدم (ناظر تاریخچه ثبتش می‌کند)
     closeQuiz();    // خروج از آزمون برنامه‌نویسی هم یک قدم است
+    closeIq();      // خروج از تست هوش هم یک قدم است
+    closeGiq();     // خروج از تست هوش عمومی هم یک قدم است
     if (action === 'education') { showEducationMenu(); return; }
     if (action === 'notes') { showNotes(); return; }
     if (action === 'programmingQuiz') { showQuiz(); return; }
+    if (action === 'mechIq') { showIq(); return; }
+    if (action === 'generalIq') { showGiq(); return; }
     closeNotes();
     if (action === 'home') {
       // دکمه خانه: همیشه برگرد خونه (بدون دست‌کاری اضافه تاریخچه)
@@ -897,6 +1676,8 @@
     closeMobileCalculator();
     closeContact(); // برگشت به خانه از هر صفحه‌ای (از جمله تماس) یک قدم حساب می‌شود
     closeQuiz();    // آزمون با برگشت به خانه بسته می‌شود
+    closeIq();      // تست هوش هم با برگشت به خانه بسته می‌شود
+    closeGiq();     // تست هوش عمومی هم با برگشت به خانه بسته می‌شود
     // نکته مهم: تاریخچه را پاک نکن! فقط وقتی واقعاً خونه‌ایم و چیزی در استک نیست
     try { history.replaceState({}, '', location.pathname); } catch (e) {}
     document.querySelectorAll('.tool-panel').forEach(function (p) {
@@ -924,6 +1705,8 @@
     closeContact();
     closeNotes();
     closeQuiz();
+    closeIq();
+    closeGiq();
     hideHomePanels();
     var closeButton = document.getElementById('mobileCalculatorClose');
     if (!closeButton) {
@@ -946,8 +1729,7 @@
     var menu = el('div', 'mobile-education-menu');
     menu.innerHTML =
       '<button type="button" data-education-action="booklets">📁 جزوه‌های آموزشی</button>' +
-      '<button type="button" data-education-action="programmingTraining">🧠 آموزش برنامه‌نویسی</button>' +
-      '<button type="button" data-education-action="programmingQuiz">🎯 آزمون برنامه‌نویسی</button>';
+      '<button type="button" data-education-action="programmingTraining">🧠 آموزش برنامه‌نویسی</button>';
     menu.addEventListener('click', function (event) {
       var button = event.target.closest('[data-education-action]');
       if (!button) return;
@@ -962,6 +1744,8 @@
   function showNotes() {
     pushNavState();
     closeQuiz();
+    closeIq();
+    closeGiq();
     document.querySelectorAll('.tool-panel').forEach(function (p) {
       p.hidden = true; p.classList.remove('active');
     });

@@ -62,7 +62,7 @@
 <body>
   <div class="phone" id="phone">
     <div class="screen">
-      <iframe id="appFrame" src="www/index.html?mobile=preview" title="Android app"></iframe>
+      <iframe id="appFrame" src="android/app/src/main/assets/public/index.html?mobile=preview" title="Android app"></iframe>
     </div>
   </div>
   <script>
@@ -97,7 +97,7 @@
           return; // دسترسی به محتوا در حالت file:// بسته است؛ یعنی صفحه لود شده
         }
         retried = true;
-        frame.src = 'www/index.html?mobile=preview&_r=' + Date.now();
+        frame.src = 'android/app/src/main/assets/public/index.html?mobile=preview&_r=' + Date.now();
       });
     })();
   </script>
