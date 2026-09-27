@@ -1,0 +1,344 @@
+﻿/* ============================================================
+   بازی‌های کارگاهی — Machinist Games
+   فقط نسخه اندروید
+   ============================================================ */
+
+/* --- کارت بازی در صفحه اصلی --- */
+body.capacitor-mobile .m-card.c-game .m-icon { color: #f43f5e; }
+body.capacitor-mobile .m-card.c-game .m-en { color: #e11d48; }
+
+/* --- پوسته صفحه بازی: تمام‌صفحه و بدون ریلود --- */
+.mobile-game { display: none; }
+body.capacitor-mobile .mobile-game.active {
+  display: flex; flex-direction: column; overflow-y: auto;
+  position: fixed; inset: 0; z-index: 900; width: 100%; height: 100dvh;
+  margin: 0; border: none; border-radius: 0;
+  padding: calc(52px + env(safe-area-inset-top, 0px)) 14px calc(76px + env(safe-area-inset-bottom, 0px));
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.72), rgba(226,232,240,.45)),
+    linear-gradient(315deg, #dbeafe, #f8fafc 52%, #e0f2fe);
+  color: #1d2433;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;
+}
+body.capacitor-mobile .mobile-game.active::-webkit-scrollbar { display: none; width: 0; }
+body.capacitor-mobile .mobile-game[hidden] { display: none !important; }
+
+/* --- نوار بالای بازی --- */
+body.capacitor-mobile .mg-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex: 0 0 auto; }
+body.capacitor-mobile .mg-close,
+body.capacitor-mobile .mg-sound {
+  flex: 0 0 auto; width: 38px; height: 38px; display: grid; place-items: center;
+  border: 1px solid rgba(255,255,255,.72); border-radius: 12px;
+  background: rgba(255,255,255,.82); color: #334155; font-size: 1.05rem; cursor: pointer;
+  box-shadow: 0 6px 16px rgba(31,41,55,.07);
+}
+body.capacitor-mobile .mg-close:active,
+body.capacitor-mobile .mg-sound:active { transform: scale(.92); border-color: rgba(244,63,94,.6); }
+body.capacitor-mobile .mg-head { flex: 1; min-width: 0; text-align: center; }
+body.capacitor-mobile .mg-head strong { display: block; font-size: 1.05rem; color: #172033; font-weight: 800; }
+body.capacitor-mobile .mg-head small { display: block; font-size: .6rem; letter-spacing: 1.2px; color: #64748b; direction: ltr; }
+
+/* --- هاب انتخاب بازی (منوی دو بازی) --- */
+body.capacitor-mobile .mg-hub-view {
+  display: flex; flex-direction: column; gap: 14px; padding: 10px 0 16px; flex: 1; justify-content: center;
+}
+body.capacitor-mobile .mg-hub-intro {
+  text-align: center; margin-bottom: 4px;
+}
+body.capacitor-mobile .mg-hub-intro h3 {
+  font-size: 1.2rem; margin: 0 0 6px; color: #172033; font-weight: 900;
+}
+body.capacitor-mobile .mg-hub-intro p {
+  font-size: .78rem; color: #64748b; margin: 0; line-height: 1.7;
+}
+body.capacitor-mobile .mg-hub-card {
+  display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 20px;
+  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
+  border: 1px solid rgba(255,255,255,.75);
+  box-shadow: 0 10px 28px rgba(31,41,55,.08);
+  cursor: pointer; text-align: right; width: 100%; font-family: inherit;
+  transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
+}
+body.capacitor-mobile .mg-hub-card:active {
+  transform: scale(.98); border-color: #38bdf8;
+}
+body.capacitor-mobile .mg-hub-card.game-cannon {
+  border-color: rgba(244,63,94,.35);
+  background: linear-gradient(135deg, rgba(244,63,94,.14), rgba(255,255,255,.72) 70%);
+}
+body.capacitor-mobile .mg-hub-card.game-lathe {
+  border-color: rgba(14,165,233,.35);
+  background: linear-gradient(135deg, rgba(14,165,233,.14), rgba(255,255,255,.72) 70%);
+}
+body.capacitor-mobile .mg-hub-icon {
+  width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center;
+  font-size: 1.8rem; flex: 0 0 auto;
+  background: rgba(255,255,255,.75); border: 1px solid rgba(148,163,184,.3);
+}
+body.capacitor-mobile .mg-hub-info { flex: 1; min-width: 0; }
+body.capacitor-mobile .mg-hub-title {
+  font-size: 1rem; font-weight: 800; color: #172033; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;
+}
+body.capacitor-mobile .mg-hub-badge {
+  font-size: .58rem; padding: 2px 7px; border-radius: 8px; font-weight: 700;
+  background: #f43f5e; color: #fff;
+}
+body.capacitor-mobile .mg-hub-badge.blue { background: #0ea5e9; }
+body.capacitor-mobile .mg-hub-desc {
+  font-size: .72rem; color: #64748b; line-height: 1.6; margin-bottom: 6px;
+}
+body.capacitor-mobile .mg-hub-best {
+  font-size: .66rem; color: #b45309; font-weight: 700; direction: ltr; text-align: right;
+}
+body.capacitor-mobile .mg-hub-arrow {
+  color: #94a3b8; font-size: 1.3rem; margin-right: 4px;
+}
+
+/* --- بخش‌های داخلی بازی‌ها --- */
+body.capacitor-mobile .mg-game-view { display: none; flex-direction: column; flex: 1; }
+body.capacitor-mobile .mg-game-view.active { display: flex; }
+
+body.capacitor-mobile .mg-subtop {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex: 0 0 auto;
+}
+body.capacitor-mobile .mg-back-hub {
+  background: rgba(255,255,255,.85); border: 1px solid rgba(14,165,233,.35); color: #0284c7; font-size: .74rem; font-weight: 700;
+  cursor: pointer; padding: 4px 10px; border-radius: 10px; display: inline-flex; align-items: center; gap: 4px; font-family: inherit;
+}
+body.capacitor-mobile .mg-back-hub:active { transform: scale(.95); }
+
+/* ============================================================
+   استایل‌های بازی ۲: پرتاب به متریال (MATERIAL CANNON)
+   ============================================================ */
+body.capacitor-mobile .mc-hud {
+  display: flex; align-items: stretch; gap: 8px; margin-bottom: 8px; flex: 0 0 auto;
+}
+body.capacitor-mobile .mc-chip {
+  flex: 1; min-width: 0; padding: 7px 4px; text-align: center; border-radius: 13px;
+  background: rgba(255,255,255,.84); border: 1px solid rgba(148,163,184,.3);
+}
+body.capacitor-mobile .mc-chip span { display: block; font-size: .58rem; color: #64748b; margin-bottom: 2px; }
+body.capacitor-mobile .mc-chip b { display: block; font-size: .98rem; color: #172033; direction: ltr; }
+body.capacitor-mobile .mc-timer-bar {
+  flex: 0 0 auto; height: 6px; border-radius: 999px; background: rgba(100,116,139,.22);
+  margin-bottom: 8px; overflow: hidden; position: relative;
+}
+body.capacitor-mobile .mc-timer-fill {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 100%;
+  background: linear-gradient(90deg, #ef4444, #eab308 50%, #22c55e);
+  transition: width .1s linear;
+}
+
+body.capacitor-mobile .mc-target-banner {
+  flex: 0 0 auto; padding: 10px 14px; border-radius: 16px; margin-bottom: 10px;
+  background: linear-gradient(135deg, rgba(244,63,94,.14), rgba(225,29,72,.06));
+  border: 1px solid rgba(244,63,94,.35); text-align: center;
+}
+body.capacitor-mobile .mc-target-hint {
+  font-size: .68rem; color: #b91c1c; margin-bottom: 2px; font-weight: 600;
+}
+body.capacitor-mobile .mc-target-name {
+  font-size: 1.25rem; font-weight: 900; color: #172033; letter-spacing: .5px;
+}
+body.capacitor-mobile .mc-target-desc {
+  font-size: .68rem; color: #52627a; margin-top: 3px; line-height: 1.5;
+}
+
+body.capacitor-mobile .mc-arena-wrap {
+  flex: 1; min-height: 280px; position: relative; border-radius: 20px; overflow: hidden;
+  background: radial-gradient(circle at 50% 90%, #e2e8f0 0%, #f1f5f9 70%, #dbeafe 100%);
+  border: 1px solid rgba(148,163,184,.32);
+  box-shadow: inset 0 0 30px rgba(100,116,139,.18);
+  touch-action: none; user-select: none; -webkit-user-select: none;
+}
+body.capacitor-mobile .mc-canvas {
+  width: 100%; height: 100%; display: block;
+}
+body.capacitor-mobile .mc-aim-guide {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  font-size: .66rem; color: #64748b; pointer-events: none; opacity: .8; text-align: center;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   استایل‌های بازی ۱: دقت تراش (TOLERANCE MASTER)
+   ============================================================ */
+body.capacitor-mobile .mg-hud { display: flex; align-items: stretch; gap: 8px; margin-bottom: 10px; flex: 0 0 auto; }
+body.capacitor-mobile .mg-chip {
+  flex: 1; min-width: 0; padding: 8px 6px; text-align: center; border-radius: 14px;
+  background: rgba(255,255,255,.84); border: 1px solid rgba(148,163,184,.3);
+  box-shadow: 0 6px 16px rgba(31,41,55,.07);
+}
+body.capacitor-mobile .mg-chip span { display: block; font-size: .62rem; color: #64748b; }
+body.capacitor-mobile .mg-chip b { display: block; font-size: 1.02rem; color: #172033; direction: ltr; unicode-bidi: embed; }
+body.capacitor-mobile .mg-lives { display: flex; align-items: center; gap: 3px; padding: 0 4px; }
+body.capacitor-mobile .mg-lives i { font-style: normal; font-size: 1rem; line-height: 1; transition: transform .2s ease, opacity .2s ease; }
+body.capacitor-mobile .mg-lives i.dead { opacity: .22; filter: grayscale(1); transform: scale(.82); }
+
+body.capacitor-mobile .mg-job {
+  display: grid; gap: 6px; margin-bottom: 10px; padding: 10px 12px; border-radius: 16px; flex: 0 0 auto;
+  background: linear-gradient(135deg, rgba(56,189,248,.14), rgba(244,63,94,.07));
+  border: 1px solid rgba(148,163,184,.3);
+}
+body.capacitor-mobile .mg-job-row { display: flex; align-items: center; justify-content: space-between; font-size: .74rem; }
+body.capacitor-mobile .mg-job-row span { color: #64748b; }
+body.capacitor-mobile .mg-job-row b { color: #172033; font-weight: 700; direction: ltr; unicode-bidi: embed; }
+
+body.capacitor-mobile .mg-machine {
+  position: relative; height: 110px; margin-bottom: 10px; border-radius: 18px; flex: 0 0 auto;
+  background: linear-gradient(180deg, #eef2f7, #dbe3ee);
+  border: 1px solid rgba(148,163,184,.35); overflow: hidden;
+  box-shadow: inset 0 2px 6px rgba(100,116,139,.22);
+}
+body.capacitor-mobile .mg-bed {
+  position: absolute; left: 0; right: 0; bottom: 8px; height: 10px;
+  background: repeating-linear-gradient(90deg, #94a3b8, #94a3b8 12px, #cbd5e1 12px, #cbd5e1 24px);
+  border-top: 1px solid #64748b;
+}
+body.capacitor-mobile .mg-chuck {
+  position: absolute; right: 10px; top: 16px; bottom: 18px; width: 50px; border-radius: 8px 4px 4px 8px;
+  background: linear-gradient(180deg, #cbd5e1, #94a3b8 50%, #64748b);
+  border: 1px solid #64748b; box-shadow: -3px 0 8px rgba(71,85,105,.35);
+}
+body.capacitor-mobile .mg-chuck span {
+  position: absolute; left: 0; width: 14px; height: 8px; background: #f1f5f9; border-radius: 2px;
+}
+body.capacitor-mobile .mg-chuck span:nth-child(1) { top: 8px; }
+body.capacitor-mobile .mg-chuck span:nth-child(2) { top: calc(50% - 4px); }
+body.capacitor-mobile .mg-chuck span:nth-child(3) { bottom: 8px; }
+body.capacitor-mobile .mg-part {
+  position: absolute; top: 50%; right: 62px; left: 96px; height: 22px; margin-top: -11px;
+  border-radius: 4px; transition: height .05s linear, margin-top .05s linear;
+  background: linear-gradient(180deg, #f8fafc, #cbd5e1 46%, #8fa0b4);
+  box-shadow: inset 0 2px 4px rgba(255,255,255,.85), inset 0 -4px 8px rgba(15,23,42,.22), 0 6px 14px rgba(100,116,139,.35);
+}
+body.capacitor-mobile .mg-part::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 34%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent);
+}
+body.capacitor-mobile .mg-tool {
+  position: absolute; left: 74px; width: 26px; height: 20px; border-radius: 5px 12px 5px 5px;
+  background: linear-gradient(135deg, #fbbf24, #b45309);
+  box-shadow: 0 3px 8px rgba(180,83,9,.5);
+  transform-origin: 50% 100%;
+}
+body.capacitor-mobile .mg-tool::after {
+  content: "◤"; position: absolute; right: -9px; top: -3px; font-size: .8rem; color: #fde68a;
+}
+body.capacitor-mobile .mg-chips { position: absolute; left: 60px; right: 96px; top: 50%; height: 0; }
+body.capacitor-mobile .mg-chip-p {
+  position: absolute; width: 5px; height: 2px; border-radius: 1px; opacity: 0;
+  background: linear-gradient(90deg, #fcd34d, #f59e0b);
+}
+body.capacitor-mobile .mg-machine.cutting .mg-tool { box-shadow: 0 0 0 3px rgba(244,63,94,.35), 0 3px 8px rgba(180,83,9,.6); }
+
+body.capacitor-mobile .mg-dro {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-bottom: 10px; padding: 10px 14px; border-radius: 16px;
+  background: rgba(255,255,255,.86); border: 1px solid rgba(148,163,184,.3);
+  box-shadow: 0 6px 16px rgba(31,41,55,.07);
+}
+body.capacitor-mobile .mg-dro-label { color: #64748b; font-size: .7rem; }
+body.capacitor-mobile .mg-dia {
+  color: #16a34a; font-size: 1.42rem; font-weight: 800; letter-spacing: .5px;
+  direction: ltr; unicode-bidi: embed;
+}
+body.capacitor-mobile .mg-dev { font-size: .68rem; text-align: left; color: #64748b; direction: ltr; unicode-bidi: embed; }
+body.capacitor-mobile .mg-dro.near .mg-dia { color: #d97706; }
+body.capacitor-mobile .mg-dro.inband .mg-dia { color: #0891b2; }
+body.capacitor-mobile .mg-dro.bad .mg-dia { color: #dc2626; }
+
+body.capacitor-mobile .mg-bar {
+  position: relative; flex: 0 0 auto; height: 16px; margin-bottom: 6px; border-radius: 999px;
+  direction: ltr; overflow: hidden; background: rgba(100,116,139,.2);
+  border: 1px solid rgba(148,163,184,.35);
+}
+body.capacitor-mobile .mg-zone { position: absolute; top: 0; bottom: 0; }
+body.capacitor-mobile .mg-zone-scrap { left: 0; background: repeating-linear-gradient(45deg, #ef4444, #ef4444 6px, #dc2626 6px, #dc2626 12px); }
+body.capacitor-mobile .mg-zone-ok { background: linear-gradient(90deg, #22c55e, #16a34a); }
+body.capacitor-mobile .mg-zone-cut { background: rgba(148,163,184,.5); }
+body.capacitor-mobile .mg-bar-mark {
+  position: absolute; top: -3px; bottom: -3px; width: 4px; margin-left: -2px; border-radius: 2px;
+  background: #0ea5e9; box-shadow: 0 0 0 2px rgba(255,255,255,.9), 0 2px 8px rgba(14,165,233,.6);
+}
+body.capacitor-mobile .mg-legend { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 10px; flex: 0 0 auto; }
+body.capacitor-mobile .mg-legend span { font-size: .6rem; color: #64748b; display: flex; align-items: center; gap: 4px; }
+body.capacitor-mobile .mg-legend i { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+body.capacitor-mobile .mg-legend i.l-scrap { background: #ef4444; }
+body.capacitor-mobile .mg-legend i.l-ok { background: #22c55e; }
+body.capacitor-mobile .mg-legend i.l-cut { background: #94a3b8; }
+
+body.capacitor-mobile .mg-status {
+  flex: 0 0 auto; min-height: 40px; margin-bottom: 10px; padding: 9px 12px; border-radius: 14px;
+  font-size: .76rem; line-height: 1.85; text-align: center;
+  background: rgba(255,255,255,.86); border: 1px solid rgba(148,163,184,.3); color: #52627a;
+}
+body.capacitor-mobile .mg-status.good { background: rgba(34,197,94,.16); border-color: rgba(34,197,94,.42); color: #166534; font-weight: 700; }
+body.capacitor-mobile .mg-status.warn { background: rgba(245,158,11,.16); border-color: rgba(245,158,11,.45); color: #92400e; font-weight: 700; }
+body.capacitor-mobile .mg-status.bad { background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.42); color: #991b1b; font-weight: 700; }
+
+body.capacitor-mobile .mg-hold {
+  flex: 0 0 auto; margin-top: auto; padding: 16px 12px; border-radius: 18px; cursor: pointer;
+  font-family: inherit; font-size: 1rem; font-weight: 800; color: #052e2b; touch-action: none;
+  border: none; background: linear-gradient(135deg, #34d399, #14b8a6 60%, #0d9488);
+  box-shadow: 0 10px 24px rgba(13,148,136,.32);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+body.capacitor-mobile .mg-hold small { display: block; margin-top: 4px; font-size: .66rem; font-weight: 600; opacity: .75; }
+body.capacitor-mobile .mg-hold:active { transform: translateY(2px) scale(.985); }
+body.capacitor-mobile .mg-hold.running { background: linear-gradient(135deg, #fb7185, #e11d48); color: #fff1f2; box-shadow: 0 10px 26px rgba(225,29,72,.35); }
+body.capacitor-mobile .mg-hold[disabled] { filter: grayscale(.6); opacity: .55; cursor: default; }
+
+/* --- پنجره‌های پاپ‌آپ و لایه‌های پیام (Overlay) --- */
+body.capacitor-mobile .mg-overlay {
+  position: fixed; inset: 0; z-index: 950; display: flex; align-items: center; justify-content: center;
+  padding: 26px 18px calc(96px + env(safe-area-inset-bottom, 0px));
+  background: rgba(15,23,42,.45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+body.capacitor-mobile .mg-overlay[hidden] { display: none !important; }
+body.capacitor-mobile .mg-sheet {
+  width: 100%; max-width: 420px; max-height: 100%; overflow-y: auto; border-radius: 22px; padding: 20px 18px;
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  border: 1px solid rgba(255,255,255,.85); box-shadow: 0 22px 50px rgba(31,41,55,.18);
+  color: #1d2433;
+  animation: mgSheetIn .32s cubic-bezier(.22, 1, .36, 1) both;
+}
+body.capacitor-mobile .mg-sheet h2 { margin: 0 0 8px; font-size: 1.15rem; color: #172033; text-align: center; font-weight: 800; }
+body.capacitor-mobile .mg-sheet p { margin: 0 0 12px; color: #52627a; font-size: .78rem; line-height: 2; }
+body.capacitor-mobile .mg-rules { margin: 0 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; }
+body.capacitor-mobile .mg-rules li {
+  padding: 9px 12px; border-radius: 13px; font-size: .75rem; line-height: 1.95; color: #334155;
+  background: rgba(255,255,255,.9); border: 1px solid rgba(148,163,184,.28);
+}
+body.capacitor-mobile .mg-rules li b { color: #0284c7; }
+body.capacitor-mobile .mg-stars { text-align: center; font-size: 1.7rem; letter-spacing: 4px; margin: 0 0 8px; }
+body.capacitor-mobile .mg-pts {
+  text-align: center; margin: 0 0 10px; font-size: 1.5rem; font-weight: 900; color: #0f766e;
+  direction: ltr; unicode-bidi: embed;
+}
+body.capacitor-mobile .mg-summary {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px;
+}
+body.capacitor-mobile .mg-summary div {
+  padding: 8px 4px; text-align: center; border-radius: 13px;
+  background: rgba(255,255,255,.9); border: 1px solid rgba(148,163,184,.28);
+}
+body.capacitor-mobile .mg-summary span { display: block; font-size: .6rem; color: #64748b; }
+body.capacitor-mobile .mg-summary b { display: block; font-size: .95rem; color: #172033; direction: ltr; unicode-bidi: embed; }
+body.capacitor-mobile .mg-sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+body.capacitor-mobile .mg-sheet-actions.single { grid-template-columns: 1fr; }
+body.capacitor-mobile .mg-btn {
+  padding: 14px 10px; border-radius: 14px; font-family: inherit; font-weight: 800; font-size: .86rem; cursor: pointer;
+}
+body.capacitor-mobile .mg-btn.primary { border: none; background: linear-gradient(135deg, #38bdf8, #0284c7); color: #082f49; }
+body.capacitor-mobile .mg-btn.ghost { border: 1px solid rgba(148,163,184,.4); background: rgba(255,255,255,.9); color: #334155; }
+body.capacitor-mobile .mg-btn:active { transform: scale(.97); }
+body.capacitor-mobile .mg-recieve { margin: 0 0 12px; text-align: center; font-size: .78rem; color: #52627a; line-height: 1.9; }
+body.capacitor-mobile .mg-recieve b { color: #dc2626; }
+
+@keyframes mgSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes mgSheetIn { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  body.capacitor-mobile .mg-chuck { animation: none; }
+  body.capacitor-mobile .mg-sheet { animation: none; }
+}
