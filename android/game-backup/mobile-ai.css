@@ -34,9 +34,8 @@ body.capacitor-mobile .mobile-ai.active {
   display: flex; flex-direction: column; overflow: hidden;
   position: fixed; inset: 0; z-index: 900; width: 100%; height: 100dvh;
   margin: 0; border: none; border-radius: 0;
-  /* بالا: ۶۰px یعنی بیشتر از ارتفاع نوار بالای اپ (۵۶px). نوار «پاک کردن متن‌های قبلی»
-     و دکمهٔ ✕ دقیقاً زیر هدر می‌نشینند، نه پشت آن. */
-  padding: calc(60px + env(safe-area-inset-top, 0px)) 16px calc(104px + env(safe-area-inset-bottom, 0px));
+  /* بالا فقط حاشیهٔ امن گوشی؛ هدر دیگر شناور نیست و چیزی را نمی‌پوشاند. */
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 16px calc(104px + env(safe-area-inset-bottom, 0px));
   background: #ffffff; color: #0d0d0d; -webkit-font-smoothing: antialiased;
 }
 body.capacitor-mobile .mobile-ai[hidden] { display: none !important; }

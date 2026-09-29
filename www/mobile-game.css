@@ -13,7 +13,7 @@ body.capacitor-mobile .mobile-game.active {
   display: flex; flex-direction: column; overflow-y: auto;
   position: fixed; inset: 0; z-index: 900; width: 100%; height: 100dvh;
   margin: 0; border: none; border-radius: 0;
-  padding: calc(52px + env(safe-area-inset-top, 0px)) 14px calc(76px + env(safe-area-inset-bottom, 0px));
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 14px calc(76px + env(safe-area-inset-bottom, 0px));
   background:
     linear-gradient(135deg, rgba(255,255,255,.72), rgba(226,232,240,.45)),
     linear-gradient(315deg, #dbeafe, #f8fafc 52%, #e0f2fe);
