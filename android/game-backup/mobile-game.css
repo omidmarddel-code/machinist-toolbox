@@ -5,7 +5,7 @@
 
 /* --- کارت بازی در صفحه اصلی --- */
 body.capacitor-mobile .m-card.c-game .m-icon { color: #f43f5e; }
-body.capacitor-mobile .m-card.c-game .m-en { color: #e11d48; }
+body.capacitor-mobile .m-card.c-game .m-en { color: #be123c; }
 
 /* --- پوسته صفحه بازی: تمام‌صفحه و بدون ریلود --- */
 .mobile-game { display: none; }
