@@ -605,6 +605,8 @@ body.capacitor-mobile .mobile-iq .mq-opt {
   color: #172033; font-size: .85rem; text-align: right; line-height: 1.9;
 }
 body.capacitor-mobile .mobile-iq .mq-opt:active { transform: scale(.98); border-color: rgba(139,92,246,.55); }
+/* بعد از ثبت پاسخ، گزینه‌ها قفل می‌شوند (تا رفتن خودکار به سؤال بعد)؛ ظاهرشان هم قفل‌بودن را نشان دهد. */
+body.capacitor-mobile .mobile-iq .mq-opt:disabled { cursor: default; opacity: .62; }
 body.capacitor-mobile .mobile-iq .mq-opt-key {
   flex: 0 0 auto; width: 30px; height: 30px; display: grid; place-items: center;
   border-radius: 10px; background: rgba(139,92,246,.12); color: #6d28d9;

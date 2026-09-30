@@ -954,13 +954,17 @@
     return 'نیاز به تمرین پایه — از سؤال‌های آسان شروع کن';
   }
   function buildQuiz() {
-    if (quizCard || document.querySelector('.mobile-quiz')) {
-      quizCard = quizCard || document.querySelector('.mobile-quiz');
+    // نکته مهم: کلاس اختصاصی «mobile-qz» برای همین پنل است. هر سه آزمون کلاس
+    // «mobile-quiz» را دارند؛ اگر اینجا '.mobile-quiz' گرفته شود، وقتی کاربر
+    // اول تست هوش را باز کرده باشد این پنل ساخته نمی‌شود و سؤال‌های آزمون
+    // برنامه‌نویسی داخل پنل تست هوش رندر می‌شوند.
+    if (quizCard || document.querySelector('.mobile-qz')) {
+      quizCard = quizCard || document.querySelector('.mobile-qz');
       return;
     }
     var ws = document.querySelector('.workspace');
     if (!ws) return;
-    var card = el('div', 'mobile-quiz');
+    var card = el('div', 'mobile-quiz mobile-qz');
     card.setAttribute('aria-label', 'آزمون برنامه‌نویسی');
     card.innerHTML =
       '<div class="mq-top">' +
@@ -992,13 +996,16 @@
 
   // ----- تست هوش مهندسی مکانیک: ساخت صفحه و تایمر -----
   function buildIq() {
-    if (iqCard || document.querySelector('.mobile-iq')) {
-      iqCard = iqCard || document.querySelector('.mobile-iq');
+    // کلاس اختصاصی «mobile-miq» هم مثل آزمون برنامه‌نویسی لازم است: پنل تست هوش
+    // عمومی هم کلاس 'mobile-iq' دارد؛ بدون این کلاس، اگر کاربر اول تست هوش عمومی
+    // را باز کند، این پنل ساخته نمی‌شود و سؤال‌های این تست داخل پنل عمومی رندر می‌شوند.
+    if (iqCard || document.querySelector('.mobile-miq')) {
+      iqCard = iqCard || document.querySelector('.mobile-miq');
       return;
     }
     var ws = document.querySelector('.workspace');
     if (!ws) return;
-    var card = el('div', 'mobile-quiz mobile-iq');
+    var card = el('div', 'mobile-quiz mobile-iq mobile-miq');
     card.setAttribute('aria-label', 'تست هوش مهندسی مکانیک');
     card.innerHTML =
       '<div class="mq-top">' +
@@ -1023,6 +1030,7 @@
 
   function closeIq() {
     if (iqState && iqState.tick) { clearInterval(iqState.tick); }
+    if (iqState && iqState.timer) { clearTimeout(iqState.timer); } // تایمر «سؤال بعدی خودکار» هم بسته شود
     iqState = null;
     if (!iqCard || !iqCard.classList.contains('active')) return;
     iqCard.classList.remove('active');
@@ -1058,7 +1066,9 @@
       index: 0,
       answers: [],
       endsAt: Date.now() + IQ_TOTAL_SECONDS * 1000,
-      tick: null
+      tick: null,
+      locked: false, // پاسخ این سؤال ثبت شده و بازخورد روی صفحه است
+      timer: null    // تایمر رفتن خودکار به سؤال بعد
     };
     iqState.tick = setInterval(iqTick, 1000);
     renderIqQuestion();
@@ -1082,6 +1092,8 @@
     if (!iqCard || !iqState) return;
     var st = iqState;
     if (st.index >= st.order.length) { finishIq(false); return; }
+    st.locked = false;                                        // سؤال تازه: دوباره می‌شود پاسخ داد
+    if (st.timer) { clearTimeout(st.timer); st.timer = null; } // تایمر سؤال قبلی دیگر کاری نکند
     var item = IQ_BANK[st.order[st.index]];
     var box = iqCard.querySelector('.mq-question');
     var fb = iqCard.querySelector('.mq-feedback');
@@ -1117,31 +1129,51 @@
   function answerIq(picked) {
     if (!iqCard || !iqState) return;
     var st = iqState;
+    if (st.locked) return; // پاسخ این سؤال ثبت شده؛ دوباره ثبت نکن
     if (st.index >= st.order.length) return;
     var item = IQ_BANK[st.order[st.index]];
     var ok = picked === item.correct;
+    st.locked = true;
     st.answers.push({ item: item, picked: picked, ok: ok });
+    var box = iqCard.querySelector('.mq-question');
+    if (box) {
+      // گزینه‌ها قفل می‌شوند تا تا رفتن خودکار، پاسخ دوم ثبت نشود
+      var opts = box.querySelectorAll('.mq-opt');
+      for (var i = 0; i < opts.length; i++) opts[i].disabled = true;
+    }
     var fb = iqCard.querySelector('.mq-feedback');
     if (fb) {
+      var isLast = st.index >= st.order.length - 1;
       fb.className = 'mq-feedback show ' + (ok ? 'ok' : 'bad');
       fb.innerHTML = '<p class="mq-verdict">' + (ok ? 'درست! +' + item.weight + ' امتیاز' : 'غلط — پاسخ درست: ' + escapeHtml(item.options[item.correct])) + '</p>' +
         '<p class="mq-hint">' + escapeHtml(item.why) + '</p>' +
-        '<button class="mq-next" type="button">سؤال بعد</button>';
+        '<button class="mq-next" type="button">' + (isLast ? 'دیدن نتیجه 🎯' : 'سؤال بعدی ←') + '</button>';
       var next = fb.querySelector('.mq-next');
-      if (next) next.addEventListener('click', function () {
-        st.index += 1;
-        renderIqQuestion();
-        window.scrollTo(0, 0);
-      });
+      if (next) next.addEventListener('click', nextIqQuestion);
     }
     var fill = iqCard.querySelector('.mq-progress-fill');
     if (fill) fill.style.width = Math.round(((st.index + 1) / st.order.length) * 100) + '%';
+    // مثل «آزمون برنامه‌نویسی»: بعد از پاسخ، خودکار به سؤال بعد می‌رود.
+    // پاسخ درست ۱٫۵ ثانیه و پاسخ غلط ۳٫۴ ثانیه (برای خواندن توضیح). دکمهٔ «سؤال بعدی» هم هست.
+    if (st.timer) clearTimeout(st.timer);
+    st.timer = setTimeout(nextIqQuestion, ok ? 1500 : 3400);
+  }
+
+  function nextIqQuestion() {
+    if (!iqCard || !iqState) return;
+    if (iqState.timer) { clearTimeout(iqState.timer); iqState.timer = null; }
+    if (!iqState.locked) return; // همین حالا جلو رفته؛ دوباره جلو نرو
+    iqState.locked = false;
+    iqState.index += 1;
+    renderIqQuestion();
+    window.scrollTo(0, 0);
   }
 
   function finishIq(timeUp) {
     if (!iqCard || !iqState) return;
     var st = iqState;
     if (st.tick) { clearInterval(st.tick); st.tick = null; }
+    if (st.timer) { clearTimeout(st.timer); st.timer = null; } // تایمر خودکار بعد از پایان آزمون کاری نکند
     var max = iqMaxScore();
     var got = 0;
     var domGot = { mech: 0, num: 0, logic: 0, applied: 0 };
@@ -1233,6 +1265,7 @@
 
   function closeGiq() {
     if (giqState && giqState.tick) { clearInterval(giqState.tick); }
+    if (giqState && giqState.timer) { clearTimeout(giqState.timer); } // تایمر «سؤال بعدی خودکار» هم بسته شود
     giqState = null;
     if (!giqCard || !giqCard.classList.contains('active')) return;
     giqCard.classList.remove('active');
@@ -1263,7 +1296,9 @@
       index: 0,
       answers: [],
       endsAt: Date.now() + GIQ_TOTAL_SECONDS * 1000,
-      tick: null
+      tick: null,
+      locked: false, // پاسخ این سؤال ثبت شده و بازخورد روی صفحه است
+      timer: null    // تایمر رفتن خودکار به سؤال بعد
     };
     giqState.tick = setInterval(giqTick, 1000);
     renderGiqQuestion();
@@ -1287,6 +1322,8 @@
     if (!giqCard || !giqState) return;
     var st = giqState;
     if (st.index >= st.order.length) { finishGiq(false); return; }
+    st.locked = false;                                        // سؤال تازه: دوباره می‌شود پاسخ داد
+    if (st.timer) { clearTimeout(st.timer); st.timer = null; } // تایمر سؤال قبلی دیگر کاری نکند
     var item = GIQ_BANK[st.order[st.index]];
     var box = giqCard.querySelector('.mq-question');
     var fb = giqCard.querySelector('.mq-feedback');
@@ -1322,31 +1359,51 @@
   function answerGiq(picked) {
     if (!giqCard || !giqState) return;
     var st = giqState;
+    if (st.locked) return; // پاسخ این سؤال ثبت شده؛ دوباره ثبت نکن
     if (st.index >= st.order.length) return;
     var item = GIQ_BANK[st.order[st.index]];
     var ok = picked === item.correct;
+    st.locked = true;
     st.answers.push({ item: item, picked: picked, ok: ok });
+    var box = giqCard.querySelector('.mq-question');
+    if (box) {
+      // گزینه‌ها قفل می‌شوند تا تا رفتن خودکار، پاسخ دوم ثبت نشود
+      var opts = box.querySelectorAll('.mq-opt');
+      for (var i = 0; i < opts.length; i++) opts[i].disabled = true;
+    }
     var fb = giqCard.querySelector('.mq-feedback');
     if (fb) {
+      var isLast = st.index >= st.order.length - 1;
       fb.className = 'mq-feedback show ' + (ok ? 'ok' : 'bad');
       fb.innerHTML = '<p class="mq-verdict">' + (ok ? 'درست! +' + item.weight + ' امتیاز' : 'غلط — پاسخ درست: ' + escapeHtml(item.options[item.correct])) + '</p>' +
         '<p class="mq-hint">' + escapeHtml(item.why) + '</p>' +
-        '<button class="mq-next" type="button">سؤال بعد</button>';
+        '<button class="mq-next" type="button">' + (isLast ? 'دیدن نتیجه 🎯' : 'سؤال بعدی ←') + '</button>';
       var next = fb.querySelector('.mq-next');
-      if (next) next.addEventListener('click', function () {
-        st.index += 1;
-        renderGiqQuestion();
-        window.scrollTo(0, 0);
-      });
+      if (next) next.addEventListener('click', nextGiqQuestion);
     }
     var fill = giqCard.querySelector('.mq-progress-fill');
     if (fill) fill.style.width = Math.round(((st.index + 1) / st.order.length) * 100) + '%';
+    // مثل «آزمون برنامه‌نویسی»: بعد از پاسخ، خودکار به سؤال بعد می‌رود.
+    // پاسخ درست ۱٫۵ ثانیه و پاسخ غلط ۳٫۴ ثانیه (برای خواندن توضیح). دکمهٔ «سؤال بعدی» هم هست.
+    if (st.timer) clearTimeout(st.timer);
+    st.timer = setTimeout(nextGiqQuestion, ok ? 1500 : 3400);
+  }
+
+  function nextGiqQuestion() {
+    if (!giqCard || !giqState) return;
+    if (giqState.timer) { clearTimeout(giqState.timer); giqState.timer = null; }
+    if (!giqState.locked) return; // همین حالا جلو رفته؛ دوباره جلو نرو
+    giqState.locked = false;
+    giqState.index += 1;
+    renderGiqQuestion();
+    window.scrollTo(0, 0);
   }
 
   function finishGiq(timeUp) {
     if (!giqCard || !giqState) return;
     var st = giqState;
     if (st.tick) { clearInterval(st.tick); st.tick = null; }
+    if (st.timer) { clearTimeout(st.timer); st.timer = null; } // تایمر خودکار بعد از پایان آزمون کاری نکند
     var max = giqMaxScore();
     var got = 0;
     var keys = ['verb', 'num', 'spat', 'logic', 'mem'];
