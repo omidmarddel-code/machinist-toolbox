@@ -110,19 +110,6 @@ body.capacitor-mobile .mobile-search-results .search-result {
   font: inherit; text-align: right; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease;
 }
 body.capacitor-mobile .mobile-search-results .search-result:active { transform: scale(.98); background: rgba(245,158,11,.18); border-color: rgba(245,158,11,.45); }
-/* گزینهٔ پاک‌سازی گفتگوی هوش مصنوعی زیر ذره‌بین: همیشه در دسترس و خوانا */
-body.capacitor-mobile .mobile-search-results .search-result.ai-clear-chat {
-  color: #be123c; border-color: rgba(244, 63, 94, .35); background: rgba(255, 241, 242, .82);
-  font-weight: 700; text-align: center;
-}
-body.capacitor-mobile .mobile-search-results .search-result.ai-clear-chat:active {
-  transform: scale(.98); background: rgba(244, 63, 94, .18); border-color: rgba(244, 63, 94, .5);
-}
-/* وقتی هنوز چتی نیست: دکمه کمرنگ ولی کاملاً دیده می‌شود (مخفی نیست) */
-body.capacitor-mobile .mobile-search-results .search-result.ai-clear-chat.is-empty,
-body.capacitor-mobile .mobile-search-results .search-result.ai-clear-chat[disabled] {
-  opacity: .7; cursor: default;
-}
 body.capacitor-mobile .mobile-search-results .search-empty {
   margin: 4px; color: #94a3b8; text-align: center; font-size: .85rem;
 }

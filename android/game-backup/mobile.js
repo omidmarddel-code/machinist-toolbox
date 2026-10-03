@@ -580,7 +580,7 @@
       if (!homeIsShowing()) { closeSearchBar(); return; }
       var open = searchbar.classList.toggle('open');
       if (open) {
-        // با باز شدن جستجو، نتایج (و کلید «پاک کردن متن‌های قبلی») از نو ساخته می‌شوند
+        // با باز شدن جستجو، فیلتر کارت‌ها از نو اجرا می‌شود
         filterPanels('', searchResults);
         try { sInput.focus(); } catch (e) { }
       } else {
@@ -618,7 +618,6 @@
   // و اگر لمس شود هیچ کاری نمی‌کند؛ همین دو مورد باعث می‌شد قبلاً اپ در فضای دستیار گیر کند.
   var searchObserved = false;
   var searchOffState = null;
-  var AI_CHAT_STORE_KEY = 'machinistAiChat';
 
   function homeIsShowing() {
     // هر صفحه‌ای که باز باشد (پنل‌ها، دستیار، بازی، یادداشت‌ها، تماس، آزمون‌ها، ماشین‌حساب) یعنی خانه نیستیم
@@ -642,7 +641,7 @@
     var results = document.querySelector('.mobile-search-results');
     if (bar) bar.classList.remove('open');
     if (results) {
-      filterPanels('', results);        // کارت‌های مخفی‌شده برمی‌گردند و کلید پاک‌سازی همگام می‌شود
+      filterPanels('', results);        // کارت‌های مخفی‌شده برمی‌گردند
       results.classList.remove('open'); // بستن قطعی نتیجه‌ها
     }
   }
@@ -678,60 +677,6 @@
     } catch (e) { }
   }
 
-  // ---------- کلید «پاک کردن متن‌های قبلی» زیر ذره‌بین ----------
-  // گفتگوی ذخیره‌شدهٔ دستیار (machinistAiChat) حتی وقتی پنل دستیار بسته باشد هم در حافظه می‌ماند؛
-  // پس این کلید در نوار جستجوی خانه دیده می‌شود و با یک لمس همهٔ متن‌های قبلی پاک می‌شود.
-  function aiChatHasHistory() {
-    try {
-      var raw = localStorage.getItem(AI_CHAT_STORE_KEY);
-      if (!raw) return false;
-      var arr = JSON.parse(raw);
-      return !!(arr && arr.length);
-    } catch (e) { return false; }
-  }
-  function triggerAiClear() {
-    try {
-      if (window.MachinistAi && typeof window.MachinistAi.clear === 'function') window.MachinistAi.clear();
-    } catch (e) { }
-    try { localStorage.removeItem(AI_CHAT_STORE_KEY); } catch (e) { }
-  }
-  function makeClearOption() {
-    var option = el('button', 'search-result ai-clear-chat', '🗑️ پاک کردن متن‌های قبلی');
-    option.type = 'button';
-    option.setAttribute('data-ai-action', 'clear-chat');
-    option.addEventListener('click', function (ev) {
-      if (option.disabled) return;
-      if (ev && typeof ev.preventDefault === 'function') ev.preventDefault();
-      triggerAiClear();
-      var results = document.querySelector('.mobile-search-results');
-      var input = document.querySelector('.mobile-searchbar input');
-      if (input) input.value = '';
-      if (results) { filterPanels('', results); results.classList.remove('open'); }
-    });
-    return option;
-  }
-  // کلید فقط وقتی نوار جستجو باز است نشان داده می‌شود؛ اگر چتی نباشد کمرنگ و غیرفعال می‌ماند
-  // تا کاربر جای آن را ببیند. هیچ ناظر/تایمری اینجا نیست: همگام‌سازی فقط با کنش‌های خود کاربر.
-  function syncAiClearOption() {
-    var results = document.querySelector('.mobile-search-results');
-    var bar = document.querySelector('.mobile-searchbar');
-    if (!results || !bar) return;
-    if (!bar.classList.contains('open')) {
-      var gone = results.querySelector('[data-ai-action="clear-chat"]');
-      if (gone && gone.parentNode) gone.parentNode.removeChild(gone);
-      return;
-    }
-    var hasHistory = aiChatHasHistory();
-    var option = results.querySelector('[data-ai-action="clear-chat"]') || makeClearOption();
-    if (results.firstChild !== option) results.insertBefore(option, results.firstChild);
-    option.hidden = false;
-    option.disabled = !hasHistory;
-    option.classList.toggle('is-empty', !hasHistory);
-    if (hasHistory) option.removeAttribute('aria-disabled');
-    else option.setAttribute('aria-disabled', 'true');
-    results.classList.add('open');
-  }
-
   function filterPanels(q, results) {
     var query = normalizeSearchText(q);
     var cards = Array.prototype.slice.call(document.querySelectorAll('.m-card, .tool-card[data-tool]'));
@@ -750,10 +695,9 @@
 
     results.innerHTML = '';
     results.classList.toggle('open', Boolean(query));
-    if (!query) { syncAiClearOption(); return; }
+    if (!query) return;
     if (!matches.length) {
       results.innerHTML = '<p class="search-empty">نتیجه‌ای پیدا نشد</p>';
-      syncAiClearOption();
       return;
     }
     matches.forEach(function (match) {
@@ -769,7 +713,6 @@
       });
       results.appendChild(result);
     });
-    syncAiClearOption();
   }
 
   function bindPdfButtons() {
