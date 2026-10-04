@@ -1857,6 +1857,123 @@ button {
   text-transform: uppercase;
 }
 
+/* ===== نسخهٔ وب: منوی سمت راست تمام‌قد مانیتور و بدون اسکرول =====
+   ۱) منو از جریان صفحه جدا می‌شود (position: sticky) و دقیقاً از ۱۸ پیکسل
+      بالا تا پایین صفحه کشیده می‌شود (ارتفاع 100vh منهای ۱۸)؛ یعنی پنل
+      منو همیشه تا پایین مانیتور می‌رسد و هیچ اسکرول داخلی ندارد.
+   ۲) اندازهٔ خود منو دست‌نخورده است: لوگو ۱۵۴، دکمهٔ خانه ۵۲ و کارت‌ها ۶۶
+      پیکسل؛ فقط فضای خالیِ باقی‌مانده بین کارت‌ها پخش می‌شود (flex-grow)
+      تا منو دقیقاً پر شود و پایین آن خالی نماند. در پنجره‌های کوتاه‌تر از
+      ۸۸۰ پیکسل فقط به اندازهٔ لازم فشرده می‌شود (پایین همین فایل).
+   ۳) فوتر کنتاکت کوچک و با margin-top:auto چسبیده به پایین منو می‌ماند.
+   در موبایل/تبلت منو گریدِ بالای صفحه است، پس این رفتار فقط دسکتاپ است. */
+@media (min-width: 901px) {
+  .sidebar {
+    position: sticky;
+    top: 18px; /* هم‌تراز با margin-top خود app-shell */
+    align-self: start;
+    height: calc(100vh - 18px);
+    height: calc(100dvh - 18px);
+    overflow: hidden; /* تضمین: منو هیچ‌وقت اسکرول نمی‌خورد */
+  }
+
+  /* ناوبری خالیِ صفحهٔ خانه نباید دو فاصلهٔ اضافه بسازد */
+  .sidebar > #toolMenu:empty { display: none; }
+
+  /* کارت‌های منو فضای خالیِ مانیتورهای بزرگ را پر می‌کنند ولی از ارتفاع اصلی
+     66px کوچک‌تر نمی‌شوند و بیش از 120px هم بزرگ نمی‌شوند */
+  .sidebar > .tool-card {
+    flex: 1 1 auto;
+    max-height: 120px;
+  }
+
+  /* --- فوتر کنتاکت: کوچک و چسبیده به پایین منو (فقط با margin-top:auto؛
+         چون خودِ منو اسکرول نمی‌خورد، sticky اینجا باعث همپوشانی می‌شد) --- */
+  .app-footer {
+    flex: 0 0 auto;
+    margin-top: auto;
+    padding-top: 10px;
+  }
+
+  .app-footer p { font-size: 0.72rem; }
+
+  .app-footer strong {
+    margin-top: 3px;
+    font-size: 0.9rem;
+  }
+
+  .app-footer small {
+    margin-top: 2px;
+    font-size: 0.7rem;
+  }
+
+  /* دو دکمه کنار هم تا فوتر کوتاه‌تر و جمع‌وجورتر شود */
+  .footer-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .footer-links .dev-contact-btn {
+    padding: 5px 9px;
+    font-size: 0.76rem;
+    border-radius: 9px;
+  }
+}
+
+/* --- پنجره‌های کوتاه (تقسیم صفحهٔ ویندوز یا لپ‌تاپ‌های ۷۶۸/۷۲۰) ---
+   بالای ۸۸۰ پیکسل ارتفاع، منو دقیقاً با اندازهٔ اصلی خودش جا می‌شود؛ پس آنجا
+   هیچ چیزی کوچک نمی‌شود. زیر ۸۸۰ فقط به اندازهٔ لازم جمع می‌شود تا باز هم
+   اسکرول نخورد (اندازهٔ دکمهٔ خانه و کارت‌ها تا ۷۲۰ حفظ می‌شود). */
+@media (min-width: 901px) and (max-height: 880px) {
+  .sidebar {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .sidebar .brand-mark {
+    /* دقیقاً به اندازهٔ فضای باقی‌مانده؛ تا ۸۸۰ و بالاتر یعنی ۱۵۴px کامل */
+    width: clamp(56px, calc(100vh - 640px), 154px);
+    height: clamp(56px, calc(100vh - 640px), 154px);
+    margin-top: 0;
+  }
+
+  .sidebar .home-button { min-height: 48px; }
+
+  .sidebar > .tool-card {
+    min-height: 62px;
+    padding: 9px 11px;
+  }
+}
+
+/* پنجره‌های خیلی کوتاه: حداقل فشرده‌سازی، و اسکرول فقط به‌عنوان آخرین شبکهٔ
+   ایمنی تا هیچ دکمه‌ای (مثل contact) از دسترس خارج نشود. */
+@media (min-width: 901px) and (max-height: 719px) {
+  .sidebar {
+    gap: 6px;
+    padding: 10px;
+    overflow-y: auto;
+  }
+
+  .sidebar > .tool-card {
+    min-height: 54px;
+    padding: 7px 10px;
+  }
+
+  .sidebar > .tool-card small { display: none; }
+  .sidebar > .tool-card strong { margin-bottom: 0; }
+  .sidebar .home-button { min-height: 44px; }
+  .app-footer { padding-top: 6px; }
+  .app-footer p,
+  .app-footer small { display: none; }
+}
+
+/* پنجره‌های فوق‌العاده کوتاه: فقط لوگو حذف می‌شود تا بقیهٔ منو کامل جا شود. */
+@media (min-width: 901px) and (max-height: 560px) {
+  .sidebar .brand { display: none; }
+}
+
 @media (max-width: 900px) {
   .app-shell { grid-template-columns: 1fr; }
 
