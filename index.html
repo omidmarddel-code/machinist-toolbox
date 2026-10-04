@@ -135,36 +135,6 @@
 
 <body>
   <button class="theme-toggle" id="themeToggle" type="button" aria-label="تغییر تم">🌙</button>
-  <button id="notesToggle" class="notes-fab" type="button" aria-label="یادداشت‌های کارگاه">📝</button>
-  <section class="notes-card">
-
-    <div class="notes-header">
-      <h2>📝 NOTE</h2>
-      <span id="saveStatus">Ready</span>
-    </div>
-
-    <textarea id="workshopNotes" aria-label="یادداشت‌های روزانه کارگاه"
-      placeholder="یادداشت‌های روزانه، نکات قالب سازی، تعمیرات، برنامه‌ها..."></textarea>
-
-    <div class="notes-footer">
-
-      <small id="charCount">0 / 5000</small>
-
-      <div>
-
-        <button id="clearNotes" class="notes-btn danger">
-          پاک کردن
-        </button>
-
-        <button id="saveNotes" class="notes-btn">
-          ذخیره
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
   <div class="app-shell">
     <aside class="sidebar" aria-label="ناوبری جعبه ابزار">
       <div class="brand">
@@ -232,65 +202,10 @@
       <header class="topbar home-topbar">
         <div class="page-intro">
           <p class="eyebrow" id="pageEyebrow"></p>
-          <h1 id="pageTitle">جعبه ابزار ماشین‌کاری | MACHINIST TOOLBOX</h1>
+          <!-- هدر خانه: فقط انگلیسی، یک خط و وسط‌چین -->
+          <h1 id="pageTitle" class="brand-lockup">MACHINIST TOOLBOX</h1>
         </div>
       </header>
-      <button class="calculator-toggle" id="calculatorToggle" aria-label="ماشین حساب">🧮</button>
-      <div class="scientific-calculator" id="scientificCalculator">
-        <div class="calc-display">
-          <div class="calc-history" id="calcHistory"></div>
-          <div class="calc-expression" id="calcExpression"></div>
-          <div class="calc-result" id="calcResult">0</div>
-        </div>
-        <div class="calc-buttons">
-          <button class="calc-btn calc-func" data-action="clear">AC</button>
-          <button class="calc-btn calc-func" data-action="parenthesis">( )</button>
-          <button class="calc-btn calc-func" data-action="percent">%</button>
-          <button class="calc-btn calc-op" data-action="divide">÷</button>
-
-          <button class="calc-btn calc-func" data-action="sqrt">√</button>
-          <button class="calc-btn calc-num" data-value="7">7</button>
-          <button class="calc-btn calc-num" data-value="8">8</button>
-          <button class="calc-btn calc-num" data-value="9">9</button>
-          <button class="calc-btn calc-op" data-action="multiply">×</button>
-
-          <button class="calc-btn calc-func" data-action="power">x^y</button>
-          <button class="calc-btn calc-num" data-value="4">4</button>
-          <button class="calc-btn calc-num" data-value="5">5</button>
-          <button class="calc-btn calc-num" data-value="6">6</button>
-          <button class="calc-btn calc-op" data-action="subtract">−</button>
-
-          <button class="calc-btn calc-func" data-action="sin">sin</button>
-          <button class="calc-btn calc-num" data-value="1">1</button>
-          <button class="calc-btn calc-num" data-value="2">2</button>
-          <button class="calc-btn calc-num" data-value="3">3</button>
-          <button class="calc-btn calc-op" data-action="add">+</button>
-
-          <button class="calc-btn calc-func" data-action="cos">cos</button>
-          <button class="calc-btn calc-func" data-action="tan">tan</button>
-          <button class="calc-btn calc-num" data-value="0">0</button>
-          <button class="calc-btn calc-num" data-value=".">.</button>
-          <button class="calc-btn calc-op" data-action="equals">=</button>
-
-          <div class="calc-row-2">
-            <button class="calc-btn calc-func" data-action="asin">sin⁻¹</button>
-            <button class="calc-btn calc-func" data-action="acos">cos⁻¹</button>
-            <button class="calc-btn calc-func" data-action="atan">tan⁻¹</button>
-            <button class="calc-btn calc-func" data-action="log">log</button>
-            <button class="calc-btn calc-func" data-action="ln">ln</button>
-          </div>
-          <div class="calc-row-2">
-            <button class="calc-btn calc-func" data-action="pi">π</button>
-            <button class="calc-btn calc-func" data-action="e">e</button>
-            <button class="calc-btn calc-func" data-action="memory">M</button>
-            <button class="calc-btn calc-func" data-action="memory-recall">MR</button>
-            <button class="calc-btn calc-func" data-action="ans">ANS</button>
-          </div>
-          <div class="calc-row-2">
-            <button class="calc-btn calc-mode" id="degRadToggle">DEG</button>
-          </div>
-        </div>
-      </div>
       <!-- اسلایدشو کادر صفحهٔ اصلی: تصاویر را با نام ۱.jpg، ۲.jpg و… داخل پوشه images/slideshow قرار دهید -->
       <section class="home-spacer-card">
         <div class="slideshow" id="homeSlideshow">

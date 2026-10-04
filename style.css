@@ -1,3 +1,12 @@
+/* ===== فونت شکستهٔ هدر (Stencil) ===== */
+@font-face {
+  font-family: "Machinist Stencil";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/saira-stencil-one-latin.woff2") format("woff2");
+}
+
 :root {
   color-scheme: dark;
   --bg: #07090d;
@@ -104,19 +113,6 @@
 
 [data-theme="light"] .lesson-note ul {
   color: #1e293b;
-}
-
-[data-theme="light"] .notes-header h2 {
-  color: var(--text);
-}
-
-[data-theme="light"] #workshopNotes {
-  background: #f8fafc;
-  color: var(--text);
-}
-
-[data-theme="light"] #workshopNotes::placeholder {
-  color: #94a3b8;
 }
 
 [data-theme="light"] .app-footer {
@@ -1326,260 +1322,7 @@ button {
   font-size: 50px;
   font-weight: 500;
 }
-.notes-card{
-    width:92%;
-    max-width:900px;
 
-    padding:25px;
-
-    border-radius:22px;
-
-    height:auto;
-}
-
-#workshopNotes{
-    height:180px;
-}
-
-.notes-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:20px;
-
-}
-
-.notes-header h2{
-
-    color:white;
-
-    font-size:24px;
-
-    margin:0;
-
-}
-
-#saveStatus{
-
-    color:#22c55e;
-
-    font-size:14px;
-
-}
-
-#workshopNotes{
-
-    width:100%;
-
-    height:400px;
-
-    resize:none;
-
-    border:none;
-
-    outline:none;
-
-    padding:20px;
-
-    border-radius:18px;
-
-    background:#10161f;
-
-    color:white;
-
-    font-size:16px;
-
-    line-height:1.8;
-
-    font-family:Poppins,sans-serif;
-
-}
-
-#workshopNotes::placeholder{
-
-    color:#7d8796;
-
-}
-
-.notes-footer{
-
-    margin-top:18px;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-}
-
-.notes-footer > div {
-    display: flex;
-    gap: 10px;
-}
-
-.notes-footer .notes-btn {
-    flex: 1 1 0;
-    min-width: 0;
-    white-space: nowrap;
-}
-
-.notes-btn{
-    position: relative;
-    overflow: hidden;
-
-    border: none;
-    cursor: pointer;
-
-    padding: 12px 24px;
-
-    border-radius: 12px;
-
-    color: #fff;
-    font-weight: 700;
-    font-size: 15px;
-
-    transition: all .3s ease;
-}
-
-.notes-btn:hover{
-
-    transform:translateY(-2px);
-
-}
-
-.notes-btn.danger{
-
-    background:#ef4444;
-
-    margin-right:10px;
-
-}
-
-#charCount{
-
-    color:#94a3b8;
-
-}
-#saveNotes{
-
-    background: linear-gradient(135deg,#22c55e,#38bdf8);
-
-}
-
-#saveNotes:hover{
-
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 10px 25px rgba(34,197,94,.35),
-        0 0 20px rgba(56,189,248,.25);
-
-}
-#clearNotes{
-
-    background: linear-gradient(135deg,#ef4444,#dc2626);
-
-    margin-right:12px;
-
-}
-
-#clearNotes:hover{
-
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 10px 25px rgba(239,68,68,.35);
-
-}
-.notes-btn::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-    left:-120%;
-
-    width:60%;
-    height:100%;
-
-    background:linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,.45),
-        transparent
-    );
-
-    transition:.6s;
-
-}
-
-.notes-btn:hover::before{
-
-    left:130%;
-
-}
-.notes-card{
-
-    display:none;
-
-    position: fixed;
-    top: 80px;
-    left: 18px;
-    bottom: 100px;
-    width: 300px;
-    max-width: calc(100vw - 36px);
-    z-index: 9998;
-    overflow-y: auto;
-    background: var(--surface-strong);
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(22px);
-    border-radius: 22px;
-    padding: 20px;
-    margin: 0;
-
-}
-.notes-fab{
-
-    position:fixed;
-
-    bottom:25px;
-    left:25px;
-
-    width:60px;
-    height:60px;
-
-    border:none;
-    border-radius:50%;
-
-    cursor:pointer;
-
-    font-size:28px;
-
-    color:#fff;
-
-    background:linear-gradient(135deg,#22c55e,#38bdf8);
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.35);
-
-    transition:.3s;
-
-    z-index:9999;
-
-}
-
-.notes-fab:hover{
-
-    transform:scale(1.1) rotate(10deg);
-
-}
 /* ===== جای خالی بخش اخبار در صفحه اصلی ===== */
 /* این کادر حالا میزبان اسلایدشوی تصاویر است (پوشه images/slideshow) */
 .home-spacer-card{
@@ -1848,13 +1591,20 @@ button {
 }
 
 
-.home-topbar #pageTitle {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: clamp(1.3rem, 2.8vw, 2rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: 0.04em;
+/* ===== عنوان برند هدر خانه ===== */
+/* کلاس brand-lockup فقط در حالت «خانه» فعال می‌شود تا عنوان فارسی ابزارها
+   دست‌نخورده بماند. برای font-size/weight از important استفاده شده چون قاعدهٔ
+   عمومی .topbar:has(#pageTitle) #pageTitle اختصاصیت بالاتری دارد. */
+#pageTitle.brand-lockup {
+  font-family: "Machinist Stencil", "Arial Black", Arial, Helvetica, sans-serif;
+  font-size: clamp(1.5rem, 3.2vw, 2.6rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  white-space: nowrap;
+  direction: ltr;
+  text-align: center;
 }
 
 /* ===== نسخهٔ وب: منوی سمت راست تمام‌قد مانیتور و بدون اسکرول =====
@@ -2130,179 +1880,6 @@ button {
   opacity: 0.9;
   margin-left: -1.25px;
   margin-top: -60px;
-}
-
-/* Calculator Toggle - Bottom Right Fixed */
-.calculator-toggle {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  border: 2px solid var(--line);
-  color: white;
-  font-size: 1.4rem;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease;
-  z-index: 999;
-}
-
-.calculator-toggle:hover {
-  transform: scale(1.15) rotate(10deg);
-  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.5);
-}
-
-.calculator-toggle.active {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-}
-
-/* Scientific Calculator - Opens Upward from Bottom Right */
-.scientific-calculator {
-  display: none;
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  width: 320px;
-  max-width: calc(100vw - 40px);
-  background: var(--surface-strong);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(22px);
-  padding: 16px;
-  z-index: 998;
-  animation: calcFadeInUp 0.3s ease;
-}
-
-.scientific-calculator.active {
-  display: block;
-}
-
-@keyframes calcFadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.calc-display {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 12px;
-  min-height: 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.calc-history {
-  font-size: 0.75rem;
-  color: var(--muted);
-  text-align: left;
-  min-height: 18px;
-  font-family: Consolas, "Courier New", monospace;
-  direction: ltr;
-}
-
-.calc-expression {
-  font-size: 0.9rem;
-  color: var(--muted);
-  text-align: left;
-  min-height: 20px;
-  font-family: Consolas, "Courier New", monospace;
-  direction: ltr;
-  word-wrap: break-word;
-}
-
-.calc-result {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--text);
-  text-align: left;
-  font-family: Consolas, "Courier New", monospace;
-  direction: ltr;
-  word-wrap: break-word;
-  overflow-wrap: anywhere;
-}
-
-.calc-buttons {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-}
-
-.calc-row-2 {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px solid var(--line);
-}
-
-.calc-btn {
-  padding: 10px 6px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.calc-btn:hover {
-  background: rgba(56, 189, 248, 0.15);
-  border-color: var(--accent-2);
-  transform: translateY(-2px);
-}
-
-.calc-btn:active {
-  transform: translateY(0);
-  background: rgba(56, 189, 248, 0.25);
-}
-
-.calc-num {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.calc-op {
-  background: rgba(34, 197, 94, 0.15);
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.calc-func {
-  background: rgba(56, 189, 248, 0.1);
-  color: var(--accent-2);
-  font-size: 0.8rem;
-}
-
-.calc-mode {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
-  color: var(--warning);
-  font-weight: 700;
-  border-color: rgba(245, 158, 11, 0.3);
-}
-
-.calc-mode.active {
-  background: linear-gradient(135deg, var(--warning), #d97706);
-  color: white;
 }
 
 /* Responsive */
