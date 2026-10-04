@@ -210,6 +210,13 @@
           <small>اطلاعات فولادها و آلیاژها</small>
         </span>
       </button>
+      <button class="tool-card" data-tool="iqMenu" type="button">
+        <span class="tool-icon">🧩</span>
+        <span>
+          <strong>تست هوش</strong>
+          <small>هوش عمومی و مهندسی مکانیک</small>
+        </span>
+      </button>
       <nav class="dashboard-grid" id="toolMenu" aria-label="ابزارهای داشبورد"></nav>
       <div class="app-footer">
         <p>Designed & Developed by</p>
@@ -314,6 +321,55 @@
           <strong>استانداردهای صنعتی</strong> مانند BSPP و AS568 و جزوه‌های آموزشی Fanuc، Heidenhain و GSK هم
           بخشی از این مجموعه‌اند.
         </p>
+      </section>
+
+      <!-- ===== تست هوش (نسخه وب): منوی انتخاب + دو تست ===== -->
+      <section class="calculator-panel tool-panel" data-panel="iqMenu" id="iqMenuPanel" aria-labelledby="iqMenuTitle">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">ارزیابی هوش</p>
+            <h2 id="iqMenuTitle">تست هوش</h2>
+            <p>یکی از تست‌ها را انتخاب کن.</p>
+          </div>
+        </div>
+        <div class="dashboard-grid">
+          <button class="tool-card" data-tool="generalIq" type="button">
+            <span class="tool-icon">🌍</span>
+            <span>
+              <strong>تست هوش عمومی</strong>
+              <small>۴۰ سؤال استاندارد در ۵ مقیاس</small>
+            </span>
+          </button>
+          <button class="tool-card" data-tool="mechIq" type="button">
+            <span class="tool-icon">🧩</span>
+            <span>
+              <strong>تست هوش مهندس مکانیک</strong>
+              <small>۲۰ سؤال چهارگزینه‌ای مهندسی</small>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section class="calculator-panel tool-panel" data-panel="mechIq" id="mechIqPanel" aria-labelledby="mechIqTitle">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">تست هوش</p>
+            <h2 id="mechIqTitle">تست هوش مهندسی مکانیک</h2>
+            <p>۲۰ سؤال چهارگزینه‌ای در ۴ حوزه (مکانیکی، عددی، منطقی، کاربردی) و ۲۰ دقیقه وقت.</p>
+          </div>
+        </div>
+        <div class="iq-test" data-iq-kind="mech" id="mechIqTest"></div>
+      </section>
+
+      <section class="calculator-panel tool-panel" data-panel="generalIq" id="generalIqPanel" aria-labelledby="generalIqTitle">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">تست هوش</p>
+            <h2 id="generalIqTitle">تست هوش عمومی</h2>
+            <p>۴۰ سؤال استاندارد در ۵ مقیاس (کلامی، عددی، فضایی، منطقی، حافظه) و ۴۰ دقیقه وقت.</p>
+          </div>
+        </div>
+        <div class="iq-test" data-iq-kind="general" id="generalIqTest"></div>
       </section>
 
       <section class="calculator-panel tool-panel" data-panel="booklets" id="bookletsPanel">
@@ -7647,6 +7703,8 @@ M99</code></pre>
   </div>
 
   <script src="script.js" defer></script>
+  <script src="iq-data.js" defer></script>
+  <script src="iq.js" defer></script>
   </div>
 </body>
 
