@@ -1597,7 +1597,7 @@ button {
    عمومی .topbar:has(#pageTitle) #pageTitle اختصاصیت بالاتری دارد. */
 #pageTitle.brand-lockup {
   font-family: "Machinist Stencil", "Arial Black", Arial, Helvetica, sans-serif;
-  font-size: clamp(1.5rem, 3.2vw, 2.6rem) !important;
+  font-size: clamp(1.7rem, 3.5vw, 3rem) !important;
   font-weight: 400 !important;
   line-height: 1.2;
   letter-spacing: 0.08em;
@@ -1605,6 +1605,22 @@ button {
   white-space: nowrap;
   direction: ltr;
   text-align: center;
+}
+
+#pageTitle.brand-lockup .brand-wave-letter {
+  display: inline-block;
+  transform-origin: center bottom;
+  animation: brand-wave 5s ease-in-out var(--wave-delay) infinite;
+}
+
+@keyframes brand-wave {
+  0%, 100% { transform: translateY(0); color: var(--text); }
+  4% { transform: translateY(-0.16em); color: var(--accent); }
+  12% { transform: translateY(0); color: var(--text); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pageTitle.brand-lockup .brand-wave-letter { animation: none; }
 }
 
 /* ===== نسخهٔ وب: منوی سمت راست تمام‌قد مانیتور و بدون اسکرول =====

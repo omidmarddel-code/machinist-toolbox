@@ -690,7 +690,17 @@ function updateTapEmptyState() {
 function setHomeTitle() {
   if (!elements.pageTitle) return;
 
-  elements.pageTitle.textContent = "MACHINIST TOOLBOX";
+  const title = "MACHINIST TOOLBOX";
+  elements.pageTitle.setAttribute("aria-label", title);
+  elements.pageTitle.replaceChildren(...Array.from(title, (character, index) => {
+    const letter = document.createElement("span");
+    letter.className = "brand-wave-letter";
+    letter.setAttribute("aria-hidden", "true");
+    // عنوان چپ‌به‌راست نمایش داده می‌شود؛ حرف آخر در راست‌ترین جای عنوان است.
+    letter.style.setProperty("--wave-delay", `${(title.length - index - 1) * 75}ms`);
+    letter.textContent = character === " " ? "\u00a0" : character;
+    return letter;
+  }));
   elements.pageTitle.classList.add("brand-lockup");
 }
 
@@ -755,6 +765,7 @@ function switchTool(tool, addToHistory = true) {
   if (elements.pageTitle) {
     elements.pageTitle.textContent = PAGE_TITLES[tool].title;
     elements.pageTitle.classList.remove("brand-lockup");
+    elements.pageTitle.removeAttribute("aria-label");
   }
 
   currentTool = tool;
