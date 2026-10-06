@@ -696,8 +696,8 @@ function setHomeTitle() {
     const letter = document.createElement("span");
     letter.className = "brand-wave-letter";
     letter.setAttribute("aria-hidden", "true");
-    // عنوان چپ‌به‌راست نمایش داده می‌شود؛ حرف آخر در راست‌ترین جای عنوان است.
-    letter.style.setProperty("--wave-delay", `${(title.length - index - 1) * 75}ms`);
+    // تأخیر حروف از ابتدای عنوان محاسبه می‌شود تا موج از چپ به راست حرکت کند.
+    letter.style.setProperty("--wave-delay", `${index * 75}ms`);
     letter.textContent = character === " " ? "\u00a0" : character;
     return letter;
   }));

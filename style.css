@@ -1597,7 +1597,7 @@ button {
    عمومی .topbar:has(#pageTitle) #pageTitle اختصاصیت بالاتری دارد. */
 #pageTitle.brand-lockup {
   font-family: "Machinist Stencil", "Arial Black", Arial, Helvetica, sans-serif;
-  font-size: clamp(1.7rem, 3.5vw, 3rem) !important;
+  font-size: clamp(1.9rem, 4vw, 3.5rem) !important;
   font-weight: 400 !important;
   line-height: 1.2;
   letter-spacing: 0.08em;
