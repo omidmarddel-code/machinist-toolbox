@@ -112,6 +112,8 @@ public class MainActivity extends BridgeActivity {
 		textToSpeech = new TextToSpeech(this, status -> {
 			if (status == TextToSpeech.SUCCESS && textToSpeech != null) {
 				int languageStatus = textToSpeech.setLanguage(Locale.US);
+				// A slower rate makes technical English terms easier to follow.
+				textToSpeech.setSpeechRate(0.72f);
 				textToSpeechReady = languageStatus >= TextToSpeech.LANG_AVAILABLE;
 			}
 			textToSpeechInitialized = true;
@@ -122,7 +124,7 @@ public class MainActivity extends BridgeActivity {
 			} else if (pendingSpeech != null) {
 				String phrase = pendingSpeech;
 				pendingSpeech = null;
-				String script = "(function(t){if(!('speechSynthesis' in window))return;var u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.82;window.speechSynthesis.speak(u);})(" + JSONObject.quote(phrase) + ")";
+				String script = "(function(t){if(!('speechSynthesis' in window))return;var u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.72;window.speechSynthesis.speak(u);})(" + JSONObject.quote(phrase) + ")";
 				if (appWebView != null) appWebView.post(() -> appWebView.evaluateJavascript(script, null));
 			}
 		});

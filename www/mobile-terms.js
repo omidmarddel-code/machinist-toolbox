@@ -437,7 +437,7 @@
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         var u = new SpeechSynthesisUtterance(String(text));
-        u.lang = 'en-US'; u.rate = 0.82;
+        u.lang = 'en-US'; u.rate = 0.72;
         window.speechSynthesis.speak(u);
       }
     } catch (e) { }
