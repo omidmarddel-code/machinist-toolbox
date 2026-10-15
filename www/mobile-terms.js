@@ -461,12 +461,10 @@
           '<button class="mt-menu-btn learn" type="button" data-act="open-learn">' +
             '<span class="mt-menu-icon">🎓</span>' +
             '<b>آموزش اصطلاحات</b>' +
-            '<small>کارت‌های یک‌به‌یک با تلفظ انگلیسی</small>' +
           '</button>' +
           '<button class="mt-menu-btn quiz" type="button" data-act="start-quiz">' +
             '<span class="mt-menu-icon">🎯</span>' +
             '<b>آزمون اصطلاحات</b>' +
-            '<small>' + ROUND_LENGTH + ' سؤال تازه در هر دور، بدون تکرار دور قبل</small>' +
           '</button>' +
         '</div>' +
         '<p class="mt-best">رکورد آزمون: <b class="mt-best-val">۰</b> از ' + ROUND_LENGTH + '</p>' +

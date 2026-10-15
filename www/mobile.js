@@ -881,7 +881,7 @@
           // Retry loading the feature on demand in case its deferred script failed
           // or was unavailable during the initial page load.
           var loader = document.createElement('script');
-          loader.src = new URL('mobile-terms.js?v=20261015-5', document.baseURI).href;
+          loader.src = new URL('mobile-terms.js?v=20261015-6', document.baseURI).href;
           loader.onload = function () {
             if (window.MachinistTerms && typeof window.MachinistTerms.open === 'function') {
               window.MachinistTerms.open();
