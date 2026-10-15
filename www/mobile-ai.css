@@ -297,6 +297,7 @@ html[data-theme="dark"] body.capacitor-mobile .ai-head strong,
 html[data-theme="dark"] body.capacitor-mobile .ai-bubble .ai-h,
 html[data-theme="dark"] body.capacitor-mobile .ai-bubble .ai-pre code,
 html[data-theme="dark"] body.capacitor-mobile .ai-local .ai-bubble { color: #f1f5f9; }
+html[data-theme="dark"] body.capacitor-mobile .ai-msg.bot .ai-bubble { color: #e2e8f0; }
 html[data-theme="dark"] body.capacitor-mobile .ai-msg.user .ai-bubble,
 html[data-theme="dark"] body.capacitor-mobile .ai-retry,
 html[data-theme="dark"] body.capacitor-mobile .ai-chip {
