@@ -1,14 +1,15 @@
 # ============================================================================
-#  Machinist Toolbox - restore Android-only files (games + AI assistant)
+#  Machinist Toolbox - restore Android-only files (games + AI assistant + machining terms)
 #  ---------------------------------------------------------------------------
 #  Why: `npx cap sync android` (npm run sync) overwrites
 #       android/app/src/main/assets/public with the contents of www/.
 #       Only the latest mobile.js / mobile.css (with the AI clear-chat key
 #       under the search magnifier) are kept as master in www/, so they are
 #       copied back from android/game-backup/ after every sync.
-#       The Android-only files are mobile-game.js / mobile-game.css (games)
-#       and mobile-ai.js / mobile-ai.css (AI assistant); their four lines
-#       inside assets/public/index.html are lost by that sync.
+#       The Android-only files are mobile-game.js / mobile-game.css (games),
+#       mobile-terms.js / mobile-terms.css (machining terms + quiz) and
+#       mobile-ai.js / mobile-ai.css (AI assistant); their lines inside
+#       assets/public/index.html are lost by that sync.
 #
 #  What: copies the master files from www/ (the single source of truth, the same
 #       folder Capacitor syncs from) into android/app/src/main/assets/public/ and
@@ -35,7 +36,7 @@ $assets  = Join-Path $android 'app\src\main\assets\public'
 $index   = Join-Path $assets 'index.html'
 
 # فایل‌هایی که فقط مخصوص اندروید هستند و داخل www/ نگه‌داری می‌شوند
-$androidOnly = @('mobile.js', 'mobile.css', 'mobile-game.js', 'mobile-game.css', 'mobile-ai.js', 'mobile-ai.css')
+$androidOnly = @('mobile.js', 'mobile.css', 'mobile-game.js', 'mobile-game.css', 'mobile-terms.js', 'mobile-terms.css', 'mobile-ai.js', 'mobile-ai.css')
 
 Write-Host '== restore Android-only files: games + AI assistant =='
 if (-not (Test-Path -LiteralPath $assets)) { throw "assets folder not found: $assets" }
@@ -83,6 +84,18 @@ if ($html -notmatch 'mobile-ai\.css') {
 }
 if ($html -notmatch 'mobile-ai\.js') {
   $add = "`r`n  " + '<script src="mobile-ai.js" defer></script>'
+  $html = $html -replace '(<script src="mobile-game\.js" defer></script>)', ('$1' + $add)
+  $changed = $true
+}
+
+# --- اصطلاحات ماشین‌کاری (mobile-terms.css / mobile-terms.js) ---
+if ($html -notmatch 'mobile-terms\.css') {
+  $add = "`r`n  " + '<link rel="stylesheet" href="mobile-terms.css" />'
+  $html = $html -replace '(<link rel="stylesheet" href="mobile-game\.css" />)', ('$1' + $add)
+  $changed = $true
+}
+if ($html -notmatch 'mobile-terms\.js') {
+  $add = "`r`n  " + '<script src="mobile-terms.js" defer></script>'
   $html = $html -replace '(<script src="mobile-game\.js" defer></script>)', ('$1' + $add)
   $changed = $true
 }

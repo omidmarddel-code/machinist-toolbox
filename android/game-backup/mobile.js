@@ -13,6 +13,12 @@
   try {
     isPreview = new URLSearchParams(window.location.search).get('mobile') === 'preview';
   } catch (e) { /* noop */ }
+  // سیگنال بوت اندروید که index.html قبل از همه‌چیز روی <html> می‌گذارد.
+  // مهم: script.js با history.replaceState پارامتر ?mobile=preview را از URL پاک
+  // می‌کند؛ این کلاس تنها راه مطمئن تشخیص حالت پیش‌نمایش است.
+  try {
+    if (document.documentElement.classList.contains('android-boot')) isPreview = true;
+  } catch (e) { /* noop */ }
   // پیش‌نمایش داخل android-preview.html همیشه رابط موبایل را نشان بده
   var inFrame = false;
   try { inFrame = window.self !== window.top; } catch (e) { inFrame = true; }
@@ -25,8 +31,12 @@
 
 
   document.body.classList.add('capacitor-mobile');
-  document.documentElement.setAttribute('data-theme', 'light');
-  try { localStorage.setItem('theme', 'light'); } catch (e) {}
+  var initialTheme = 'light';
+  try {
+    var storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark' || storedTheme === 'light') initialTheme = storedTheme;
+  } catch (e) {}
+  document.documentElement.setAttribute('data-theme', initialTheme);
 
   var navHistory = [];
   var notesCard = document.querySelector('.notes-card');
@@ -39,6 +49,8 @@
   var giqState = null;    // وضعیت جاری تست هوش عمومی
   var capacitorApp = null;
   var lastBackAt = 0;
+  var lastHomeBackAt = 0;
+  var exitHintTimer = null;
 
   // Six home destinations — same actions as the mockup cards
   var HOME_TOOLS = {
@@ -46,6 +58,22 @@
     materials: 'materials',
     booklets: 'booklets',
     standards: 'standards'
+  };
+  var TAB_CONFIG_KEY = 'machinistMobileTabs';
+  var HOME_ORDER_KEY = 'machinistMobileHomeOrder';
+  var homeDragState = null;
+  var suppressHomeClickUntil = 0;
+  var TAB_OPTIONS = {
+    calculations: { icon: '🛠️', label: 'ابزارها' },
+    education: { icon: '📖', label: 'آموزش' },
+    notes: { icon: '📝', label: 'یادداشت' },
+    materials: { icon: '📚', label: 'متریال' },
+    contact: { icon: '👨‍💻', label: 'تماس' },
+    machiningTerms: { icon: '📚', label: 'اصطلاحات' },
+    programmingQuiz: { icon: '🎯', label: 'آزمون CNC' },
+    mechIq: { icon: '🧩', label: 'هوش مکانیک' },
+    generalIq: { icon: '🌍', label: 'هوش عمومی' },
+    calculator: { icon: '🧮', label: 'ماشین‌حساب' }
   };
 
   // ---------- آزمون برنامه‌نویسی: بانک سؤال (تراش Fanuc) ----------
@@ -556,17 +584,7 @@
       tabbar.setAttribute('dir', 'ltr');            // برچسب‌های انگلیسی از چپ به راست خوانده شوند
       document.body.appendChild(tabbar);
     }
-    tabbar.innerHTML =
-      tab('calculations', '🛠️', 'Tools') +
-      tab('education', '📖', 'Learn') +
-      tab('home', '⌂', 'Home') +
-      tab('notes', '📝', 'Notes') +
-      tab('materials', '📚', 'Material');
-
-    function tab(action, icon, label) {
-      return '<button class="tab" data-action="' + action + '" type="button" dir="ltr" aria-label="' + label + '">' +
-        '<span class="t-icon">' + icon + '</span><span>' + label + '</span></button>';
-    }
+    renderTabbar(tabbar);
 
     wireEvents(header, searchbar, searchResults, tabbar);
   }
@@ -591,9 +609,7 @@
       filterPanels(sInput.value.trim(), searchResults);
     });
 
-    tabbar.querySelectorAll('.tab').forEach(function (b) {
-      b.addEventListener('click', function () { go(b.dataset.action); });
-    });
+    bindTabbar(tabbar);
 
     bindPdfButtons();
     bindDesktopCards();
@@ -601,6 +617,36 @@
     // وضعیت اولیهٔ ذره‌بین + پیگیری تغییر صفحه (بدون polling و بدون حلقهٔ بی‌پایان)
     syncSearchAvailability();
     observeSearchAvailability();
+  }
+
+  function getTabConfig() {
+    var defaults = ['calculations', 'education', 'notes', 'materials'];
+    try {
+      var saved = JSON.parse(localStorage.getItem(TAB_CONFIG_KEY) || 'null');
+      if (Array.isArray(saved) && saved.length === 4 && saved.every(function (key, i) {
+        return !!TAB_OPTIONS[key] && saved.indexOf(key) === i;
+      })) return saved;
+    } catch (e) {}
+    return defaults;
+  }
+
+  function renderTabbar(tabbar) {
+    var keys = getTabConfig();
+    function tab(action, icon, label) {
+      return '<button class="tab" data-action="' + action + '" type="button" dir="rtl" aria-label="' + label + '">' +
+        '<span class="t-icon">' + icon + '</span><span>' + label + '</span></button>';
+    }
+    tabbar.innerHTML = keys.slice(0, 2).map(function (key) {
+      return tab(key, TAB_OPTIONS[key].icon, TAB_OPTIONS[key].label);
+    }).join('') + tab('home', '⌂', 'خانه') + keys.slice(2).map(function (key) {
+      return tab(key, TAB_OPTIONS[key].icon, TAB_OPTIONS[key].label);
+    }).join('');
+  }
+
+  function bindTabbar(tabbar) {
+    tabbar.querySelectorAll('.tab').forEach(function (b) {
+      b.addEventListener('click', function () { go(b.dataset.action); });
+    });
   }
 
   function normalizeSearchText(value) {
@@ -627,6 +673,8 @@
     if (quizCard && quizCard.classList.contains('active')) return false;
     if (iqCard && iqCard.classList.contains('active')) return false;
     if (giqCard && giqCard.classList.contains('active')) return false;
+    if (document.querySelector('.mobile-game.active')) return false;
+    if (document.querySelector('.mobile-terms.active')) return false;
     if (document.querySelector('.mobile-education-menu')) return false;
     if (document.querySelector('.scientific-calculator.mobile-open')) return false;
     var home = document.querySelector('.mobile-home');
@@ -765,20 +813,214 @@
         mCard('booklets', 'c-orange', '📖', 'CNC Books', 'کتاب‌های CNC') +
         mCard('materials', 'c-purple', '📚', 'Materials', 'متریال') +
         mCard('programmingTraining', 'c-yellow', '🧠', 'Programming', 'آموزش برنامه‌نویسی') +
+        '<button class="m-card c-terms" data-action="machiningTerms" data-tool="machiningTerms" type="button" aria-label="اصطلاحات ماشین‌کاری">' +
+          '<span class="m-drag-handle" aria-hidden="true">⠿</span><span class="m-icon">📚</span><span class="m-en">Machining Terms</span><span class="m-fa">اصطلاحات ماشین‌کاری</span>' +
+        '</button>' +
         mCard('programmingQuiz', 'c-teal', '🎯', 'Programming Quiz', 'آزمون برنامه‌نویسی') +
         mCard('mechIq', 'c-violet', '🧩', 'Mech IQ Test', 'تست هوش مهندسی مکانیک') +
         mCard('generalIq', 'c-sky', '🌍', 'General IQ Test', 'تست هوش عمومی استاندارد') +
         mCard('calculator', 'c-blue', '🧮', 'Calculator', 'ماشین‌حساب مهندسی') +
         mCard('contact', 'c-gray', '👨‍💻', 'Contact', 'تماس با ما') +
+        mCard('settings', 'c-gray', '⚙️', 'Settings', 'تنظیمات و شخصی‌سازی') +
       '</div>';
     ws.insertBefore(home, ws.firstChild);
+    window.MachinistMobileApplyHomeOrder = applyHomeOrder;
+    applyHomeOrder(home.querySelector('.mobile-grid'));
+    bindHomeReordering(home.querySelector('.mobile-grid'));
     home.querySelectorAll('.m-card').forEach(function (b) {
-      b.addEventListener('click', function () { go(b.dataset.action); });
+      if (b.dataset.action === 'machiningTerms') {
+        b.addEventListener('click', function (ev) {
+          if (Date.now() < suppressHomeClickUntil) { ev.preventDefault(); ev.stopImmediatePropagation(); return; }
+          ev.preventDefault();
+          ev.stopImmediatePropagation();
+          if (window.MachinistTerms && typeof window.MachinistTerms.open === 'function') {
+            window.MachinistTerms.open();
+            trackPanelChange();
+            return;
+          }
+          // Retry loading the feature on demand in case its deferred script failed
+          // or was unavailable during the initial page load.
+          var loader = document.createElement('script');
+          loader.src = new URL('mobile-terms.js?v=20261015-4', document.baseURI).href;
+          loader.onload = function () {
+            if (window.MachinistTerms && typeof window.MachinistTerms.open === 'function') {
+              window.MachinistTerms.open();
+              trackPanelChange();
+            } else {
+              window.alert('بخش اصطلاحات ماشین‌کاری بارگذاری نشد. صفحه را دوباره باز کنید.');
+            }
+          };
+          loader.onerror = function () {
+            window.alert('فایل اصطلاحات ماشین‌کاری پیدا نشد: ' + loader.src);
+          };
+          document.head.appendChild(loader);
+        });
+        return;
+      }
+      b.addEventListener('click', function (ev) {
+        if (Date.now() < suppressHomeClickUntil) { ev.preventDefault(); ev.stopImmediatePropagation(); return; }
+        go(b.dataset.action);
+      });
     });
+  }
+
+  function applyHomeOrder(grid) {
+    if (!grid) return;
+    var saved;
+    try { saved = JSON.parse(localStorage.getItem(HOME_ORDER_KEY) || '[]'); } catch (e) { saved = []; }
+    if (!Array.isArray(saved)) return;
+    var cards = {};
+    grid.querySelectorAll('.m-card').forEach(function (card) { cards[card.dataset.action] = card; });
+    saved.forEach(function (action) { if (cards[action]) { grid.appendChild(cards[action]); delete cards[action]; } });
+    Object.keys(cards).forEach(function (action) { grid.appendChild(cards[action]); });
+  }
+
+  function bindHomeReordering(grid) {
+    if (!grid) return;
+    grid.addEventListener('pointerdown', function (ev) {
+      var card = ev.target.closest('.m-card');
+      if (!card || ev.button > 0) return;
+      var state = { card: card, x: ev.clientX, y: ev.clientY, dragging: false, timer: null };
+      homeDragState = state;
+      try { card.setPointerCapture(ev.pointerId); } catch (e) {}
+      state.timer = setTimeout(function () {
+        if (homeDragState !== state) return;
+        state.dragging = true;
+        card.classList.add('dragging');
+        try { if (navigator.vibrate) navigator.vibrate(18); } catch (e) {}
+      }, 320);
+    });
+    grid.addEventListener('pointermove', function (ev) {
+      var state = homeDragState;
+      if (!state) return;
+      if (!state.dragging) {
+        if (Math.abs(ev.clientX - state.x) + Math.abs(ev.clientY - state.y) > 12) {
+          clearTimeout(state.timer); homeDragState = null;
+        }
+        return;
+      }
+      ev.preventDefault();
+      var over = document.elementFromPoint(ev.clientX, ev.clientY);
+      var target = over && over.closest ? over.closest('.m-card') : null;
+      if (!target || target === state.card || target.parentNode !== grid) return;
+      var rect = target.getBoundingClientRect();
+      var after = ev.clientY > rect.top + rect.height / 2;
+      grid.insertBefore(state.card, after ? target.nextSibling : target);
+    });
+    function finish() {
+      var state = homeDragState;
+      if (!state) return;
+      clearTimeout(state.timer);
+      if (state.dragging) {
+        state.card.classList.remove('dragging');
+        suppressHomeClickUntil = Date.now() + 600;
+        try { localStorage.setItem(HOME_ORDER_KEY, JSON.stringify(Array.prototype.map.call(grid.querySelectorAll('.m-card'), function (card) { return card.dataset.action; }))); } catch (e) {}
+      }
+      homeDragState = null;
+    }
+    grid.addEventListener('pointerup', finish);
+    grid.addEventListener('pointercancel', finish);
+    grid.addEventListener('contextmenu', function (ev) {
+      if (ev.target.closest('.m-card')) ev.preventDefault();
+    });
+  }
+
+  function applyMobileTheme(theme) {
+    theme = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    var panel = document.querySelector('.mobile-settings');
+    if (panel) panel.querySelectorAll('[data-theme-choice]').forEach(function (b) {
+      b.classList.toggle('selected', b.dataset.themeChoice === theme);
+    });
+  }
+
+  function buildSettingsPanel() {
+    var panel = document.querySelector('.mobile-settings');
+    if (panel) return panel;
+    var ws = document.querySelector('.workspace');
+    if (!ws) return null;
+    panel = el('section', 'tool-panel mobile-settings');
+    panel.dataset.panel = 'settings';
+    panel.hidden = true;
+    var config = getTabConfig();
+    var optionHtml = Object.keys(TAB_OPTIONS).map(function (key) {
+      return '<option value="' + key + '">' + TAB_OPTIONS[key].label + '</option>';
+    }).join('');
+    panel.innerHTML =
+      '<header class="ms-header"><button type="button" data-ms-action="home" aria-label="بازگشت به خانه">←</button>' +
+        '<div><h2>تنظیمات و شخصی‌سازی</h2><small>این تنظیمات روی همین دستگاه ذخیره می‌شوند</small></div></header>' +
+      '<div class="ms-content">' +
+        '<section class="ms-section"><h3>🎨 تم برنامه</h3><p>ظاهر روشن یا تیره را انتخاب کن.</p>' +
+          '<div class="ms-theme-row">' +
+            '<button type="button" data-theme-choice="light">☀️ روشن</button>' +
+            '<button type="button" data-theme-choice="dark">🌙 تیره</button>' +
+          '</div></section>' +
+        '<section class="ms-section"><h3>📌 منوی پایین</h3>' +
+          '<p>چهار میانبر دلخواهت را انتخاب کن؛ خانه همیشه وسط می‌ماند.</p>' +
+          '<div class="ms-slots">' + [0,1,2,3].map(function (i) {
+            return '<label><span>جایگاه ' + (i + 1) + '</span><select data-tab-slot="' + i + '">' + optionHtml + '</select></label>';
+          }).join('') + '</div>' +
+          '<p class="ms-help">برای جابه‌جایی کارت‌های خانه، روی کارت چند لحظه نگه دار و آن را بکش.</p>' +
+          '<button class="ms-save" type="button" data-ms-action="save">ذخیرهٔ منوی پایین</button>' +
+          '<p class="ms-status" aria-live="polite"></p>' +
+        '</section>' +
+      '</div>';
+    ws.insertBefore(panel, ws.firstChild);
+    panel.querySelectorAll('[data-tab-slot]').forEach(function (select) {
+      select.value = config[Number(select.dataset.tabSlot)];
+    });
+    panel.querySelectorAll('[data-theme-choice]').forEach(function (button) {
+      button.addEventListener('click', function () { applyMobileTheme(button.dataset.themeChoice); });
+    });
+    panel.addEventListener('click', function (ev) {
+      var action = ev.target.closest('[data-ms-action]');
+      if (!action) return;
+      if (action.dataset.msAction === 'home') { showHome(); return; }
+      if (action.dataset.msAction === 'save') saveTabConfig(panel);
+    });
+    applyMobileTheme(document.documentElement.getAttribute('data-theme'));
+    return panel;
+  }
+
+  function saveTabConfig(panel) {
+    var selects = panel.querySelectorAll('[data-tab-slot]');
+    var config = Array.prototype.map.call(selects, function (select) { return select.value; });
+    var status = panel.querySelector('.ms-status');
+    if (config.length !== 4 || new Set(config).size !== 4) {
+      if (status) status.textContent = 'هر میانبر باید متفاوت باشد؛ انتخاب‌ها را اصلاح کن.';
+      return;
+    }
+    try { localStorage.setItem(TAB_CONFIG_KEY, JSON.stringify(config)); } catch (e) {}
+    var tabbar = document.querySelector('.mobile-tabbar');
+    if (tabbar) { renderTabbar(tabbar); bindTabbar(tabbar); }
+    if (status) status.textContent = 'منوی پایین ذخیره شد.';
+    trackPanelChange();
+  }
+
+  function showSettings() {
+    var panel = buildSettingsPanel();
+    if (!panel) return;
+    document.querySelectorAll('.tool-panel').forEach(function (p) {
+      p.hidden = true; p.classList.remove('active');
+    });
+    hideHomePanels();
+    var home = document.querySelector('.mobile-home');
+    if (home) home.style.display = 'none';
+    var header = document.querySelector('.mobile-header-bar');
+    if (header) header.classList.add('search-off');
+    var searchbar = document.querySelector('.mobile-searchbar');
+    if (searchbar) searchbar.classList.remove('open');
+    panel.hidden = false;
+    panel.classList.add('active');
+    setActiveTab('none');
+    trackPanelChange();
+    window.scrollTo(0, 0);
   }
 
   function mCard(action, color, icon, en, fa) {
     return '<button class="m-card ' + color + '" data-action="' + action + '" type="button">' +
+      '<span class="m-drag-handle" aria-hidden="true">⠿</span>' +
       '<span class="m-icon">' + icon + '</span>' +
       '<span class="m-en">' + en + '</span>' +
       '<span class="m-fa">' + fa + '</span></button>';
@@ -1757,12 +1999,26 @@
       return;
     }
     var now = Date.now();
-    if (now - lastBackAt < 350) return;
+    if (now - lastBackAt < 150) return;
     lastBackAt = now;
+    var exitDialog = document.querySelector('.mobile-exit-confirm');
+    if (exitDialog) { exitDialog.remove(); return; }
     var educationMenu = document.querySelector('.mobile-education-menu');
     if (educationMenu) { educationMenu.remove(); return; }
     var sb = document.querySelector('.mobile-searchbar.open');
     if (sb) { closeSearchBar(); return; }
+    if (currentPanelKey() === 'home') {
+      if (now - lastHomeBackAt <= 2000) {
+        lastHomeBackAt = 0;
+        showExitConfirmation();
+        return;
+      }
+      lastHomeBackAt = now;
+      showExitHint();
+      window.scrollTo(0, 0);
+      return;
+    }
+    lastHomeBackAt = 0;
     // همگام‌سازی نهایی: هر تغییری که ثبت نشده، همین حالا ثبت شود
     trackPanelChange();
     // دقیقاً «یک قدم» عقب برو — ورودی‌های تکراری/بی‌اثر را رد کن تا Back هیچ‌وقت بی‌اثر نباشد
@@ -1774,11 +2030,41 @@
     if (target) { showPanelNoPush(target); return; }
     // چیزی برای برگشت نیست: اگر جای دیگری هستیم برو خانه، وگرنه فقط اسکرول به بالا
     if (currentPanelKey() !== 'home') { showPanelNoPush('home'); return; }
-    if (capacitorApp && typeof capacitorApp.exitApp === 'function') {
-      capacitorApp.exitApp();
-      return;
+  }
+
+  function showExitHint() {
+    var hint = document.querySelector('.mobile-exit-hint');
+    if (!hint) {
+      hint = el('div', 'mobile-exit-hint', 'برای خروج، دوباره دکمهٔ برگشت را بزنید');
+      document.body.appendChild(hint);
     }
-    window.scrollTo(0, 0);
+    hint.classList.add('visible');
+    if (exitHintTimer) clearTimeout(exitHintTimer);
+    exitHintTimer = setTimeout(function () {
+      hint.classList.remove('visible');
+      lastHomeBackAt = 0;
+    }, 2100);
+  }
+
+  function showExitConfirmation() {
+    var old = document.querySelector('.mobile-exit-confirm');
+    if (old) old.remove();
+    var modal = el('div', 'mobile-exit-confirm');
+    modal.innerHTML = '<div class="exit-dialog" role="dialog" aria-modal="true" aria-labelledby="exitDialogTitle">' +
+      '<div class="exit-dialog-icon">↩</div><h2 id="exitDialogTitle">خروج از برنامه</h2>' +
+      '<p>آیا می‌خواهید از برنامه خارج شوید؟</p><div class="exit-dialog-actions">' +
+      '<button type="button" data-exit-action="yes">بله، خارج شو</button>' +
+      '<button type="button" data-exit-action="no">خیر، ادامه می‌دهم</button></div></div>';
+    document.body.appendChild(modal);
+    modal.addEventListener('click', function (ev) {
+      if (ev.target === modal || (ev.target.closest && ev.target.closest('[data-exit-action="no"]'))) {
+        modal.remove(); return;
+      }
+      if (ev.target.closest && ev.target.closest('[data-exit-action="yes"]')) {
+        modal.remove();
+        if (capacitorApp && typeof capacitorApp.exitApp === 'function') capacitorApp.exitApp();
+      }
+    });
   }
   function go(action) {
     if (action === 'calculator') { showCalculator(); return; }
@@ -1787,11 +2073,20 @@
     closeQuiz();    // خروج از آزمون برنامه‌نویسی هم یک قدم است
     closeIq();      // خروج از تست هوش هم یک قدم است
     closeGiq();     // خروج از تست هوش عمومی هم یک قدم است
+    closeTerms();   // خروج از «اصطلاحات ماشین‌کاری» هم یک قدم است
     if (action === 'education') { showEducationMenu(); return; }
     if (action === 'notes') { showNotes(); return; }
     if (action === 'programmingQuiz') { showQuiz(); return; }
     if (action === 'mechIq') { showIq(); return; }
     if (action === 'generalIq') { showGiq(); return; }
+    if (action === 'machiningTerms') {
+      if (window.MachinistTerms && typeof window.MachinistTerms.open === 'function') {
+        window.MachinistTerms.open();
+        trackPanelChange(); // ورود به این صفحه در تاریخچه ثبت شود تا Back یک قدم برگردد
+      }
+      return;
+    }
+    if (action === 'settings') { showSettings(); return; }
     closeNotes();
     if (action === 'home') {
       // دکمه خانه: همیشه برگرد خونه (بدون دست‌کاری اضافه تاریخچه)
@@ -1830,6 +2125,12 @@
   function closeMobileCalculator() {
     var calculator = document.querySelector('.scientific-calculator');
     if (calculator) calculator.classList.remove('active', 'mobile-open');
+  }
+  // خروج از صفحهٔ «اصطلاحات ماشین‌کاری» = یک قدم (پنل خودش پنل ابزار است، پس فقط غیرفعال می‌شود)
+  function closeTerms() {
+    if (window.MachinistTerms && typeof window.MachinistTerms.close === 'function') {
+      window.MachinistTerms.close();
+    }
   }
   function showCalculator() {
     var calculator = document.querySelector('.scientific-calculator');

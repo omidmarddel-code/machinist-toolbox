@@ -11,8 +11,8 @@
  *   - لمس اعلان → باز شدن صفحهٔ Release برای دانلود APK.
  *   - قطع اینترنت یا در دسترس نبودن GitHub → سکوت، بدون خطا.
  *
- *  زمان بررسی: شروع برنامه + بازگشت به حالت فعال (resume).
- *  بررسی در حالت بستهٔ کامل برنامه: پیاده‌سازی نشده (طبق درخواست).
+ *  زمان بررسی: شروع برنامه + بازگشت به حالت فعال + هر ۱۰ دقیقه هنگام باز بودن.
+ *  بررسی در حالت بستهٔ کامل برنامه: امکان‌پذیر نیست؛ سیستم‌عامل برنامه را اجرا نمی‌کند.
  * ========================================================================== */
 
 (function () {
@@ -25,8 +25,9 @@
   var RELEASE_URL = 'https://github.com/' + OWNER + '/' + REPO + '/releases';
 
   var LS_SEEN = 'mtb_update_seen_assets';      // ["releaseId:assetId", ...]
-  var LS_LAST_CHECK = 'mtb_update_last_check'; // timestamp آخرین بررسی (cooldown)
-  var CHECK_COOLDOWN_MS = 60 * 60 * 1000;      // حداکثر یک بررسی در ساعت (API rate limit)
+  var LS_LAST_CHECK = 'mtb_update_last_check'; // timestamp آخرین بررسی
+  var CHECK_COOLDOWN_MS = 10 * 60 * 1000;      // جلوگیری از درخواست‌های پشت‌سرهم
+  var ACTIVE_POLL_MS = 10 * 60 * 1000;         // بررسی دوره‌ای هنگام باز بودن برنامه
 
   // --- ابزارها --------------------------------------------------------------------
   function isAndroidApp() {
@@ -56,17 +57,21 @@
 
   // --- دریافت آخرین Release --------------------------------------------------------
   function fetchLatestRelease() {
-    return fetch(API_URL, {
+    var controller = typeof AbortController === 'function' ? new AbortController() : null;
+    var timeout = controller ? setTimeout(function () { controller.abort(); }, 15000) : null;
+    var options = {
       method: 'GET',
       headers: { 'Accept': 'application/vnd.github+json' },
       cache: 'no-store'
-    }).then(function (res) {
+    };
+    if (controller) options.signal = controller.signal;
+    return fetch(API_URL, options).then(function (res) {
       if (!res.ok) {
         // 404 = هنوز هیچ Releases منتشر نشده؛ طبیعی است، اعلان نمی‌دهیم.
         throw new Error('HTTP ' + res.status);
       }
       return res.json();
-    });
+    }).finally(function () { if (timeout) clearTimeout(timeout); });
   }
 
   // جدیدترین APK داخل Release (در صورت چند فایل، بزرگ‌ترین asset_id)
@@ -289,6 +294,16 @@
         });
       }
     } catch (e) { /* بی‌خطا */ }
+
+    // اگر برنامه باز بماند و Release تازه‌ای منتشر شود، بدون بستن برنامه هم دیده شود.
+    if (isAndroidApp()) {
+      window.setInterval(function () {
+        if (!document.visibilityState || document.visibilityState === 'visible') checkForUpdate(false);
+      }, ACTIVE_POLL_MS);
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') checkForUpdate(false);
+      });
+    }
   }
 
   // --- شروع -----------------------------------------------------------------------------

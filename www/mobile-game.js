@@ -327,12 +327,14 @@
     card.dataset.tool = 'mechGame';
     card.setAttribute('aria-label', 'بازی‌های کارگاهی');
     card.innerHTML =
+      '<span class="m-drag-handle" aria-hidden="true">⠿</span>' +
       '<span class="m-icon">🎮</span>' +
       '<span class="m-en">Machinist Games</span>' +
       '<span class="m-fa">بازی</span>';
     card.addEventListener('click', function () { openGame(); });
     if (quizCard) grid.insertBefore(card, quizCard);
     else grid.appendChild(card);
+    if (typeof window.MachinistMobileApplyHomeOrder === 'function') window.MachinistMobileApplyHomeOrder(grid);
     return true;
   }
 
