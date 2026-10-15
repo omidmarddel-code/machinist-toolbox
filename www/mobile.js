@@ -682,7 +682,13 @@
     tabbar.dataset.mobileBound = 'true';
     tabbar.addEventListener('click', function (event) {
       var button = event.target.closest('.tab[data-action]');
-      if (button && tabbar.contains(button)) go(button.dataset.action);
+      if (button && tabbar.contains(button)) {
+        var action = button.dataset.action;
+        go(action);
+        // Some destinations use legacy navigation paths that clear the active
+        // tab. Keep the clicked item selected consistently, including edge tabs.
+        setActiveTab(action);
+      }
     });
   }
 
