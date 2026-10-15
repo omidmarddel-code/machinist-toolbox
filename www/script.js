@@ -37,7 +37,11 @@ const TOOL_SEO = {
   },
   programmingTraining: {
     title: "آموزش برنامه نویسی CNC | ماشین تول باکس",
-    description: "آموزش برنامه نویسی CNC شامل مسیرهای پایه و پیشرفته تراش CNC فانوک."
+    description: "آموزش برنامه نویسی CNC شامل مسیرهای پایه و پیشرفته تراش CNC فانوک و فرز HEIDENHAIN."
+  },
+  heidenhainProgramming: {
+    title: "آموزش برنامه‌نویسی HEIDENHAIN | ماشین تول باکس",
+    description: "دورهٔ گام‌به‌گام برنامه‌نویسی Klartext برای فرز HEIDENHAIN TNC 620 و TNC 640."
   },
   fanucLatheProgrammingBasic: {
     title: "برنامه نویسی تراش CNC فانوک (پایه) | ماشین تول باکس",
@@ -207,6 +211,10 @@ const PAGE_TITLES = {
   programmingTraining: {
     eyebrow: "آموزش CNC",
     title: "آموزش برنامه نویسی"
+  },
+  heidenhainProgramming: {
+    eyebrow: "دورهٔ گام‌به‌گام · HEIDENHAIN Klartext",
+    title: "برنامه‌نویسی فرز HEIDENHAIN"
   },
   fanucLatheProgrammingBasic: {
     eyebrow: "آموزش گام‌به‌گام CNC فانوک",
@@ -2072,6 +2080,23 @@ function setNotesVisible(visible) {
   notesCard.classList.toggle("active", visible);
   notesCard.style.display = visible ? "block" : "none";
 }
+
+// مقصدهای ویجت بومی اندروید؛ کلیدها از فهرست ثابت داخل ویجت می‌آیند.
+window.openToolFromWidget = function (tool) {
+  if (tool === "notes") {
+    setNotesVisible(true);
+    return true;
+  }
+  if (tool === "machiningTerms") {
+    const termsCard = document.querySelector('.mobile-home [data-tool="machiningTerms"]');
+    if (!termsCard) return false;
+    termsCard.click();
+    return true;
+  }
+  if (!PAGE_TITLES[tool]) return false;
+  switchTool(tool);
+  return true;
+};
 
 if (notesToggle) {
   notesToggle.addEventListener("click", () => {

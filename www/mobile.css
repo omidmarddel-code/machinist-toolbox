@@ -1063,6 +1063,41 @@ html[data-theme="dark"] body.capacitor-mobile .mobile-search-results .search-res
   background: #1e293b; border-color: #334155;
 }
 
+/* HEIDENHAIN course: readable lesson accordions and horizontally scrollable code. */
+body.capacitor-mobile .hh-lessons { display: grid; gap: 10px; margin: 14px 0; }
+body.capacitor-mobile .hh-lesson { padding: 0; }
+body.capacitor-mobile .hh-lesson > summary {
+  min-height: 58px; display: flex; align-items: center; position: relative;
+  padding: 10px 62px 10px 14px; list-style: none; cursor: pointer;
+}
+body.capacitor-mobile .hh-lesson > summary::-webkit-details-marker { display: none; }
+body.capacitor-mobile .hh-lesson > summary::after {
+  content: "＋"; margin-inline-start: auto; color: #0284c7; font-size: 1.15rem;
+}
+body.capacitor-mobile .hh-lesson[open] > summary::after { content: "−"; }
+body.capacitor-mobile .hh-lesson > summary > span:last-child { display: flex; flex-direction: column; gap: 3px; }
+body.capacitor-mobile .hh-lesson > summary b { color: #0f172a; line-height: 1.5; }
+body.capacitor-mobile .hh-lesson > summary small { color: #64748b; font-size: .76rem; }
+body.capacitor-mobile .hh-lesson-body { padding: 2px 14px 15px; border-top: 1px solid rgba(148,163,184,.2); }
+body.capacitor-mobile .hh-code {
+  direction: ltr; text-align: left; overflow-x: auto; white-space: pre;
+  margin: 10px 0; padding: 12px; border: 1px solid rgba(148,163,184,.25);
+  border-radius: 12px; background: rgba(15,23,42,.055); color: #172033;
+  font: .78rem/1.75 ui-monospace, Consolas, "Courier New", monospace;
+  -webkit-overflow-scrolling: touch;
+}
+body.capacitor-mobile .hh-code code { font: inherit; }
+body.capacitor-mobile .hh-sources a { color: #0369a1; overflow-wrap: anywhere; }
+body.capacitor-mobile .hh-sources li { margin: 8px 0; line-height: 1.75; }
+html[data-theme="dark"] body.capacitor-mobile .hh-lesson > summary b { color: #f1f5f9; }
+html[data-theme="dark"] body.capacitor-mobile .hh-lesson > summary small { color: #94a3b8; }
+html[data-theme="dark"] body.capacitor-mobile .hh-lesson > summary::after { color: #7dd3fc; }
+html[data-theme="dark"] body.capacitor-mobile .hh-lesson-body { border-color: rgba(148,163,184,.2); }
+html[data-theme="dark"] body.capacitor-mobile .hh-code {
+  background: rgba(2,6,23,.55); border-color: rgba(148,163,184,.25); color: #e2e8f0;
+}
+html[data-theme="dark"] body.capacitor-mobile .hh-sources a { color: #7dd3fc; }
+
 /* Final tab bar alignment and selected indicator, overriding legacy rules. */
 body.capacitor-mobile .mobile-tabbar {
   align-items: center !important;

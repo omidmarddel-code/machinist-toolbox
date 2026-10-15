@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -23,8 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends BridgeActivity {
+	static final String EXTRA_WIDGET_TOOL = "com.omid.machinisttoolbox.WIDGET_TOOL";
 	private WebView appWebView;
 	private boolean darkTheme = false;
+	private final Handler widgetRouteHandler = new Handler(Looper.getMainLooper());
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,30 @@ public class MainActivity extends BridgeActivity {
 		configurePdfOpening();
 		applyNativeTheme(false);
 		hideSystemBars();
+		routeWidgetIntent(getIntent(), 0);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+		routeWidgetIntent(intent, 0);
+	}
+
+	private void routeWidgetIntent(Intent intent, int attempt) {
+		if (intent == null || !intent.hasExtra(EXTRA_WIDGET_TOOL) || attempt > 30) return;
+		String tool = intent.getStringExtra(EXTRA_WIDGET_TOOL);
+		if (tool == null || !tool.matches("[A-Za-z0-9]+")) return;
+		if (appWebView == null) {
+			widgetRouteHandler.postDelayed(() -> routeWidgetIntent(intent, attempt + 1), 250);
+			return;
+		}
+		appWebView.evaluateJavascript(
+				"(function(){if(typeof window.openToolFromWidget==='function')return window.openToolFromWidget('" + tool + "')!==false;return false;})()",
+				result -> {
+					if ("true".equals(result)) intent.removeExtra(EXTRA_WIDGET_TOOL);
+					else widgetRouteHandler.postDelayed(() -> routeWidgetIntent(intent, attempt + 1), 250);
+				});
 	}
 
 	@Override

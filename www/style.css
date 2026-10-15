@@ -628,6 +628,30 @@ button {
   font-weight: 800;
 }
 
+.hh-lessons { display: grid; gap: 12px; margin: 16px 0; }
+.hh-lesson { padding: 0; }
+.hh-lesson > summary {
+  position: relative; display: flex; align-items: center; min-height: 62px;
+  padding: 12px 68px 12px 16px; cursor: pointer; list-style: none;
+}
+.hh-lesson > summary::-webkit-details-marker { display: none; }
+.hh-lesson > summary::after { content: "＋"; margin-inline-start: auto; color: var(--accent-2); font-size: 1.15rem; }
+.hh-lesson[open] > summary::after { content: "−"; }
+.hh-lesson > summary > span:last-child { display: flex; flex-direction: column; gap: 4px; }
+.hh-lesson > summary b { color: var(--text); }
+.hh-lesson > summary small { color: var(--muted); font-size: .8rem; }
+.hh-lesson-body { padding: 2px 18px 18px; border-top: 1px solid var(--line); }
+.hh-code {
+  direction: ltr; text-align: left; overflow-x: auto; white-space: pre;
+  margin: 12px 0; padding: 14px; border: 1px solid var(--line);
+  border-radius: 14px; background: var(--surface-strong); color: var(--text);
+  font: .86rem/1.8 ui-monospace, Consolas, "Courier New", monospace;
+  -webkit-overflow-scrolling: touch;
+}
+.hh-code code { font: inherit; }
+.hh-sources a { color: var(--accent-2); overflow-wrap: anywhere; }
+.hh-sources li { margin: 8px 0; line-height: 1.8; }
+
 .command-path {
   direction: ltr;
   margin: 12px 0;

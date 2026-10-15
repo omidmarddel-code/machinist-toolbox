@@ -139,7 +139,7 @@
     })();
   </script>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="mobile.css?v=20261015-18" />
+  <link rel="stylesheet" href="mobile.css?v=20261015-19" />
   <link rel="stylesheet" href="mobile-game.css?v=20261015-2" />
   <link rel="stylesheet" href="mobile-terms.css?v=20261015-6" />
   <link rel="stylesheet" href="mobile-ai.css?v=20261015-2" />
@@ -410,8 +410,17 @@
               <small>مرجع فارسی تراش CNC فانوک</small>
             </span>
           </button>
+          <button class="tool-card" data-tool="heidenhainProgramming" type="button">
+            <span class="tool-icon">🧭</span>
+            <span>
+              <strong>برنامه‌نویسی HEIDENHAIN (پایه تا پیشرفته)</strong>
+              <small>آموزش گام‌به‌گام Klartext برای فرز TNC 620 و TNC 640</small>
+            </span>
+          </button>
         </div>
       </section>
+      <section class="calculator-panel tool-panel hh-course" data-panel="heidenhainProgramming" id="heidenhainProgrammingPanel"
+        aria-labelledby="heidenhainProgrammingTitle" hidden></section>
       <section class="calculator-panel tool-panel fanuc-lathe-course" data-panel="fanucLatheProgrammingBasic"
         id="fanucLatheProgrammingBasicPanel" aria-labelledby="fanucLatheProgrammingBasicTitle">
         <div class="panel-header">
@@ -8365,6 +8374,7 @@ M99</code></pre>
   <script src="mobile-game.js?v=20261015-2" defer></script>
   <script src="mobile-terms.js?v=20261015-6" defer></script>
   <script src="mobile-ai.js?v=20261015-4" defer></script>
+  <script src="heidenhain-course.js?v=20261015-2" defer></script>
   <script src="update-notifier.js?v=20261015-1" defer></script>
   </div>
 </body>

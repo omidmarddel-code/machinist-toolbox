@@ -4,4 +4,6 @@
     <string name="title_activity_main">Machinist Toolbox</string>
     <string name="package_name">com.omid.machinisttoolbox</string>
     <string name="custom_url_scheme">com.omid.machinisttoolbox</string>
+    <string name="widget_name">جعبه‌ابزار ماشین‌کار</string>
+    <string name="widget_description">میان‌برهای آموزش، ماشین‌حساب، اصطلاحات و یادداشت</string>
 </resources>
