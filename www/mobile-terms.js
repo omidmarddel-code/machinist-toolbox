@@ -429,10 +429,15 @@
   function speakEnglish(text) {
     if (!text) return;
     try {
+      // Android WebView often has no usable Web Speech voice. Prefer Android's
+      // installed system TTS engine when the native bridge is available.
+      if (window.AndroidTTS && typeof window.AndroidTTS.speak === 'function') {
+        if (window.AndroidTTS.speak(String(text))) return;
+      }
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         var u = new SpeechSynthesisUtterance(String(text));
-        u.lang = 'en-US'; u.rate = 0.9;
+        u.lang = 'en-US'; u.rate = 0.82;
         window.speechSynthesis.speak(u);
       }
     } catch (e) { }

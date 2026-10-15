@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -23,12 +24,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
+import org.json.JSONObject;
 
 public class MainActivity extends BridgeActivity {
 	static final String EXTRA_WIDGET_TOOL = "com.omid.machinisttoolbox.WIDGET_TOOL";
 	private WebView appWebView;
 	private boolean darkTheme = false;
 	private final Handler widgetRouteHandler = new Handler(Looper.getMainLooper());
+	private TextToSpeech textToSpeech;
+	private volatile boolean textToSpeechReady = false;
+	private volatile boolean textToSpeechInitialized = false;
+	private String pendingSpeech;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,7 @@ public class MainActivity extends BridgeActivity {
 		applyNativeTheme(false);
 		hideSystemBars();
 		routeWidgetIntent(getIntent(), 0);
+		initializeTextToSpeech();
 	}
 
 	@Override
@@ -97,6 +105,58 @@ public class MainActivity extends BridgeActivity {
 		webView.setBackgroundColor(Color.rgb(241, 245, 249));
 		webView.addJavascriptInterface(new PdfBridge(), "AndroidPdf");
 		webView.addJavascriptInterface(new ThemeBridge(), "AndroidTheme");
+		webView.addJavascriptInterface(new AndroidTtsBridge(), "AndroidTTS");
+	}
+
+	private void initializeTextToSpeech() {
+		textToSpeech = new TextToSpeech(this, status -> {
+			if (status == TextToSpeech.SUCCESS && textToSpeech != null) {
+				int languageStatus = textToSpeech.setLanguage(Locale.US);
+				textToSpeechReady = languageStatus >= TextToSpeech.LANG_AVAILABLE;
+			}
+			textToSpeechInitialized = true;
+			if (textToSpeechReady && pendingSpeech != null) {
+				String phrase = pendingSpeech;
+				pendingSpeech = null;
+				textToSpeech.speak(phrase, TextToSpeech.QUEUE_FLUSH, null, "machining-term");
+			} else if (pendingSpeech != null) {
+				String phrase = pendingSpeech;
+				pendingSpeech = null;
+				String script = "(function(t){if(!('speechSynthesis' in window))return;var u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.82;window.speechSynthesis.speak(u);})(" + JSONObject.quote(phrase) + ")";
+				if (appWebView != null) appWebView.post(() -> appWebView.evaluateJavascript(script, null));
+			}
+		});
+	}
+
+	private class AndroidTtsBridge {
+		@JavascriptInterface
+		public boolean speak(String phrase) {
+			if (phrase == null || phrase.trim().isEmpty()) return false;
+			boolean canSpeak = textToSpeechReady || !textToSpeechInitialized;
+			if (!canSpeak) return false;
+			String safePhrase = phrase.trim();
+			if (safePhrase.length() > 120) safePhrase = safePhrase.substring(0, 120);
+			final String text = safePhrase;
+			runOnUiThread(() -> {
+				if (textToSpeechReady && textToSpeech != null) {
+					textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null,
+							"machining-term-" + System.currentTimeMillis());
+				} else if (!textToSpeechInitialized) {
+					pendingSpeech = text;
+				}
+			});
+			return true;
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		if (textToSpeech != null) {
+			textToSpeech.stop();
+			textToSpeech.shutdown();
+			textToSpeech = null;
+		}
+		super.onDestroy();
 	}
 
 	private void applyNativeTheme(boolean dark) {
