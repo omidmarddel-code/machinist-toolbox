@@ -783,3 +783,110 @@ body.capacitor-mobile .mobile-iq .mq-dom-bar span {
   display: block; height: 100%; border-radius: 999px;
   background: linear-gradient(90deg, #8b5cf6, #0ea5e9);
 }
+
+/* Lightweight liquid-glass refresh for the Android shell */
+body.capacitor-mobile {
+  background:
+    radial-gradient(ellipse at 8% 10%, rgba(45, 212, 191, .2), transparent 35%),
+    radial-gradient(ellipse at 92% 28%, rgba(96, 165, 250, .2), transparent 38%),
+    radial-gradient(ellipse at 48% 95%, rgba(196, 181, 253, .18), transparent 40%),
+    linear-gradient(155deg, #f8fbff 0%, #eaf2fb 52%, #f5f7fc 100%) !important;
+}
+html[data-theme="dark"] body.capacitor-mobile {
+  background:
+    radial-gradient(ellipse at 8% 8%, rgba(13, 148, 136, .2), transparent 36%),
+    radial-gradient(ellipse at 92% 24%, rgba(37, 99, 235, .19), transparent 40%),
+    linear-gradient(155deg, #101827 0%, #0b1220 55%, #111827 100%) !important;
+}
+body.capacitor-mobile .mobile-hero { padding-top: 24px; }
+body.capacitor-mobile .mobile-hero h2 {
+  letter-spacing: -.045em;
+  text-shadow: 0 4px 22px rgba(14, 116, 144, .12);
+}
+body.capacitor-mobile .mobile-grid { gap: 12px; padding-top: 20px; }
+body.capacitor-mobile .m-card {
+  min-height: 142px; border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, .78);
+  background:
+    radial-gradient(ellipse at 14% 0%, rgba(255,255,255,.9), transparent 58%),
+    linear-gradient(145deg, rgba(255,255,255,.76), rgba(255,255,255,.43));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.92), inset 0 -1px 0 rgba(255,255,255,.24),
+    0 10px 25px rgba(51,65,85,.08);
+  backdrop-filter: blur(9px) saturate(135%);
+  -webkit-backdrop-filter: blur(9px) saturate(135%);
+  transition: transform .24s cubic-bezier(.2,.75,.25,1), box-shadow .24s ease, border-color .24s ease;
+  animation: glassCardIn .42s cubic-bezier(.2,.75,.25,1) both;
+}
+body.capacitor-mobile .m-card:nth-child(2n) { animation-delay: .035s; }
+body.capacitor-mobile .m-card:active {
+  transform: translateY(2px) scale(.975);
+  border-color: rgba(14,165,233,.46);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 5px 14px rgba(14,116,144,.12);
+}
+body.capacitor-mobile .m-card .m-icon { filter: drop-shadow(0 3px 5px rgba(15,23,42,.1)); }
+body.capacitor-mobile .m-card .m-drag-handle {
+  border: 1px solid rgba(255,255,255,.55);
+  background: rgba(255,255,255,.4); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+}
+html[data-theme="dark"] body.capacitor-mobile .m-card {
+  background:
+    radial-gradient(ellipse at 14% 0%, rgba(148,163,184,.16), transparent 58%),
+    linear-gradient(145deg, rgba(51,65,85,.72), rgba(20,30,48,.68));
+  border-color: rgba(203,213,225,.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 12px 28px rgba(0,0,0,.2);
+}
+body.capacitor-mobile .mobile-tabbar {
+  margin: 0 10px calc(7px + env(safe-area-inset-bottom, 0px));
+  width: calc(100% - 20px); left: 0; right: 0; bottom: 0;
+  border: 1px solid rgba(255,255,255,.74); border-bottom: 1px solid rgba(255,255,255,.74);
+  border-radius: 24px; padding: 7px 5px calc(8px + env(safe-area-inset-bottom, 0px));
+  background: rgba(248,251,255,.76);
+  box-shadow: 0 8px 28px rgba(30,41,59,.12), inset 0 1px 0 rgba(255,255,255,.96);
+  backdrop-filter: blur(14px) saturate(145%); -webkit-backdrop-filter: blur(14px) saturate(145%);
+  animation: glassBarIn .38s cubic-bezier(.2,.75,.25,1) both;
+}
+html[data-theme="dark"] body.capacitor-mobile .mobile-tabbar {
+  background: rgba(15,23,42,.78); border-color: rgba(203,213,225,.16);
+  box-shadow: 0 8px 28px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.1);
+}
+body.capacitor-mobile .mobile-tabbar .tab { border-radius: 16px; }
+body.capacitor-mobile .mobile-tabbar .tab.active { background: rgba(14,165,233,.12); }
+body.capacitor-mobile .mobile-tabbar .tab[data-action="home"] .t-icon {
+  border-radius: 14px; background: linear-gradient(145deg, rgba(56,189,248,.18), rgba(99,102,241,.12));
+}
+body.capacitor-mobile .mobile-header-bar {
+  border-radius: 0 0 22px 22px; background: rgba(248,251,255,.76);
+  border-color: rgba(255,255,255,.7); box-shadow: 0 5px 22px rgba(30,41,59,.07);
+  backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+html[data-theme="dark"] body.capacitor-mobile .mobile-header-bar {
+  background: rgba(15,23,42,.78); border-color: rgba(203,213,225,.14);
+}
+body.capacitor-mobile .mobile-searchbar,
+body.capacitor-mobile .mobile-search-results,
+body.capacitor-mobile .mobile-education-menu,
+body.capacitor-mobile .ms-section {
+  border: 1px solid rgba(255,255,255,.7); border-radius: 22px;
+  box-shadow: 0 12px 30px rgba(30,41,59,.1), inset 0 1px 0 rgba(255,255,255,.82);
+}
+body.capacitor-mobile .mobile-searchbar,
+body.capacitor-mobile .mobile-search-results,
+body.capacitor-mobile .mobile-education-menu {
+  backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+body.capacitor-mobile .ms-section { background: rgba(255,255,255,.72); }
+html[data-theme="dark"] body.capacitor-mobile .ms-section {
+  background: rgba(23,32,51,.8); border-color: rgba(203,213,225,.13);
+}
+@keyframes glassCardIn {
+  from { opacity: 0; transform: translateY(8px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes glassBarIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.capacitor-mobile .m-card,
+  body.capacitor-mobile .mobile-tabbar { animation: none; }
+}

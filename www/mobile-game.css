@@ -342,3 +342,89 @@ body.capacitor-mobile .mg-recieve b { color: #dc2626; }
   body.capacitor-mobile .mg-chuck { animation: none; }
   body.capacitor-mobile .mg-sheet { animation: none; }
 }
+
+/* Dark theme surfaces for the full game flow */
+html[data-theme="dark"] body.capacitor-mobile .mobile-game.active {
+  background:
+    radial-gradient(ellipse at 8% 8%, rgba(13,148,136,.18), transparent 36%),
+    radial-gradient(ellipse at 94% 26%, rgba(37,99,235,.16), transparent 40%),
+    linear-gradient(155deg, #101827 0%, #0b1220 55%, #111827 100%);
+  color: #e2e8f0;
+}
+html[data-theme="dark"] body.capacitor-mobile .mg-head strong,
+html[data-theme="dark"] body.capacitor-mobile .mg-hub-intro h3,
+html[data-theme="dark"] body.capacitor-mobile .mg-hub-title,
+html[data-theme="dark"] body.capacitor-mobile .mc-chip b,
+html[data-theme="dark"] body.capacitor-mobile .mg-chip b,
+html[data-theme="dark"] body.capacitor-mobile .mg-job-row b,
+html[data-theme="dark"] body.capacitor-mobile .mc-target-name,
+html[data-theme="dark"] body.capacitor-mobile .mg-summary b,
+html[data-theme="dark"] body.capacitor-mobile .mg-sheet h2 { color: #f1f5f9; }
+html[data-theme="dark"] body.capacitor-mobile .mg-head small,
+html[data-theme="dark"] body.capacitor-mobile .mg-hub-intro p,
+html[data-theme="dark"] body.capacitor-mobile .mg-hub-desc,
+html[data-theme="dark"] body.capacitor-mobile .mc-chip span,
+html[data-theme="dark"] body.capacitor-mobile .mg-chip span,
+html[data-theme="dark"] body.capacitor-mobile .mg-job-row span,
+html[data-theme="dark"] body.capacitor-mobile .mg-dro-label,
+html[data-theme="dark"] body.capacitor-mobile .mg-dev,
+html[data-theme="dark"] body.capacitor-mobile .mg-legend span,
+html[data-theme="dark"] body.capacitor-mobile .mg-summary span { color: #a8b6ca; }
+html[data-theme="dark"] body.capacitor-mobile .mg-close,
+html[data-theme="dark"] body.capacitor-mobile .mg-sound,
+html[data-theme="dark"] body.capacitor-mobile .mg-back-hub,
+html[data-theme="dark"] body.capacitor-mobile .mg-hub-card,
+html[data-theme="dark"] body.capacitor-mobile .mc-chip,
+html[data-theme="dark"] body.capacitor-mobile .mg-chip,
+html[data-theme="dark"] body.capacitor-mobile .mg-dro,
+html[data-theme="dark"] body.capacitor-mobile .mg-status,
+html[data-theme="dark"] body.capacitor-mobile .mg-summary div,
+html[data-theme="dark"] body.capacitor-mobile .mg-btn.ghost {
+  background: rgba(30,41,59,.82);
+  border-color: rgba(148,163,184,.24);
+  color: #e2e8f0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 8px 20px rgba(0,0,0,.16);
+}
+html[data-theme="dark"] body.capacitor-mobile .mg-hub-card.game-cannon {
+  background: linear-gradient(135deg, rgba(159,18,57,.34), rgba(30,41,59,.9) 76%);
+  border-color: rgba(251,113,133,.32);
+}
+html[data-theme="dark"] body.capacitor-mobile .mg-hub-card.game-lathe {
+  background: linear-gradient(135deg, rgba(3,105,161,.32), rgba(30,41,59,.9) 76%);
+  border-color: rgba(56,189,248,.32);
+}
+html[data-theme="dark"] body.capacitor-mobile .mg-hub-icon {
+  background: rgba(15,23,42,.76); border-color: rgba(148,163,184,.25);
+}
+html[data-theme="dark"] body.capacitor-mobile .mc-target-banner {
+  background: linear-gradient(135deg, rgba(159,18,57,.28), rgba(127,29,29,.12));
+  border-color: rgba(251,113,133,.28);
+}
+html[data-theme="dark"] body.capacitor-mobile .mc-target-hint { color: #fda4af; }
+html[data-theme="dark"] body.capacitor-mobile .mc-target-desc { color: #cbd5e1; }
+html[data-theme="dark"] body.capacitor-mobile .mc-arena-wrap {
+  background: radial-gradient(circle at 50% 90%, #334155 0%, #1e293b 70%, #172554 100%);
+  border-color: rgba(148,163,184,.3); box-shadow: inset 0 0 30px rgba(0,0,0,.24);
+}
+html[data-theme="dark"] body.capacitor-mobile .mg-job {
+  background: linear-gradient(135deg, rgba(14,116,144,.2), rgba(159,18,57,.13));
+  border-color: rgba(148,163,184,.25);
+}
+html[data-theme="dark"] body.capacitor-mobile .mg-dro { background: rgba(30,41,59,.82); }
+html[data-theme="dark"] body.capacitor-mobile .mg-bar { background: rgba(2,6,23,.5); border-color: rgba(148,163,184,.28); }
+html[data-theme="dark"] body.capacitor-mobile .mg-status.good { background: rgba(22,101,52,.28); color: #bbf7d0; border-color: rgba(74,222,128,.35); }
+html[data-theme="dark"] body.capacitor-mobile .mg-status.warn { background: rgba(146,64,14,.28); color: #fde68a; border-color: rgba(251,191,36,.35); }
+html[data-theme="dark"] body.capacitor-mobile .mg-status.bad { background: rgba(153,27,27,.28); color: #fecaca; border-color: rgba(248,113,113,.35); }
+html[data-theme="dark"] body.capacitor-mobile .mg-overlay { background: rgba(2,6,23,.72); }
+html[data-theme="dark"] body.capacitor-mobile .mg-sheet {
+  background: linear-gradient(160deg, #1e293b, #111827 82%);
+  color: #e2e8f0; border-color: rgba(203,213,225,.18);
+  box-shadow: 0 24px 60px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.08);
+}
+html[data-theme="dark"] body.capacitor-mobile .mg-sheet p,
+html[data-theme="dark"] body.capacitor-mobile .mg-recieve { color: #cbd5e1; }
+html[data-theme="dark"] body.capacitor-mobile .mg-rules li {
+  background: rgba(15,23,42,.78); border-color: rgba(148,163,184,.2); color: #dbeafe;
+}
+html[data-theme="dark"] body.capacitor-mobile .mg-summary div { background: rgba(15,23,42,.72); }
+html[data-theme="dark"] body.capacitor-mobile .mg-btn.primary { color: #f0f9ff; }

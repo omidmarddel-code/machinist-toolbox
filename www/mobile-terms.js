@@ -313,6 +313,7 @@
   var PANEL_KEY = 'machiningTerms';
   var BEST_KEY = 'mechTermsBest';
   var MUTE_KEY = 'mechTermsMuted';
+  var LEARN_PROGRESS_KEY = 'mechTermsLearnProgress';
   var ROUND_LENGTH = 10;        // تعداد سؤال در هر دور آزمون
 
   // ---------- وضعیت ----------
@@ -560,14 +561,43 @@
   }
 
   function startLearn() {
-    shuffleCards();
+    var saved = null;
+    try { saved = JSON.parse(storageGet(LEARN_PROGRESS_KEY, 'null')); } catch (e) { saved = null; }
+    var restored = !!(saved && saved.version === TERMS.length && Array.isArray(saved.deck) &&
+      saved.deck.length && saved.deck.every(function (index) {
+        return Number.isInteger(index) && index >= 0 && index < TERMS.length;
+      }) && Number.isInteger(saved.index) && saved.index >= 0 && saved.index < saved.deck.length);
+    if (restored) {
+      activeCat = saved.category || 'all';
+      query = saved.query || '';
+      var search = screen.querySelector('.mt-search-input');
+      var category = screen.querySelector('.mt-category-select');
+      if (search) search.value = query;
+      if (category) category.value = activeCat;
+      cardState = { deck: saved.deck, index: saved.index, flipped: !!saved.flipped };
+    } else {
+      shuffleCards();
+    }
     showView('learn');
     renderFlashcard();
+  }
+
+  function saveLearnProgress() {
+    if (!cardState || !cardState.deck || !cardState.deck.length) return;
+    storageSet(LEARN_PROGRESS_KEY, JSON.stringify({
+      version: TERMS.length,
+      deck: cardState.deck,
+      index: cardState.index,
+      flipped: cardState.flipped,
+      category: activeCat,
+      query: query
+    }));
   }
 
   function renderFlashcard() {
     if (!cardState) return;
     if (cardState.deck.length && cardState.index >= cardState.deck.length) cardState.index = 0;
+    saveLearnProgress();
     var item = cardState.deck.length ? TERMS[cardState.deck[cardState.index]] : null;
     var counter = screen.querySelector('.mt-learn-counter');
     var fill = screen.querySelector('.mt-learn-fill');
@@ -843,13 +873,13 @@
       if (!ev.target || !ev.target.classList.contains('mt-search-input')) return;
       query = ev.target.value;
       var learnView = screen.querySelector('.mt-learn-view');
-      if (learnView && !learnView.hidden) startLearn();
+      if (learnView && !learnView.hidden) { shuffleCards(); renderFlashcard(); }
     });
     screen.addEventListener('change', function (ev) {
       if (!ev.target || !ev.target.classList.contains('mt-category-select')) return;
       activeCat = ev.target.value || 'all';
       var learnView = screen.querySelector('.mt-learn-view');
-      if (learnView && !learnView.hidden) startLearn();
+      if (learnView && !learnView.hidden) { shuffleCards(); renderFlashcard(); }
     });
 
     // باز/بسته شدن پنل از مسیرهای دیگر (تب، دکمهٔ Back) اینجا مدیریت می‌شود
