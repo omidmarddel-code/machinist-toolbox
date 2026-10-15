@@ -820,15 +820,35 @@
     refs.clear = screen.querySelector('.ai-clear');
   }
 
-  // کارت صفحهٔ اصلی: دیگر ساخته نمی‌شود — دستیار فقط از تب پایین در دسترس است.
-  // اگر از نسخه‌های قبلی کارتی روی صفحه مانده باشد، پاک می‌شود.
+  // کارت دستیار هم مثل بقیهٔ میانبرهای خانه قابل نمایش/مخفی‌کردن از تنظیمات است.
   function removeHomeCard() {
-    var cards = document.querySelectorAll('.mobile-grid [data-tool="' + PANEL_KEY + '"]');
-    for (var i = 0; i < cards.length; i++) {
-      if (cards[i].parentNode) cards[i].parentNode.removeChild(cards[i]);
-    }
     var grid = document.querySelector('.mobile-home .mobile-grid');
-    return !grid || !grid.querySelector('[data-tool="' + PANEL_KEY + '"]');
+    if (!grid) return false;
+    var card = grid.querySelector('[data-tool="' + PANEL_KEY + '"]');
+    if (!card) {
+      card = makeEl('button', 'm-card c-ai');
+      card.type = 'button';
+      card.dataset.action = PANEL_KEY;
+      card.dataset.tool = PANEL_KEY;
+      card.setAttribute('aria-label', 'هوش مصنوعی');
+      card.innerHTML = '<span class="m-icon">🤖</span>' +
+        '<span class="m-en">AI Assistant</span><span class="m-fa">هوش مصنوعی</span>';
+      var settingsCard = grid.querySelector('[data-action="settings"]');
+      grid.insertBefore(card, settingsCard || null);
+    }
+    if (!card._machinistAiHomeBound) {
+      card._machinistAiHomeBound = true;
+      card.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (isActive()) return;
+        openAi();
+      });
+    }
+    if (typeof window.MachinistMobileApplyHomeVisibility === 'function') {
+      window.MachinistMobileApplyHomeVisibility(grid);
+    }
+    return true;
   }
 
   // تب پایین: جای «متریال» را می‌گیرد (خودِ متریال از کارت صفحهٔ اصلی در دسترس می‌ماند)

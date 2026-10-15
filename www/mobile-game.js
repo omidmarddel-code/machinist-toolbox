@@ -363,7 +363,9 @@
     var rect = cannon.refs.arenaWrap.getBoundingClientRect();
     var w = Math.floor(rect.width) || 320;
     var h = Math.floor(rect.height) || 360;
-    var dpr = window.devicePixelRatio || 1;
+    // Avoid huge backing stores on high-density phones; 1.5x remains crisp
+    // while cutting per-frame canvas work substantially on low-end devices.
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     cannon.canvas.width = w * dpr;
     cannon.canvas.height = h * dpr;
     if (cannon.ctx) {
@@ -763,11 +765,6 @@
 
     ctx.clearRect(0, 0, w, h);
 
-    ctx.strokeStyle = 'rgba(100, 116, 139, 0.14)';
-    ctx.lineWidth = 1;
-    for (var x = 0; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-    for (var y = 0; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
-
     for (var i = 0; i < cannon.options.length; i++) {
       var opt = cannon.options[i];
       var isTarget = opt.mat.id === cannon.target.id;
@@ -782,10 +779,7 @@
       ctx.beginPath();
       ctx.arc(0, 0, opt.r, 0, Math.PI * 2);
       ctx.fillStyle = opt.mat.color;
-      ctx.shadowColor = opt.mat.color;
-      ctx.shadowBlur = 12;
       ctx.fill();
-      ctx.shadowBlur = 0;
       ctx.lineWidth = 2;
       ctx.strokeStyle = '#ffffff';
       ctx.stroke();
@@ -869,10 +863,7 @@
       ctx.beginPath();
       ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
       ctx.fillStyle = '#fbbf24';
-      ctx.shadowColor = '#f59e0b';
-      ctx.shadowBlur = 10;
       ctx.fill();
-      ctx.shadowBlur = 0;
       ctx.lineWidth = 2;
       ctx.strokeStyle = '#ffffff';
       ctx.stroke();

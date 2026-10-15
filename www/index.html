@@ -130,16 +130,19 @@
       try { isPreview = isPreview || window.self !== window.top; } catch (e) { isPreview = true; }
       if (isAndroid || isPreview) root.classList.add('android-boot');
       try {
-        var savedTheme = localStorage.getItem('theme');
-        if (savedTheme) root.setAttribute('data-theme', savedTheme);
+        var savedTheme = localStorage.getItem('theme') || 'light';
+        root.setAttribute('data-theme', savedTheme);
+        if (window.AndroidTheme && typeof window.AndroidTheme.setDark === 'function') {
+          window.AndroidTheme.setDark(savedTheme === 'dark');
+        }
       } catch (e) {}
     })();
   </script>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="mobile.css?v=20261015-8" />
+  <link rel="stylesheet" href="mobile.css?v=20261015-12" />
   <link rel="stylesheet" href="mobile-game.css?v=20261015-2" />
   <link rel="stylesheet" href="mobile-terms.css?v=20261015-5" />
-  <link rel="stylesheet" href="mobile-ai.css?v=20261008" />
+  <link rel="stylesheet" href="mobile-ai.css?v=20261015-1" />
   <script>
     (function () {
       try {
@@ -8358,10 +8361,10 @@ M99</code></pre>
   </div>
 
   <script src="script.js" defer></script>
-  <script src="mobile.js?v=20261015-15" defer></script>
-  <script src="mobile-game.js?v=20261015-1" defer></script>
+  <script src="mobile.js?v=20261015-17" defer></script>
+  <script src="mobile-game.js?v=20261015-2" defer></script>
   <script src="mobile-terms.js?v=20261015-5" defer></script>
-  <script src="mobile-ai.js?v=20261008" defer></script>
+  <script src="mobile-ai.js?v=20261015-2" defer></script>
   <script src="update-notifier.js?v=20261015-1" defer></script>
   </div>
 </body>

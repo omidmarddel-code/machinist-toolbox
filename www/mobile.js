@@ -37,6 +37,11 @@
     if (storedTheme === 'dark' || storedTheme === 'light') initialTheme = storedTheme;
   } catch (e) {}
   document.documentElement.setAttribute('data-theme', initialTheme);
+  try {
+    if (window.AndroidTheme && typeof window.AndroidTheme.setDark === 'function') {
+      window.AndroidTheme.setDark(initialTheme === 'dark');
+    }
+  } catch (e) {}
   var LANGUAGE_KEY = 'machinistMobileLanguage';
   var currentLanguage = 'fa';
   try {
@@ -860,6 +865,7 @@
     window.MachinistMobileApplyHomeOrder = applyHomeOrder;
     applyHomeOrder(home.querySelector('.mobile-grid'));
     applyHomeVisibility(home.querySelector('.mobile-grid'));
+    window.MachinistMobileApplyHomeVisibility = applyHomeVisibility;
     bindHomeReordering(home.querySelector('.mobile-grid'));
     home.querySelectorAll('.m-card').forEach(function (b) {
       if (b.dataset.action === 'machiningTerms') {
@@ -989,6 +995,11 @@
     theme = theme === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', theme);
     try { localStorage.setItem('theme', theme); } catch (e) {}
+    try {
+      if (window.AndroidTheme && typeof window.AndroidTheme.setDark === 'function') {
+        window.AndroidTheme.setDark(theme === 'dark');
+      }
+    } catch (e) {}
     var panel = document.querySelector('.mobile-settings');
     if (panel) panel.querySelectorAll('[data-theme-choice]').forEach(function (b) {
       b.classList.toggle('selected', b.dataset.themeChoice === theme);

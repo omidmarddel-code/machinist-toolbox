@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -21,11 +23,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MainActivity extends BridgeActivity {
+	private WebView appWebView;
+	private boolean darkTheme = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		configurePdfOpening();
+		applyNativeTheme(false);
 		hideSystemBars();
 	}
 
@@ -51,17 +56,54 @@ public class MainActivity extends BridgeActivity {
 					View.SYSTEM_UI_FLAG_FULLSCREEN
 							| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 							| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-							| View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+							| (darkTheme ? 0 : View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR)
 			);
 		}
-		getWindow().setNavigationBarColor(android.graphics.Color.rgb(242, 244, 248));
+		updateNavigationBarTheme();
 	}
 
 	private void configurePdfOpening() {
 		WebView webView = getBridge().getWebView();
+		appWebView = webView;
 		// Match the mobile boot background so the desktop page cannot flash white.
-		webView.setBackgroundColor(android.graphics.Color.rgb(241, 245, 249));
+		webView.setBackgroundColor(Color.rgb(241, 245, 249));
 		webView.addJavascriptInterface(new PdfBridge(), "AndroidPdf");
+		webView.addJavascriptInterface(new ThemeBridge(), "AndroidTheme");
+	}
+
+	private void applyNativeTheme(boolean dark) {
+		darkTheme = dark;
+		runOnUiThread(() -> {
+			int background = dark ? Color.rgb(11, 18, 32) : Color.rgb(241, 245, 249);
+			getWindow().setBackgroundDrawable(new ColorDrawable(background));
+			if (appWebView != null) appWebView.setBackgroundColor(background);
+			updateNavigationBarTheme();
+		});
+	}
+
+	private void updateNavigationBarTheme() {
+		getWindow().setNavigationBarColor(darkTheme ? Color.rgb(11, 18, 32) : Color.rgb(242, 244, 248));
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			WindowInsetsController controller = getWindow().getInsetsController();
+			if (controller != null) {
+				int lightBars = darkTheme ? 0 : WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS;
+				controller.setSystemBarsAppearance(lightBars, WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);
+			}
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			View decor = getWindow().getDecorView();
+			int flags = decor.getSystemUiVisibility();
+			flags = darkTheme
+					? flags & ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+					: flags | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+			decor.setSystemUiVisibility(flags);
+		}
+	}
+
+	private class ThemeBridge {
+		@JavascriptInterface
+		public void setDark(boolean dark) {
+			applyNativeTheme(dark);
+		}
 	}
 
 	private class PdfBridge {
