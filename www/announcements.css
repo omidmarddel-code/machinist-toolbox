@@ -1,0 +1,29 @@
+.remote-announcement {
+  position: fixed;
+  z-index: 100000;
+  top: max(12px, env(safe-area-inset-top));
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  direction: rtl;
+  padding: 14px 16px;
+  border: 1px solid rgba(125, 211, 252, .42);
+  border-radius: 18px;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, .96);
+  box-shadow: 0 16px 44px rgba(2, 6, 23, .3);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-24px) scale(.98);
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .22s ease;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.remote-announcement.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+.remote-announcement-icon { font-size: 1.4rem; }
+.remote-announcement-copy { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.remote-announcement-copy strong { font-size: .94rem; }
+.remote-announcement-copy span { color: #cbd5e1; font-size: .84rem; line-height: 1.55; overflow-wrap: anywhere; }
+.remote-announcement-close { border: 0; background: transparent; color: #cbd5e1; font-size: 1.5rem; padding: 2px 6px; }
